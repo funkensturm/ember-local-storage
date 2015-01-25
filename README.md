@@ -49,6 +49,7 @@ export default Ember.Controller.extend({
 // app/templates/application.hbs
 {{#unless settings.welcomeMessageSeen}}
   Welcome message.
+  <button {{action "hideWelcomeMessage"}}>X</button>
 {{/unless}}
 ```
 
