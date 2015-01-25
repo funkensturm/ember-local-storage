@@ -1,5 +1,5 @@
 {
-  "name": "ember-cli-local-storage",
+  "name": "ember-local-storage",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {

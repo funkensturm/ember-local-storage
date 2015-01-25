@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cli-local-storage'
+  name: 'ember-local-storage'
 };
