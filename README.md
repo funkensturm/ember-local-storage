@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
 ```
 
 ```handlebars
-// app/templates/application.hbs
+{{! app/templates/application.hbs}}
 {{#unless settings.welcomeMessageSeen}}
   Welcome message.
   <button {{action "hideWelcomeMessage"}}>X</button>
@@ -83,7 +83,7 @@ export default Ember.ObjectController.extend({
 ```
 
 ```handlebars
-// app/templates/item.hbs
+{{! app/templates/item.hbs}}
 {{#unless isLiked}}
   <button {{action "like"}}>Like it</button>
 {{else}}
