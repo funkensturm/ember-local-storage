@@ -1,7 +1,7 @@
 {
   "name": "ember-local-storage",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "An addon for ember-cli that provides an localStorage object and array in your ember-cli app.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,11 +11,11 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "https://github.com/funkensturm/ember-local-storage.git",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Manuel Wiedenmann",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
@@ -33,7 +33,11 @@
     "glob": "^4.0.5"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "localStorage",
+    "local-storage",
+    "local-storage array",
+    "local-storage object"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
