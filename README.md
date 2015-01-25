@@ -19,7 +19,6 @@ It supports:
 
 ```javascript
 // app/models/settings.js
-
 import LocalStorageObject from 'ember-local-storage/object';
 
 export default LocalStorageObject.create({
@@ -28,8 +27,9 @@ export default LocalStorageObject.create({
     welcomeMessageSeen: false
   }
 });
+```
 
-
+```javascript
 // app/controllers/application.js
 import Ember from 'ember';
 import settings from 'your-app/models/settings';
