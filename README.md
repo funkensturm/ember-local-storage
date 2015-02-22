@@ -22,7 +22,9 @@ It supports:
 ### 0.0.2
 * [ENHANCEMENT] sessionStorage added
 * [ENHANCEMENT] Usage of `localStorageKey` is deprecated use `storageKey` instead.
-* [BREAKING] localStorage array on object location changed to 'ember-local-storage/local/object', 'ember-local-storage/local/array'
+* [BREAKING] localStorage array on object location changed
+	* `ember-local-storage/object` -> `ember-local-storage/local/object`
+	* `ember-local-storage/array` -> `ember-local-storage/local/array`
 
 ## Usage
 
