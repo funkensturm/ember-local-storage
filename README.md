@@ -1,10 +1,12 @@
 # Ember-local-storage
 
-An addon for ember-cli that provides an localStorage object and array in your ember-cli app.
+An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app.
 
 The idee was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 
 It supports:
+* sessionStorage
+* localStorage
 * Object
 * Array
 
@@ -17,12 +19,15 @@ It supports:
 
 ### Object
 
+If you need to persist in sessionStorage change the import:
+`import StorageObject from 'ember-local-storage/session/object';`
+
 ```javascript
 // app/models/settings.js
-import LocalStorageObject from 'ember-local-storage/object';
+import StorageObject from 'ember-local-storage/local/object';
 
-export default LocalStorageObject.create({
-  localStorageKey: 'your-app-settings',
+export default StorageObject.create({
+  storageKey: 'your-app-settings',
   initialContent: {
     welcomeMessageSeen: false
   }
@@ -55,12 +60,15 @@ export default Ember.Controller.extend({
 
 ### Array
 
+If you need to persist in sessionStorage change the import:
+`import StorageObject from 'ember-local-storage/session/array';`
+
 ```javascript
 // app/models/anonymous-likes.js
-import LocalStorageArray from 'ember-local-storage/array';
+import StorageArray from 'ember-local-storage/local/array';
 
-export default LocalStorageArray.create({
-  localStorageKey: 'your-app-anonymous-likes'
+export default StorageArray.create({
+  storageKey: 'your-app-anonymous-likes'
 });
 ```
 

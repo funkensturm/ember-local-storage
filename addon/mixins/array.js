@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import LocalStorageProxyMixin from './mixin';
+import StorageProxyMixin from './storage';
 
-export default Ember.ArrayProxy.extend(LocalStorageProxyMixin, {
+export default Ember.Mixin.create(StorageProxyMixin, {
   initialContent: [],
 
   replaceContent: function(idx, amount, objects) {
