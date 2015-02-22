@@ -22,7 +22,6 @@ It supports:
 ### 0.0.2
 * [ENHANCEMENT] sessionStorage added
 * [BREAKING] localStorage array on object location changed
-* [BREAKING] proxyObjects and proxyArrays have to be created
 
 ## Usage
 
@@ -36,7 +35,7 @@ If you need to persist in sessionStorage change the import:
 // app/models/settings.js
 import StorageObject from 'ember-local-storage/local/object';
 
-export default StorageObject.create({
+export default StorageObject.extend({
   storageKey: 'your-app-settings',
   initialContent: {
     welcomeMessageSeen: false
@@ -78,7 +77,7 @@ If you need to persist in sessionStorage change the import:
 // app/models/anonymous-likes.js
 import StorageArray from 'ember-local-storage/local/array';
 
-export default StorageArray.create({
+export default StorageArray.extend({
   storageKey: 'your-app-anonymous-likes'
 });
 ```
