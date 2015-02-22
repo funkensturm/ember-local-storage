@@ -74,7 +74,7 @@ export default Ember.Controller.extend({
 
 If you need to persist in sessionStorage change the import:
 
-`import StorageObject from 'ember-local-storage/session/array';`
+`import StorageArray from 'ember-local-storage/session/array';`
 
 ```javascript
 // app/models/anonymous-likes.js
