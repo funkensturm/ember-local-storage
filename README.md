@@ -30,13 +30,11 @@ It supports:
 
 ### Object
 
-If you need to persist in sessionStorage change the import:
-
-`import StorageObject from 'ember-local-storage/session/object';`
-
 ```javascript
 // app/models/settings.js
 import StorageObject from 'ember-local-storage/local/object';
+// or use sessionStorage
+// `import StorageObject from 'ember-local-storage/session/object';`
 
 export default StorageObject.extend({
   storageKey: 'your-app-settings',
@@ -72,13 +70,11 @@ export default Ember.Controller.extend({
 
 ### Array
 
-If you need to persist in sessionStorage change the import:
-
-`import StorageArray from 'ember-local-storage/session/array';`
-
 ```javascript
 // app/models/anonymous-likes.js
 import StorageArray from 'ember-local-storage/local/array';
+// or use sessionStorage
+// `import StorageArray from 'ember-local-storage/session/array';`
 
 export default StorageArray.extend({
   storageKey: 'your-app-anonymous-likes'
