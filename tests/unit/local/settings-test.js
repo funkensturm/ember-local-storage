@@ -33,19 +33,19 @@ test('it has correct defaults', function() {
 });
 
 
-// test('it saves changes to localStorage', function() {
-//   expect(3);
-//
-//   ok(window.localStorage);
-//   storageDeepEqual(window.localStorage.settings, {
-//     welcomeMessageSeen: false
-//   });
-//
-//   Ember.run(function() {
-//     settings.set('welcomeMessageSeen', true);
-//   });
-//
-//   storageDeepEqual(window.localStorage.settings, {
-//     welcomeMessageSeen: true
-//   });
-// });
+test('it saves changes to localStorage', function() {
+  expect(3);
+
+  ok(window.localStorage);
+  storageDeepEqual(window.localStorage.settings, {
+    welcomeMessageSeen: false
+  });
+
+  Ember.run(function() {
+    settings.set('welcomeMessageSeen', true);
+  });
+
+  storageDeepEqual(window.localStorage.settings, {
+    welcomeMessageSeen: true
+  });
+});

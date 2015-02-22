@@ -21,6 +21,11 @@ export default Ember.Mixin.create({
       serialized,
       content;
 
+    if (this.get('localStorageKey')) {
+      storageKey = this.get('localStorageKey');
+      Ember.deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
+    }
+
     if (!storageKey) {
       throw new Error('You must specify which property name should be used to save ' + this + ' in ' + this.get('_storage') + 'Storage by setting its storageKey property.');
     }
