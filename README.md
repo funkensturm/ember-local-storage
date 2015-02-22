@@ -19,7 +19,8 @@ It supports:
 
 ### 0.0.2
 * [ENHANCEMENT] sessionStorage added
-* [BREAKING ENHANCEMENT] localStorage array on object location changed
+* [BREAKING] localStorage array on object location changed
+* [BREAKING] proxyObjects and proxyArrays have to be created
 
 ## Usage
 
@@ -44,10 +45,10 @@ export default StorageObject.create({
 ```javascript
 // app/controllers/application.js
 import Ember from 'ember';
-import settings from 'your-app/models/settings';
+import Settings from 'your-app/models/settings';
 
 export default Ember.Controller.extend({
-  settings: settings,
+  settings: Settings.create(),
 
   actions: {
 	hideWelcomeMessage: function() {
@@ -83,16 +84,18 @@ export default StorageArray.create({
 ```javascript
 // app/controllers/item.js
 import Ember from 'ember';
-import anonymousLikes from 'your-app/models/anonymous-likes';
+import AnonymousLikes from 'your-app/models/anonymous-likes';
 
 export default Ember.ObjectController.extend({
+  anonymousLikes: AnonymousLikes.create(),
+
   isLiked: computed('id', function() {
-	return anonymousLikes.contains(this.get('id'));
+	return this.get('anonymousLikes').contains(this.get('id'));
   }),
 
   actions: {
 	like: function() {
-		anonymousLikes.addObject(this.get('id'));
+		this.get('anonymousLikes').addObject(this.get('id'));
 	}
   }
 });

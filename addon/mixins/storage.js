@@ -2,13 +2,13 @@ import Ember from 'ember';
 
 // It only prevents the browser to throw an error
 // TODO implement polyfill: https://gist.github.com/remy/350433
-if (typeof window.localStorage == 'undefined') {
-  var localStorage = {};
-}
-
-if (typeof window.sessionStorage == 'undefined') {
-  var sessionStorage = {};
-}
+// if (typeof window.localStorage === 'undefined') {
+//   localStorage = {};
+// }
+//
+// if (typeof window.sessionStorage === 'undefined') {
+//   sessionStorage = {};
+// }
 
 export default Ember.Mixin.create({
   storageKey: null,
@@ -50,9 +50,9 @@ export default Ember.Mixin.create({
       storageKey = this.get('storageKey');
 
     storage[storageKey] = JSON.stringify(content);
-  }
+  },
 
   storage: function() {
-    return this.get('_storage') === 'local' ? localStorage : sessionStorage;
+    return (this.get('_storage') === 'local') ? localStorage : sessionStorage;
   }
 });
