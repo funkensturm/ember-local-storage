@@ -15,6 +15,12 @@ It supports:
 
 * `npm install --save-dev ember-local-storage`
 
+## Changelog
+
+### 0.0.2
+* [ENHANCEMENT] sessionStorage added
+* [BREAKING ENHANCEMENT] localStorage array on object location changed
+
 ## Usage
 
 ### Object
