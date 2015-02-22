@@ -20,6 +20,7 @@ It supports:
 ### Object
 
 If you need to persist in sessionStorage change the import:
+
 `import StorageObject from 'ember-local-storage/session/object';`
 
 ```javascript
@@ -61,6 +62,7 @@ export default Ember.Controller.extend({
 ### Array
 
 If you need to persist in sessionStorage change the import:
+
 `import StorageObject from 'ember-local-storage/session/array';`
 
 ```javascript
