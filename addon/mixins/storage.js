@@ -1,14 +1,20 @@
 import Ember from 'ember';
 
-// It only prevents the browser to throw an error
-// TODO implement polyfill: https://gist.github.com/remy/350433
-// if (typeof window.localStorage === 'undefined') {
-//   localStorage = {};
-// }
-//
-// if (typeof window.sessionStorage === 'undefined') {
-//   sessionStorage = {};
-// }
+var storage = {};
+
+function getStorage(name) {
+  var nativeStorage = {};
+
+  if (storage[name]) { return storage[name]; }
+
+  try {
+    nativeStorage = (name === 'local') ? localStorage : sessionStorage;
+  } catch (e) {
+    nativeStorage = {};
+  }
+
+  return storage[name] = nativeStorage;
+}
 
 export default Ember.Mixin.create({
   storageKey: null,
@@ -60,6 +66,6 @@ export default Ember.Mixin.create({
   },
 
   storage: function() {
-    return (this.get('_storage') === 'local') ? localStorage : sessionStorage;
+    return getStorage(this.get('_storage'));
   }
 });
