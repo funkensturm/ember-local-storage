@@ -54,7 +54,9 @@ export default Ember.Mixin.create({
       content = this.get('content'),
       storageKey = this.get('storageKey');
 
-    storage[storageKey] = JSON.stringify(content);
+    if (storageKey) {
+      storage[storageKey] = JSON.stringify(content);
+    }
   },
 
   storage: function() {

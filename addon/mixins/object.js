@@ -9,8 +9,8 @@ export default Ember.Mixin.create(StorageProxyMixin, {
     this.save();
   },
 
-  set: function(keyName, value) {
-    this._super(keyName, value);
+  set: function(key, value) {
+    this._super(key, value);
     this.save();
   }
 });
