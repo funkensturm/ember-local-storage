@@ -19,8 +19,13 @@ It supports:
 
 ## Changelog
 
+### 0.0.3
+* [BUGFIX] Prevents content sharing for objects and arrays
+* [BUGFIX] Prevents the creation of a key `null` with the content `null` if the object is created with arguments
+* [ENHANCEMENT] Adds in-memory fallback for `localStorage` and `sessionStorage`
+
 ### 0.0.2
-* [ENHANCEMENT] sessionStorage added
+* [ENHANCEMENT] `sessionStorage` added
 * [ENHANCEMENT] Usage of `localStorageKey` is deprecated use `storageKey` instead.
 * [BREAKING] localStorage array and object location changed
 	* `ember-local-storage/object` -> `ember-local-storage/local/object`
