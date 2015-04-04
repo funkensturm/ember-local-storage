@@ -45,9 +45,9 @@ export default Ember.Mixin.create({
     serialized = storage[storageKey];
 
     // Merge the serialized version into defaults.
-    content = initialContent;
+    content = Ember.copy(initialContent, true);
     if (serialized) {
-      content = Ember.merge(content, JSON.parse(serialized));
+      Ember.merge(content, JSON.parse(serialized));
     }
 
     this.set('content', content);
