@@ -130,3 +130,12 @@ export default Ember.ObjectController.extend({
 * `ember build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+## Publishing
+
+```bash
+npm version 0.0.X
+git push origin master
+git push origin --tags
+npm publish
+```
