@@ -13,10 +13,10 @@ module('localeStorage - deprecation', {
   }
 });
 
-test('it throws a deprecation', function() {
-  expect(1);
+test('it throws a deprecation', function(assert) {
+  assert.expect(1);
 
-  throws(function() {
+  assert.throws(function() {
     Ember.run(function() {
       settings = Settings.create({
         localStorageKey: 'test'
