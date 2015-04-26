@@ -19,6 +19,9 @@ It supports:
 
 ## Changelog
 
+### 0.0.4
+* [BUGFIX] Fixes safari private mode exposes xStorage but fails on setItem
+
 ### 0.0.3
 * [BUGFIX] Prevents content sharing for objects and arrays
 * [BUGFIX] Prevents the creation of a key `null` with the content `null` if the object is created with arguments
