@@ -1,6 +1,6 @@
 {
   "name": "ember-local-storage",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app.",
   "directories": {
     "doc": "doc",
