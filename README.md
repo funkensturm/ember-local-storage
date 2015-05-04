@@ -1,6 +1,6 @@
 # ember-local-storage
 
-[![Build Status](https://travis-ci.org/funkensturm/ember-local-storage.svg)](https://travis-ci.org/funkensturm/ember-local-storage)
+[![Build Status](https://api.travis-ci.org/funkensturm/ember-local-storage.svg?branch=master)](https://travis-ci.org/funkensturm/ember-local-storage)
 
 An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app.
 
