@@ -4,7 +4,7 @@
 
 An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app.
 
-The idee was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
+The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 
 It supports:
 * sessionStorage
