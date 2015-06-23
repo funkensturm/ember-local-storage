@@ -1,8 +1,5 @@
 import Ember from 'ember';
-import {
-  moduleFor,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
 import {
   storageEqual,
   storageDeepEqual
@@ -10,9 +7,9 @@ import {
 
 import AnonymousLikes from 'dummy/models/anonymous-likes';
 
-var anonymousLikes;
+var anonymousLikes = 1;
 
-module('localeStorage - anonymousLikes', {
+module('localStorage - anonymousLikes', {
   beforeEach: function() {
     Ember.run(function() {
       anonymousLikes = AnonymousLikes.create();
@@ -23,30 +20,30 @@ module('localeStorage - anonymousLikes', {
   }
 });
 
-test('it has correct defaults', function() {
-  expect(3);
+test('it has correct defaults', function(assert) {
+  assert.expect(3);
 
-  equal(anonymousLikes.get('_storage'), 'local');
-  equal(anonymousLikes.get('storageKey'), 'anonymous-likes');
-  deepEqual(anonymousLikes.get('initialContent'), []);
+  assert.equal(anonymousLikes.get('_storage'), 'local');
+  assert.equal(anonymousLikes.get('storageKey'), 'anonymous-likes');
+  assert.deepEqual(anonymousLikes.get('initialContent'), []);
 });
 
 
-test('it saves changes to localStorage', function() {
-  expect(4);
+test('it saves changes to localStorage', function(assert) {
+  assert.expect(4);
 
-  ok(window.localStorage);
-  storageEqual(window.localStorage['anonymous-likes'], undefined);
+  assert.ok(window.localStorage);
+  storageEqual(assert, window.localStorage['anonymous-likes'], undefined);
 
   Ember.run(function() {
     anonymousLikes.addObject('id1');
   });
 
-  storageDeepEqual(window.localStorage['anonymous-likes'], ['id1']);
+  storageDeepEqual(assert, window.localStorage['anonymous-likes'], ['id1']);
 
   Ember.run(function() {
     anonymousLikes.removeObject('id1');
   });
 
-  storageDeepEqual(window.localStorage['anonymous-likes'], []);
+  storageDeepEqual(assert, window.localStorage['anonymous-likes'], []);
 });

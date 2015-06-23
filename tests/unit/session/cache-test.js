@@ -1,10 +1,6 @@
 import Ember from 'ember';
+import { module, test } from 'qunit';
 import {
-  moduleFor,
-  test
-} from 'ember-qunit';
-import {
-  storageEqual,
   storageDeepEqual
 } from '../../helpers/storage';
 
@@ -23,26 +19,26 @@ module('sessionStorage - cache', {
   }
 });
 
-test('it has correct defaults', function() {
-  expect(3);
+test('it has correct defaults', function(assert) {
+  assert.expect(3);
 
-  equal(cache.get('_storage'), 'session');
-  equal(cache.get('storageKey'), 'cache');
-  deepEqual(cache.get('initialContent'), {});
+  assert.equal(cache.get('_storage'), 'session');
+  assert.equal(cache.get('storageKey'), 'cache');
+  assert.deepEqual(cache.get('initialContent'), {});
 });
 
 
-test('it saves changes to sessionStorage', function() {
-  expect(3);
+test('it saves changes to sessionStorage', function(assert) {
+  assert.expect(3);
 
-  ok(window.sessionStorage);
-  storageDeepEqual(window.sessionStorage.cache, {});
+  assert.ok(window.sessionStorage);
+  storageDeepEqual(assert, window.sessionStorage.cache, {});
 
   Ember.run(function() {
     cache.set('image1', 'image1png');
   });
 
-  storageDeepEqual(window.sessionStorage.cache, {
+  storageDeepEqual(assert, window.sessionStorage.cache, {
     image1: 'image1png'
   });
 });

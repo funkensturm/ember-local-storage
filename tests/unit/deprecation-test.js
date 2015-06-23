@@ -1,7 +1,5 @@
 import Ember from 'ember';
-import {
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
 
 import Settings from 'dummy/models/settings';
 
