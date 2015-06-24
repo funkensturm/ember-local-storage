@@ -70,7 +70,7 @@ test('reset method restores initialContent', function(assert) {
     local.set('token', 'new-token');
   });
 
-  //we expect them to
+  //we expect them to be present
   assert.equal(local.get('newProp'), 'some-value');
   assert.equal(local.get('token'), 'new-token');
 

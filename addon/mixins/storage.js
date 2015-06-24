@@ -48,10 +48,7 @@ export default Ember.Mixin.create({
     serialized = storage[storageKey];
 
     // Merge the serialized version into defaults.
-    content = Ember.copy(initialContent, true);
-    // Ember.copy returns a normal array when prototype extensions are off
-    // This ensures that we wrap in an Ember Array.
-    content = Ember.isArray(content) ? Ember.A(content) : content;
+    content = this._getInitialContentCopy();
 
     if (serialized) {
       Ember.merge(content, JSON.parse(serialized));
@@ -74,5 +71,18 @@ export default Ember.Mixin.create({
 
   storage: function() {
     return getStorage(this.get('_storage'));
+  },
+
+  _getInitialContentCopy: function() {
+    var initialContent = this.get('initialContent');
+    var content = Ember.copy(initialContent, true);
+    // Ember.copy returns a normal array when prototype extensions are off
+    // This ensures that we wrap it in an Ember Array.
+    return Ember.isArray(content) ? Ember.A(content) : content;
+  },
+
+  reset: function() {
+    var content = this._getInitialContentCopy();
+    this.set('content', content);
   }
 });
