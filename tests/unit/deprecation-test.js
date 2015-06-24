@@ -6,6 +6,9 @@ import Settings from 'dummy/models/settings';
 var settings;
 
 module('localeStorage - deprecation', {
+  beforeEach: function() {
+    Ember.ENV.RAISE_ON_DEPRECATION = true;
+  },
   afterEach: function() {
     window.localStorage.clear();
   }
