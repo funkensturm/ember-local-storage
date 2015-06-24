@@ -11,6 +11,7 @@ module('localeStorage - deprecation', {
   },
   afterEach: function() {
     window.localStorage.clear();
+    Ember.ENV.RAISE_ON_DEPRECATION = false;
   }
 });
 
