@@ -1,11 +1,5 @@
 import Ember from 'ember';
-import {
-  moduleFor,
-  test
-} from 'ember-qunit';
-import {
-  storageDeepEqual
-} from '../helpers/storage';
+import { module, test } from 'qunit';
 
 import AnonymousLikes from 'dummy/models/anonymous-likes';
 

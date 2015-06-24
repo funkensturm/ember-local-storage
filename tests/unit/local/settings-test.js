@@ -1,8 +1,5 @@
 import Ember from 'ember';
-import {
-  moduleFor,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
 import {
   storageDeepEqual
 } from '../../helpers/storage';
@@ -22,22 +19,22 @@ module('localeStorage - settings', {
   }
 });
 
-test('it has correct defaults', function() {
-  expect(3);
+test('it has correct defaults', function(assert) {
+  assert.expect(3);
 
-  equal(settings.get('_storage'), 'local');
-  equal(settings.get('storageKey'), 'settings');
-  deepEqual(settings.get('initialContent'), {
+  assert.equal(settings.get('_storage'), 'local');
+  assert.equal(settings.get('storageKey'), 'settings');
+  assert.deepEqual(settings.get('initialContent'), {
     welcomeMessageSeen: false
   });
 });
 
 
-test('it saves changes to localStorage', function() {
-  expect(3);
+test('it saves changes to localStorage', function(assert) {
+  assert.expect(3);
 
-  ok(window.localStorage);
-  storageDeepEqual(window.localStorage.settings, {
+  assert.ok(window.localStorage);
+  storageDeepEqual(assert, window.localStorage.settings, {
     welcomeMessageSeen: false
   });
 
@@ -45,7 +42,7 @@ test('it saves changes to localStorage', function() {
     settings.set('welcomeMessageSeen', true);
   });
 
-  storageDeepEqual(window.localStorage.settings, {
+  storageDeepEqual(assert, window.localStorage.settings, {
     welcomeMessageSeen: true
   });
 });

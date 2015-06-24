@@ -1,11 +1,11 @@
-function storageEqual(actual, expected, message) {
+function storageEqual(assert, actual, expected, message) {
   actual = actual ? JSON.parse(actual) : undefined;
-  equal(actual, expected, message);
+  assert.equal(actual, expected, message);
 }
 
-function storageDeepEqual(actual, expected, message) {
+function storageDeepEqual(assert, actual, expected, message) {
   actual = actual ? JSON.parse(actual) : undefined;
-  deepEqual(actual, expected, message);
+  assert.deepEqual(actual, expected, message);
 }
 
 export {

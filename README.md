@@ -15,7 +15,7 @@ It supports:
 
 ## Installation
 
-* `npm install --save-dev ember-local-storage`
+* `ember install ember-local-storage`
 
 ## Changelog
 

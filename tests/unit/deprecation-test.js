@@ -1,15 +1,17 @@
 import Ember from 'ember';
-import {
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
 
 import Settings from 'dummy/models/settings';
 
 var settings;
 
 module('localeStorage - deprecation', {
+  beforeEach: function() {
+    Ember.ENV.RAISE_ON_DEPRECATION = true;
+  },
   afterEach: function() {
     window.localStorage.clear();
+    Ember.ENV.RAISE_ON_DEPRECATION = false;
   }
 });
 

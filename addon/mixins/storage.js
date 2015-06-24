@@ -49,6 +49,10 @@ export default Ember.Mixin.create({
 
     // Merge the serialized version into defaults.
     content = Ember.copy(initialContent, true);
+    // Ember.copy returns a normal array when prototype extensions are off
+    // This ensures that we wrap in an Ember Array.
+    content = Ember.isArray(content) ? Ember.A(content) : content;
+
     if (serialized) {
       Ember.merge(content, JSON.parse(serialized));
     }
