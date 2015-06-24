@@ -20,8 +20,8 @@ It supports:
 ## Changelog
 
 ### 0.0.5
-* [ENHANCEMENT] Prototype extensions are now disabled and the `StorageArray` always returns an `Ember.Array` @miguelcobain
-* [ENHANCEMENT] Calling `StorageObject.reset()` and `StorageArray.reset()` resets to `initialContent` @miguelcobain
+* [ENHANCEMENT] Prototype extensions are now disabled and the `StorageArray` always returns an `Ember.Array` [@miguelcobain](https://github.com/miguelcobain)
+* [ENHANCEMENT] Calling `StorageObject.reset()` and `StorageArray.reset()` resets to `initialContent` [@miguelcobain](https://github.com/miguelcobain)
 
 ### 0.0.4
 * [BUGFIX] Fixes safari private mode exposes xStorage but fails on setItem
