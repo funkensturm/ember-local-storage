@@ -45,3 +45,29 @@ test('it does not share data', function(assert) {
   // ImageLikes don't change
   assert.deepEqual(imageLikes.get('content'), ['martin']);
 });
+
+test('reset method restores initialContent', function(assert) {
+  var imageLikes = AnonymousLikes.create({
+    storageKey: 'image-likes',
+  });
+
+  assert.expect(3);
+
+  //initialContent is set properly
+  assert.deepEqual(imageLikes.get('content'), []);
+
+  //add new objects
+  Ember.run(function() {
+    imageLikes.addObject('martin');
+  });
+
+  //we expect them to be present
+  assert.deepEqual(imageLikes.get('content'), ['martin']);
+
+  //reset
+  imageLikes.reset();
+
+  //data is back to initial values
+  assert.deepEqual(imageLikes.get('content'), []);
+
+});
