@@ -12,5 +12,11 @@ export default Ember.Mixin.create(StorageProxyMixin, {
   set: function(key, value) {
     this._super(key, value);
     this.save();
+  },
+
+  reset: function() {
+    var initialContent = this.get('initialContent');
+    var content = Ember.copy(initialContent, true);
+    this.set('content', content);
   }
 });
