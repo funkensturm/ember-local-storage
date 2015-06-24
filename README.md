@@ -27,7 +27,7 @@ It supports:
 * [BUGFIX] Fixes safari private mode exposes xStorage but fails on setItem
 
 ### 0.0.3
-* [BUGFIX] Prevents content sharing for objects and arrays
+* [BUGFIX] Prevents content sharing for objects and arrays [@glagola](https://github.com/glagola)
 * [BUGFIX] Prevents the creation of a key `null` with the content `null` if the object is created with arguments
 * [ENHANCEMENT] Adds in-memory fallback for `localStorage` and `sessionStorage`
 
