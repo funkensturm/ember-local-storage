@@ -142,3 +142,32 @@ test('clear method removes the content from localStorage', function(assert) {
 
   assert.equal(window.localStorage.settings, undefined);
 });
+
+test('after .clear() the object works as expected', function(assert) {
+  assert.expect(4);
+
+  const settings = Settings.create();
+
+  Ember.run(function() {
+    settings.set('welcomeMessageSeen', true);
+  });
+
+  storageDeepEqual(assert, window.localStorage.settings, {
+    welcomeMessageSeen: true
+  });
+
+  Ember.run(function() {
+    settings.clear();
+  });
+
+  assert.equal(window.localStorage.settings, undefined);
+
+  Ember.run(function() {
+    settings.set('welcomeMessageSeen', true);
+  });
+
+  storageDeepEqual(assert, window.localStorage.settings, {
+    welcomeMessageSeen: true
+  });
+  assert.equal(settings.get('welcomeMessageSeen'), true);
+});

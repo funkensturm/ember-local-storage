@@ -130,3 +130,30 @@ test('clear method removes the content from localStorage', function(assert) {
 
   assert.equal(window.localStorage['image-likes'], undefined);
 });
+
+test('after .clear() the array works as expected', function(assert) {
+  assert.expect(4);
+
+  const imageLikes = AnonymousLikes.create({
+    storageKey: 'image-likes',
+  });
+
+  Ember.run(function() {
+    imageLikes.addObject('martin');
+  });
+
+  storageDeepEqual(assert, window.localStorage['image-likes'], ['martin']);
+
+  Ember.run(function() {
+    imageLikes.clear();
+  });
+
+  assert.equal(window.localStorage['image-likes'], undefined);
+
+  Ember.run(function() {
+    imageLikes.addObject('martin');
+  });
+
+  storageDeepEqual(assert, window.localStorage['image-likes'], ['martin']);
+  assert.deepEqual(imageLikes.get('content'), ['martin']);
+});
