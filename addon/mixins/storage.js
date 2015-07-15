@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-var storage = {};
+const get = Ember.get;
+const set = Ember.set;
+
+const storage = {};
 
 function getStorage(name) {
   var nativeStorage = {};
@@ -22,6 +25,7 @@ function getStorage(name) {
 export default Ember.Mixin.create({
   storageKey: null,
   initialContent: null,
+  _initialContentString: null,
   _isInitialContent: true,
 
   init: function() {
@@ -44,6 +48,8 @@ export default Ember.Mixin.create({
       throw new Error('You must specify the initialContent.');
     }
 
+    set(this, '_initialContentString', JSON.stringify(initialContent));
+
     // Retrieve the serialized version from storage using the specified
     // key.
     serialized = storage[storageKey];
@@ -62,15 +68,15 @@ export default Ember.Mixin.create({
 
   save: function() {
     const storage = this.storage(),
-      content = this.get('content'),
-      storageKey = this.get('storageKey'),
-      initialContent = this.get('initialContent');
+      content = get(this, 'content'),
+      storageKey = get(this, 'storageKey'),
+      initialContentString = get(this, '_initialContentString');
 
     if (storageKey) {
       let json = JSON.stringify(content);
 
-      if (json !== JSON.stringify(initialContent)) {
-        this.set('_isInitialContent', false);
+      if (json !== initialContentString) {
+        set(this, '_isInitialContent', false);
       }
 
       storage[storageKey] = json;
