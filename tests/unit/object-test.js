@@ -1,10 +1,14 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
+import {
+  storageDeepEqual
+} from '../helpers/storage';
 
 import SessionStorageObject from 'ember-local-storage/session/object';
 import LocalStorageObject from 'ember-local-storage/local/object';
 
 import config from 'dummy/models/config';
+import Settings from 'dummy/models/settings';
 
 module('object - config', {
   afterEach: function() {
@@ -117,4 +121,24 @@ test('it updates _isInitialContent on reset', function(assert) {
   });
 
   assert.equal(local.isInitialContent(), true);
+});
+
+test('clear method removes the content from localStorage', function(assert) {
+  assert.expect(2);
+
+  const settings = Settings.create();
+
+  Ember.run(function() {
+    settings.set('welcomeMessageSeen', true);
+  });
+
+  storageDeepEqual(assert, window.localStorage.settings, {
+    welcomeMessageSeen: true
+  });
+
+  Ember.run(function() {
+    settings.clear();
+  });
+
+  assert.equal(window.localStorage.settings, undefined);
 });
