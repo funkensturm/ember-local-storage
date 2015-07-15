@@ -128,7 +128,7 @@ The following methods work on `StorageObject` and `StorageArray`
 
 #### .isInitialContent()
 
-You can call `.isInitialContent()` to determin if `content` is equal to `initialContent`.
+You can call `.isInitialContent()` to determine if `content` is equal to `initialContent`.
 Returns a boolean.
 
 #### .reset()
