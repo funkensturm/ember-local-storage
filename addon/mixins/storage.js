@@ -22,13 +22,14 @@ function getStorage(name) {
 export default Ember.Mixin.create({
   storageKey: null,
   initialContent: null,
+  isInitialData: true,
 
   init: function() {
-    var storage = this.storage(),
-      storageKey = this.get('storageKey'),
-      initialContent = this.get('initialContent'),
-      serialized,
-      content;
+    const storage = this.storage(),
+      initialContent = this.get('initialContent');
+
+    let serialized, content,
+      storageKey = this.get('storageKey');
 
     if (this.get('localStorageKey')) {
       storageKey = this.get('localStorageKey');
@@ -60,12 +61,19 @@ export default Ember.Mixin.create({
   },
 
   save: function() {
-    var storage = this.storage(),
+    const storage = this.storage(),
       content = this.get('content'),
-      storageKey = this.get('storageKey');
+      storageKey = this.get('storageKey'),
+      initialContent = this.get('initialContent');
 
     if (storageKey) {
-      storage[storageKey] = JSON.stringify(content);
+      let json = JSON.stringify(content);
+
+      if (json !== JSON.stringify(initialContent)) {
+        this.set('isInitialData', false);
+      }
+
+      storage[storageKey] = json;
     }
   },
 
@@ -74,15 +82,18 @@ export default Ember.Mixin.create({
   },
 
   _getInitialContentCopy: function() {
-    var initialContent = this.get('initialContent');
-    var content = Ember.copy(initialContent, true);
+    const initialContent = this.get('initialContent'),
+      content = Ember.copy(initialContent, true);
+
     // Ember.copy returns a normal array when prototype extensions are off
     // This ensures that we wrap it in an Ember Array.
     return Ember.isArray(content) ? Ember.A(content) : content;
   },
 
   reset: function() {
-    var content = this._getInitialContentCopy();
+    const content = this._getInitialContentCopy();
+
     this.set('content', content);
+    this.set('isInitialData', true);
   }
 });

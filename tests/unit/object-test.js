@@ -84,3 +84,37 @@ test('reset method restores initialContent', function(assert) {
   assert.strictEqual(local.get('newProp'), undefined);
 
 });
+
+test('it updates isInitialData', function(assert) {
+  assert.expect(2);
+
+  const Local = LocalStorageObject.extend(config),
+    local = Local.create();
+
+  assert.equal(local.get('isInitialData'), true);
+
+  Ember.run(function() {
+    local.set('token', '12345');
+  });
+
+  assert.equal(local.get('isInitialData'), false);
+});
+
+test('it updates isInitialData on reset', function(assert) {
+  assert.expect(2);
+
+  const Local = LocalStorageObject.extend(config),
+    local = Local.create();
+
+  Ember.run(function() {
+    local.set('token', '12345');
+  });
+
+  assert.equal(local.get('isInitialData'), false);
+
+  Ember.run(function() {
+    local.reset();
+  });
+
+  assert.equal(local.get('isInitialData'), true);
+});

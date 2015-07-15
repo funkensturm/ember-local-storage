@@ -71,3 +71,39 @@ test('reset method restores initialContent', function(assert) {
   assert.deepEqual(imageLikes.get('content'), []);
 
 });
+
+test('it updates isInitialData', function(assert) {
+  assert.expect(2);
+
+  const imageLikes = AnonymousLikes.create({
+    storageKey: 'image-likes',
+  });
+
+  assert.equal(imageLikes.get('isInitialData'), true);
+
+  Ember.run(function() {
+    imageLikes.addObject('martin');
+  });
+
+  assert.equal(imageLikes.get('isInitialData'), false);
+});
+
+test('it updates isInitialData on reset', function(assert) {
+  assert.expect(2);
+
+  const imageLikes = AnonymousLikes.create({
+    storageKey: 'image-likes',
+  });
+
+  Ember.run(function() {
+    imageLikes.addObject('martin');
+  });
+
+  assert.equal(imageLikes.get('isInitialData'), false);
+
+  Ember.run(function() {
+    imageLikes.reset();
+  });
+
+  assert.equal(imageLikes.get('isInitialData'), true);
+});
