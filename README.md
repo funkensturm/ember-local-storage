@@ -122,9 +122,20 @@ export default Ember.ObjectController.extend({
 {{/unless}}
 ```
 
-### .reset()
+### Methods
 
-You can call `StorageObject.reset()` and `StorageArray.reset()` to reset the `content` to the `initialContent`.
+The following methods work on `StorageObject` and `StorageArray`
+
+#### .isInitialContent()
+
+You can call `.isInitialContent()` to determin if `content` is equal to `initialContent`.
+Returns a boolean.
+
+#### .reset()
+
+You can invoke `.reset()` to reset the `content` to the `initialContent`.
+
+
 
 ## Running
 
