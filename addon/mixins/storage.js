@@ -22,7 +22,7 @@ function getStorage(name) {
 export default Ember.Mixin.create({
   storageKey: null,
   initialContent: null,
-  _isInitialData: true,
+  _isInitialContent: true,
 
   init: function() {
     const storage = this.storage(),
@@ -70,7 +70,7 @@ export default Ember.Mixin.create({
       let json = JSON.stringify(content);
 
       if (json !== JSON.stringify(initialContent)) {
-        this.set('_isInitialData', false);
+        this.set('_isInitialContent', false);
       }
 
       storage[storageKey] = json;
@@ -90,14 +90,14 @@ export default Ember.Mixin.create({
     return Ember.isArray(content) ? Ember.A(content) : content;
   },
 
-  isInitialData: function() {
-    return this.get('_isInitialData');
+  isInitialContent: function() {
+    return this.get('_isInitialContent');
   },
 
   reset: function() {
     const content = this._getInitialContentCopy();
 
     this.set('content', content);
-    this.set('_isInitialData', true);
+    this.set('_isInitialContent', true);
   }
 });
