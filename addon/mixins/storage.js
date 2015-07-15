@@ -30,18 +30,18 @@ export default Ember.Mixin.create({
 
   init: function() {
     const storage = this.storage(),
-      initialContent = this.get('initialContent');
+      initialContent = get(this, 'initialContent');
 
     let serialized, content,
-      storageKey = this.get('storageKey');
+      storageKey = get(this, 'storageKey');
 
-    if (this.get('localStorageKey')) {
-      storageKey = this.get('localStorageKey');
+    if (get(this, 'localStorageKey')) {
+      storageKey = get(this, 'localStorageKey');
       Ember.deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
     }
 
     if (!storageKey) {
-      throw new Error('You must specify which property name should be used to save ' + this + ' in ' + this.get('_storage') + 'Storage by setting its storageKey property.');
+      throw new Error('You must specify which property name should be used to save ' + this + ' in ' + get(this, '_storage') + 'Storage by setting its storageKey property.');
     }
 
     if (!initialContent) {
@@ -84,11 +84,11 @@ export default Ember.Mixin.create({
   },
 
   storage: function() {
-    return getStorage(this.get('_storage'));
+    return getStorage(get(this, '_storage'));
   },
 
   _getInitialContentCopy: function() {
-    const initialContent = this.get('initialContent'),
+    const initialContent = get(this, 'initialContent'),
       content = Ember.copy(initialContent, true);
 
     // Ember.copy returns a normal array when prototype extensions are off
@@ -97,13 +97,13 @@ export default Ember.Mixin.create({
   },
 
   isInitialContent: function() {
-    return this.get('_isInitialContent');
+    return get(this, '_isInitialContent');
   },
 
   reset: function() {
     const content = this._getInitialContentCopy();
 
-    this.set('content', content);
-    this.set('_isInitialContent', true);
+    set(this, 'content', content);
+    set(this, '_isInitialContent', true);
   }
 });
