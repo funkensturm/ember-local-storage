@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-var storage = {};
+const get = Ember.get;
+const set = Ember.set;
+
+const storage = {};
 
 function getStorage(name) {
   var nativeStorage = {};
@@ -22,26 +25,30 @@ function getStorage(name) {
 export default Ember.Mixin.create({
   storageKey: null,
   initialContent: null,
+  _initialContentString: null,
+  _isInitialContent: true,
 
   init: function() {
-    var storage = this.storage(),
-      storageKey = this.get('storageKey'),
-      initialContent = this.get('initialContent'),
-      serialized,
-      content;
+    const storage = this.storage(),
+      initialContent = get(this, 'initialContent');
 
-    if (this.get('localStorageKey')) {
-      storageKey = this.get('localStorageKey');
+    let serialized, content,
+      storageKey = get(this, 'storageKey');
+
+    if (get(this, 'localStorageKey')) {
+      storageKey = get(this, 'localStorageKey');
       Ember.deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
     }
 
     if (!storageKey) {
-      throw new Error('You must specify which property name should be used to save ' + this + ' in ' + this.get('_storage') + 'Storage by setting its storageKey property.');
+      throw new Error('You must specify which property name should be used to save ' + this + ' in ' + get(this, '_storage') + 'Storage by setting its storageKey property.');
     }
 
     if (!initialContent) {
       throw new Error('You must specify the initialContent.');
     }
+
+    set(this, '_initialContentString', JSON.stringify(initialContent));
 
     // Retrieve the serialized version from storage using the specified
     // key.
@@ -60,29 +67,43 @@ export default Ember.Mixin.create({
   },
 
   save: function() {
-    var storage = this.storage(),
-      content = this.get('content'),
-      storageKey = this.get('storageKey');
+    const storage = this.storage(),
+      content = get(this, 'content'),
+      storageKey = get(this, 'storageKey'),
+      initialContentString = get(this, '_initialContentString');
 
     if (storageKey) {
-      storage[storageKey] = JSON.stringify(content);
+      let json = JSON.stringify(content);
+
+      if (json !== initialContentString) {
+        set(this, '_isInitialContent', false);
+      }
+
+      storage[storageKey] = json;
     }
   },
 
   storage: function() {
-    return getStorage(this.get('_storage'));
+    return getStorage(get(this, '_storage'));
   },
 
   _getInitialContentCopy: function() {
-    var initialContent = this.get('initialContent');
-    var content = Ember.copy(initialContent, true);
+    const initialContent = get(this, 'initialContent'),
+      content = Ember.copy(initialContent, true);
+
     // Ember.copy returns a normal array when prototype extensions are off
     // This ensures that we wrap it in an Ember Array.
     return Ember.isArray(content) ? Ember.A(content) : content;
   },
 
+  isInitialContent: function() {
+    return get(this, '_isInitialContent');
+  },
+
   reset: function() {
-    var content = this._getInitialContentCopy();
-    this.set('content', content);
+    const content = this._getInitialContentCopy();
+
+    set(this, 'content', content);
+    set(this, '_isInitialContent', true);
   }
 });

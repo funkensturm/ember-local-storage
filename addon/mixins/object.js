@@ -4,13 +4,19 @@ import StorageProxyMixin from './storage';
 export default Ember.Mixin.create(StorageProxyMixin, {
   initialContent: {},
 
-  setUnknownProperty: function (key, value) {
+  setUnknownProperty: function(key, value) {
     this._super(key, value);
-    this.save();
+
+    if (key !== '_isInitialContent') {
+      this.save();
+    }
   },
 
   set: function(key, value) {
     this._super(key, value);
-    this.save();
+
+    if (key !== '_isInitialContent') {
+      this.save();
+    }
   }
 });
