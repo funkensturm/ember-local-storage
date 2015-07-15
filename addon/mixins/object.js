@@ -7,7 +7,7 @@ export default Ember.Mixin.create(StorageProxyMixin, {
   setUnknownProperty: function(key, value) {
     this._super(key, value);
 
-    if (key !== 'isInitialData') {
+    if (key !== '_isInitialData') {
       this.save();
     }
   },
@@ -15,7 +15,7 @@ export default Ember.Mixin.create(StorageProxyMixin, {
   set: function(key, value) {
     this._super(key, value);
 
-    if (key !== 'isInitialData') {
+    if (key !== '_isInitialData') {
       this.save();
     }
   }
