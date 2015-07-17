@@ -54,7 +54,7 @@ test('reset method restores initialContent', function(assert) {
     storageKey: 'image-likes',
   });
 
-  assert.expect(3);
+  assert.expect(4);
 
   //initialContent is set properly
   assert.deepEqual(imageLikes.get('content'), []);
@@ -73,6 +73,8 @@ test('reset method restores initialContent', function(assert) {
   //data is back to initial values
   assert.deepEqual(imageLikes.get('content'), []);
 
+  // localStorage is in sync
+  storageDeepEqual(assert, window.localStorage['image-likes'], []);
 });
 
 test('it updates _isInitialContent', function(assert) {

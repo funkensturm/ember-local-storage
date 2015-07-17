@@ -86,7 +86,6 @@ test('reset method restores initialContent', function(assert) {
     token: null
   });
   assert.strictEqual(local.get('newProp'), undefined);
-
 });
 
 test('it updates _isInitialContent', function(assert) {
