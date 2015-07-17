@@ -135,7 +135,9 @@ Returns a boolean.
 
 You can invoke `.reset()` to reset the `content` to the `initialContent`.
 
+#### .clear()
 
+You can invoke `.clear()` to remove the `content` from xStorage.
 
 ## Running
 

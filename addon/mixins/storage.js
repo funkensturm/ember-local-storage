@@ -35,6 +35,7 @@ export default Ember.Mixin.create({
     let serialized, content,
       storageKey = get(this, 'storageKey');
 
+    // TODO remove on 1.0 release and make storageKey a const
     if (get(this, 'localStorageKey')) {
       storageKey = get(this, 'localStorageKey');
       Ember.deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
@@ -61,6 +62,7 @@ export default Ember.Mixin.create({
       Ember.merge(content, JSON.parse(serialized));
     }
 
+    // Do not change to set(this, 'content', content)
     this.set('content', content);
 
     return this._super.apply(this, arguments);
@@ -103,7 +105,13 @@ export default Ember.Mixin.create({
   reset: function() {
     const content = this._getInitialContentCopy();
 
-    set(this, 'content', content);
+    // Do not change to set(this, 'content', content)
+    this.set('content', content);
     set(this, '_isInitialContent', true);
+  },
+
+  clear: function() {
+    this._clear();
+    delete this.storage()[get(this, 'storageKey')];
   }
 });
