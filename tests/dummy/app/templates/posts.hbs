@@ -1,0 +1,13 @@
+{{#each model as |post|}}
+  {{#link-to 'post' post}}{{post.name}}{{/link-to}} -
+  <a {{action 'deletePost' post}}>Delete</a>
+  <br>
+{{/each}}
+
+<br>
+
+<a {{action 'createPost' model}}>Create post</a>
+
+<br>
+
+{{outlet}}

@@ -1,26 +1,8 @@
 import Ember from 'ember';
+import { getStorage } from '../lib/helpers';
 
 const get = Ember.get;
 const set = Ember.set;
-
-const storage = {};
-
-function getStorage(name) {
-  var nativeStorage = {};
-
-  if (storage[name]) { return storage[name]; }
-
-  // safari private mode exposes xStorage but fails on setItem
-  try {
-    nativeStorage = (name === 'local') ? localStorage : sessionStorage;
-    nativeStorage.setItem('emberlocalstorage.test', 'ok');
-    nativeStorage.removeItem('emberlocalstorage.test');
-  } catch (e) {
-    nativeStorage = {};
-  }
-
-  return storage[name] = nativeStorage;
-}
 
 export default Ember.Mixin.create({
   storageKey: null,
