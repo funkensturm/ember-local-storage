@@ -1,3 +1,7 @@
+{{file-input import='import'}}
+<a {{action 'export'}}>Export</a>
+<br><br>
+
 {{#each model as |post|}}
   {{#link-to 'post' post}}{{post.name}}{{/link-to}} -
   <a {{action 'deletePost' post}}>Delete</a>

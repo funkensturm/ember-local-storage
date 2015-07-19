@@ -9,6 +9,23 @@ export default Route.extend({
     return this.store.findAll('post');
   },
 
+  readFile: function(file) {
+    const reader = new FileReader();
+
+    return new Ember.RSVP.Promise((resolve) => {
+      reader.onload = function(event) {
+        resolve({
+          file: file.name,
+          type: file.type,
+          data: event.target.result,
+          size: file.size
+        });
+      };
+
+      reader.readAsText(file);
+    });
+  },
+
   actions: {
     createPost: function() {
       const post = this.store.createRecord('post', {
@@ -20,6 +37,27 @@ export default Route.extend({
     deletePost: function(post) {
       post.destroyRecord();
       this.transitionTo('posts');
+    },
+    import: function(event) {
+      this.readFile(event.target.files[0])
+        .then((file) => {
+          const types = ['post', 'comment'];
+          types.forEach((type) => {
+            this.store.unloadAll(type);
+          });
+          this.store.import(file.data);
+          types.forEach((type) => {
+            this.store.findAll(type);
+          });
+        });
+    },
+    export: function() {
+      const json = this.store.export(
+        ['posts', 'comments'],
+        {download: true, filename: 'my-data.json'}
+      );
+
+      console.log(btoa(json));
     }
   }
 });
