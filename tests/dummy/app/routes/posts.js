@@ -45,19 +45,18 @@ export default Route.extend({
           types.forEach((type) => {
             this.store.unloadAll(type);
           });
-          this.store.import(file.data);
+          // TODO fix we need a type to get the right adapter
+          this.store.importData(file.data);
           types.forEach((type) => {
             this.store.findAll(type);
           });
         });
     },
     export: function() {
-      const json = this.store.export(
+      const json = this.store.exportData(
         ['posts', 'comments'],
         {download: true, filename: 'my-data.json'}
       );
-
-      console.log(btoa(json));
     }
   }
 });

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import { getStorage } from '../lib/helpers';
+import { getStorage } from '../helpers/storage';
 import StorageArray from '../local/array';
 
 const get = Ember.get;
@@ -191,7 +191,7 @@ export default JSONAPIAdapter.extend({
     this._getIndex(type).removeObject(id);
   },
 
-  import(json, options) {
+  importData(json, options) {
     // merge defaults
     options = merge({
       json: true,
@@ -217,7 +217,7 @@ export default JSONAPIAdapter.extend({
     });
   },
 
-  export(types, options) {
+  exportData(types, options) {
     let json,
       data = types.reduce((records, type) => {
         const url = this.buildURL(type),

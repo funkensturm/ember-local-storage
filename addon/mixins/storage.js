@@ -1,10 +1,18 @@
 import Ember from 'ember';
-import { getStorage } from '../lib/helpers';
+import { getStorage } from '../helpers/storage';
 
 const get = Ember.get;
 const set = Ember.set;
 
-export default Ember.Mixin.create({
+const {
+  Mixin,
+  deprecate,
+  copy,
+  merge,
+  isArray
+} = Ember;
+
+export default Mixin.create({
   storageKey: null,
   initialContent: null,
   _initialContentString: null,
@@ -20,7 +28,7 @@ export default Ember.Mixin.create({
     // TODO remove on 1.0 release and make storageKey a const
     if (get(this, 'localStorageKey')) {
       storageKey = get(this, 'localStorageKey');
-      Ember.deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
+      deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
     }
 
     if (!storageKey) {
@@ -41,7 +49,7 @@ export default Ember.Mixin.create({
     content = this._getInitialContentCopy();
 
     if (serialized) {
-      Ember.merge(content, JSON.parse(serialized));
+      merge(content, JSON.parse(serialized));
     }
 
     // Do not change to set(this, 'content', content)
@@ -73,11 +81,11 @@ export default Ember.Mixin.create({
 
   _getInitialContentCopy: function() {
     const initialContent = get(this, 'initialContent'),
-      content = Ember.copy(initialContent, true);
+      content = copy(initialContent, true);
 
     // Ember.copy returns a normal array when prototype extensions are off
     // This ensures that we wrap it in an Ember Array.
-    return Ember.isArray(content) ? Ember.A(content) : content;
+    return isArray(content) ? Ember.A(content) : content;
   },
 
   isInitialContent: function() {

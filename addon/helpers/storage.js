@@ -1,4 +1,4 @@
-var storage = {};
+const storage = {};
 
 function tryStorage(name) {
   let nativeStorage;

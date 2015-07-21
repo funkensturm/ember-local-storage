@@ -1,16 +1,15 @@
 import DS from 'ember-data';
 
-export function initialize(/* container, application */) {
-
-  // Monkeypatch the store until ED gives us a good way to listen to push events
+export function initialize() {
   if (!DS.Store.prototype._emberLocalStoragePatched) {
     DS.Store.reopen({
       _emberLocalStoragePatched: true,
-      import: function(types) {
+      importData: function(types) {
+        // TODO Fix we need a type to get the right adapter
         const adapter = this.adapterFor(types[0]);
         return adapter.import.apply(adapter, arguments);
       },
-      export: function(types) {
+      exportData: function(types) {
         const adapter = this.adapterFor(types[0]);
         return adapter.export.apply(adapter, arguments);
       }
