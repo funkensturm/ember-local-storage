@@ -158,8 +158,5 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 ## Publishing
 
 ```bash
-npm version 0.0.X
-git push origin master
-git push origin --tags
-npm publish
+ember release
 ```
