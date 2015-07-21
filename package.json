@@ -50,7 +50,7 @@
     "session-storage array",
     "session-storage object",
     "localStorage adapter",
-    "local-storage adapter",
+    "local-storage adapter"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
