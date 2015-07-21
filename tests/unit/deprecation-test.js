@@ -13,6 +13,7 @@ module('localeStorage - deprecation', {
   }
 });
 
+// TODO remove on 1.0 release
 test('it throws a deprecation', function(assert) {
   assert.expect(1);
 

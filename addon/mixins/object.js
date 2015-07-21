@@ -1,22 +1,34 @@
 import Ember from 'ember';
 import StorageProxyMixin from './storage';
 
+const set = Ember.set;
+
 export default Ember.Mixin.create(StorageProxyMixin, {
   initialContent: {},
 
-  setUnknownProperty: function(key, value) {
-    this._super(key, value);
+  // TODO remove on 1.0 release i guess it's not a breaking change but i'm not sure
+  setUnknownProperty: function(key) {
+    this._super.apply(this, arguments);
 
     if (key !== '_isInitialContent') {
       this.save();
     }
   },
 
-  set: function(key, value) {
-    this._super(key, value);
+  set: function(key) {
+    this._super.apply(this, arguments);
 
     if (key !== '_isInitialContent') {
       this.save();
     }
+  },
+
+  setProperties: function() {
+    this._super.apply(this, arguments);
+    this.save();
+  },
+
+  _clear: function() {
+    set(this, 'content', {});
   }
 });
