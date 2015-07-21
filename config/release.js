@@ -3,7 +3,7 @@
 
 // For details on each option run `ember help release`
 module.exports = {
-  local: true,
+  local: false,
   // remote: 'some_remote',
   // annotation: "Release %@",
   // message: "Bumped version to %@",
