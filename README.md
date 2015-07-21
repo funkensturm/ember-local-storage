@@ -19,6 +19,12 @@ It supports:
 
 ## Changelog
 
+### 0.0.6
+* [BUGFIX] Make sure that the changes are persisted on `StorageArray.reset()`
+* [ENHANCEMENT] Calling `StorageObject.isInitialContent()` and `StorageArray.isInitialContent()` returns a boolean that indicates if the content was mutated
+* [ENHANCEMENT] Calling `StorageObject.clear()` and `StorageArray.clear()` removes the data from xStorage
+* [ENHANCEMENT] Adds `setProperties` on `StorageObject`
+
 ### 0.0.5
 * [ENHANCEMENT] Prototype extensions are now disabled and the `StorageArray` always returns an `Ember.Array` [@miguelcobain](https://github.com/miguelcobain)
 * [ENHANCEMENT] Calling `StorageObject.reset()` and `StorageArray.reset()` resets to `initialContent` [@miguelcobain](https://github.com/miguelcobain)
