@@ -16,19 +16,23 @@ module.exports = {
     {
       name: 'ember-beta',
       dependencies: {
-        'ember': 'components/ember#beta'
+        'ember': 'components/ember#beta',
+        'ember-data': 'components/ember-data#canary'
       },
       resolutions: {
-        'ember': 'beta'
+        'ember': 'beta',
+        'ember-data': 'canary'
       }
     },
     {
       name: 'ember-canary',
       dependencies: {
-        'ember': 'components/ember#canary'
+        'ember': 'components/ember#canary',
+        'ember-data': 'components/ember-data#canary'
       },
       resolutions: {
-        'ember': 'canary'
+        'ember': 'canary',
+        'ember-data': 'canary'
       }
     }
   ]
