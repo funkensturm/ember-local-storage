@@ -53,7 +53,7 @@ export default Route.extend({
         });
     },
     export: function() {
-      const json = this.store.exportData(
+      this.store.exportData(
         ['posts', 'comments'],
         {download: true, filename: 'my-data.json'}
       );
