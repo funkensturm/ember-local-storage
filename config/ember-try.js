@@ -7,10 +7,12 @@ module.exports = {
     {
       name: 'ember-release',
       dependencies: {
-        'ember': 'components/ember#release'
+        'ember': 'components/ember#release',
+        'ember-data': 'components/ember-data#release'
       },
       resolutions: {
-        'ember': 'release'
+        'ember': 'release',
+        'ember-data': 'release'
       }
     },
     {
