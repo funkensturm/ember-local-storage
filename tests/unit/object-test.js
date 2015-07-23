@@ -9,12 +9,52 @@ import LocalStorageObject from 'ember-local-storage/local/object';
 
 import config from 'dummy/models/config';
 import Settings from 'dummy/models/settings';
+import NestedObject from 'dummy/models/nested-object';
 
 module('object - config', {
   afterEach: function() {
     window.localStorage.clear();
     window.sessionStorage.clear();
   }
+});
+
+test('nested values get persisted', function(assert) {
+  assert.expect(4);
+
+  const details = NestedObject.create();
+
+  storageDeepEqual(assert, window.localStorage.details, {
+    address: {
+      first: null,
+      second: null,
+      anotherProp: null
+    }
+  });
+
+  assert.equal(details.get('address.first'), null);
+
+  Ember.run(function() {
+    details.set('address.first', {
+      street: 'Somestreet 1',
+      city: 'A City'
+    });
+  });
+
+  assert.deepEqual(details.get('address.first'), {
+    street: 'Somestreet 1',
+    city: 'A City'
+  });
+
+  storageDeepEqual(assert, window.localStorage.details, {
+    address: {
+      first: {
+        street: 'Somestreet 1',
+        city: 'A City'
+      },
+      second: null,
+      anotherProp: null
+    }
+  });
 });
 
 test('it does not share data', function(assert) {
