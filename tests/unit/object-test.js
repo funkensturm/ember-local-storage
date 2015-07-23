@@ -34,15 +34,22 @@ test('nested values get persisted', function(assert) {
   assert.equal(details.get('address.first'), null);
 
   Ember.run(function() {
-    details.set('address.first', {street: 'Somestreet 1'});
+    details.set('address.first', {
+      street: 'Somestreet 1',
+      city: 'A City'
+    });
   });
 
-  assert.deepEqual(details.get('address.first'), {street: 'Somestreet 1'});
+  assert.deepEqual(details.get('address.first'), {
+    street: 'Somestreet 1',
+    city: 'A City'
+  });
 
   storageDeepEqual(assert, window.localStorage.details, {
     address: {
       first: {
         street: 'Somestreet 1',
+        city: 'A City'
       },
       second: null,
       anotherProp: null
