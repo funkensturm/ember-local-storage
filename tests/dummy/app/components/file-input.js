@@ -17,6 +17,6 @@ export default Component.extend({
   },
 
   filesSelected(event) {
-    this.sendAction('import', event);
+    this.sendAction('importData', event);
   }
 });
