@@ -1,0 +1,13 @@
+<br>
+{{model.id}}<br>
+{{model.name}}<br>
+{{model.comments.length}}<br>
+
+<br>
+{{#each model.comments as |comment|}}
+  {{comment.name}} -
+  <a {{action 'deleteComment' comment}}>Delete</a>
+  <br>
+{{/each}}
+<br>
+<a {{action 'createComment' model}}>Create comment</a>
