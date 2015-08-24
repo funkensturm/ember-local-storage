@@ -46,7 +46,9 @@ It supports:
 
 ## Usage
 
-### Object
+### Object & Array
+
+#### Object
 
 ```javascript
 // app/models/settings.js
@@ -86,7 +88,7 @@ export default Ember.Controller.extend({
 {{/unless}}
 ```
 
-### Array
+#### Array
 
 ```javascript
 // app/models/anonymous-likes.js
@@ -128,22 +130,116 @@ export default Ember.ObjectController.extend({
 {{/unless}}
 ```
 
-### Methods
+#### Methods
 
 The following methods work on `StorageObject` and `StorageArray`
 
-#### .isInitialContent()
+**.isInitialContent()**
 
 You can call `.isInitialContent()` to determine if `content` is equal to `initialContent`.
 Returns a boolean.
 
-#### .reset()
+**.reset()**
 
 You can invoke `.reset()` to reset the `content` to the `initialContent`.
 
-#### .clear()
+**.clear()**
 
 You can invoke `.clear()` to remove the `content` from xStorage.
+
+### Adapter & Serializer
+
+If your app is a pure LocalStorage app you just need to create the application adapter and serializer:
+
+```javascript
+// app/adapters/application.js
+export { default } from 'ember-local-storage/adapters/adapter';
+
+// app/serializers/application.js
+export { default } from 'ember-local-storage/serializers/serializer';
+```
+
+If you already use Ember Data for non LocalStorage models you can use a per type adapter and serializer.
+
+```javascript
+// app/adapters/post.js
+export { default } from 'ember-local-storage/adapters/adapter';
+
+// app/serializers/post.js
+export { default } from 'ember-local-storage/serializers/serializer';
+```
+
+#### Export & Import
+
+The addon ships with an initializer that enables export and import of you LocalStorage data.
+You have to add `fileExport` option to the `environment.js`:
+
+```javascript
+// config/environment.js
+module.exports = function() {
+  var ENV = {
+    'ember-local-storage': {
+      fileExport: true
+    }
+  }
+};
+```
+
+The initializer provides `exportData()` and `importData()` on the store. Both return a Promise.
+
+```javascript
+import Ember from 'ember';
+
+const {
+  Route
+} = Ember;
+
+export default Route.extend({
+  readFile: function(file) {
+    const reader = new FileReader();
+
+    return new Ember.RSVP.Promise((resolve) => {
+      reader.onload = function(event) {
+        resolve({
+          file: file.name,
+          type: file.type,
+          data: event.target.result,
+          size: file.size
+        });
+      };
+
+      reader.readAsText(file);
+    });
+  },
+  actions: {
+    importData: function(event) {
+      this.readFile(event.target.files[0])
+        .then((file) => {
+          this.store.importData(file.data);
+        });
+    },
+    exportData: function() {
+      this.store.exportData(
+        ['posts', 'comments'],
+        {download: true, filename: 'my-data.json'}
+      );
+    }
+  }
+});
+```
+
+**importData(content, options)**
+`content` can be a JSON API compiliant object or a JSON string
+`options` are:
+- `json` Boolean (default `true`)
+- `truncate` Boolean (default `true`) if `true` the existing data gets replaced.
+
+**exportData(types, options)**
+`types` Array of types to export. The types must be pluralized.
+`options` are:
+- `json` Boolean (default `true`)
+- `download` Boolean (default `false`)
+- `filename` String (default ember-data.json)
 
 ## Running
 
