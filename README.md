@@ -208,12 +208,14 @@ export default Route.extend({
 ```
 
 **importData(content, options)**
+
 `content` can be a JSON API compiliant object or a JSON string
 `options` are:
 - `json` Boolean (default `true`)
 - `truncate` Boolean (default `true`) if `true` the existing data gets replaced.
 
 **exportData(types, options)**
+
 `types` Array of types to export. The types must be pluralized.
 `options` are:
 - `json` Boolean (default `true`)
