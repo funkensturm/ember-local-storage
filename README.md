@@ -209,7 +209,7 @@ export default Route.extend({
 
 **importData(content, options)**
 
-`content` can be a JSON API compiliant object or a JSON string
+`content` can be a JSON API compliant object or a JSON string
 `options` are:
 - `json` Boolean (default `true`)
 - `truncate` Boolean (default `true`) if `true` the existing data gets replaced.
