@@ -3,9 +3,16 @@
 
 module.exports = {
   name: 'ember-local-storage',
-  included: function colpick_included(app) {
+
+  included: function included(app) {
+    var config = require(app.options.configPath)();
+    var options = config['ember-local-storage'] || {};
+
     this._super.included.apply(this, arguments);
 
-    app.import('vendor/save-as.js');
+    if (options.fileExport) {
+      app.import('vendor/save-as.js');
+      app.import(app.bowerDirectory + '/blob-polyfill/Blob.js');
+    }
   }
 };
