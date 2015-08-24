@@ -14,10 +14,18 @@ module('Unit | Initializer | local storage adapter', {
   }
 });
 
-// Replace this with your real tests.
-test('it works', function(assert) {
+test('it adds importData to DS.Store', function(assert) {
   initialize(registry, application);
 
-  // you would normally confirm the results of the initializer here
-  assert.ok(true);
+  const store = DS.Store.create();
+
+  assert.ok(typeof store.importData === 'function');
+});
+
+test('it adds exportData to DS.Store', function(assert) {
+  initialize(registry, application);
+
+  const store = DS.Store.create();
+
+  assert.ok(typeof store.exportData === 'function');
 });

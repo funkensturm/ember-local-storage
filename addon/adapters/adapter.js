@@ -2,18 +2,18 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import { getStorage } from '../helpers/storage';
 import StorageArray from '../local/array';
+import ImportExportMixin from '../mixins/adapters/import-export';
 
 const get = Ember.get;
-
-const {
-  merge
-} = Ember;
 
 const {
   JSONAPIAdapter
 } = DS;
 
-export default JSONAPIAdapter.extend({
+// TODO const Adapter = JSONAPIAdapter || RESTAdapter;
+const Adapter = JSONAPIAdapter;
+
+export default Adapter.extend(ImportExportMixin, {
   _debug: false,
   _storage: getStorage('local'),
   _indices: {},
@@ -107,6 +107,7 @@ export default JSONAPIAdapter.extend({
         data = this._handleDELETERequest(url);
       }
 
+      // TODO make it work for RESTAdapter
       Ember.run(null, resolve, {data: data});
     }, 'DS: LocalStorageAdapter#_handleRequest ' + type + ' to ' + url);
   },
@@ -189,66 +190,5 @@ export default JSONAPIAdapter.extend({
 
   _removeFromIndex(type, id) {
     this._getIndex(type).removeObject(id);
-  },
-
-  importData(json, options) {
-    // merge defaults
-    options = merge({
-      json: true,
-      truncate: true
-    }, options || {});
-
-    let content = options.json ? JSON.parse(json) : json;
-
-    if (options.truncate) {
-      content.data.forEach((record) => {
-        const type = record.type;
-
-        this._getIndex(type).forEach((storageKey) => {
-          delete get(this, '_storage')[storageKey];
-        });
-
-        this._getIndex(type).reset();
-      });
-    }
-
-    content.data.forEach((record) => {
-      this._handlePOSTRequest({data: record});
-    });
-  },
-
-  exportData(types, options) {
-    let json,
-      data = types.reduce((records, type) => {
-        const url = this.buildURL(type),
-          data = this._handleGETRequest(url);
-
-        records.data = records.data.concat(data);
-        return records;
-      }, {data: []});
-
-    // merge defaults
-    options = merge({
-      json: true,
-      download: false,
-      filename: 'ember-data.json'
-    }, options || {});
-
-    if (options.json || options.download) {
-      json = JSON.stringify(data);
-    }
-
-    if (options.json) {
-      data = json;
-    }
-
-    if (options.download) {
-      window.saveAs(
-        new Blob([json], {type: 'application/json;charset=utf-8'}),
-        options.filename
-      );
-    }
-
-    return data;
   }
 });

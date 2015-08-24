@@ -10,3 +10,13 @@ test('it exists', function(assert) {
   var adapter = this.subject();
   assert.ok(adapter);
 });
+
+test('it has a importData method', function(assert) {
+  var adapter = this.subject();
+  assert.ok(typeof adapter.importData === 'function');
+});
+
+test('it has a exportData method', function(assert) {
+  var adapter = this.subject();
+  assert.ok(typeof adapter.exportData === 'function');
+});

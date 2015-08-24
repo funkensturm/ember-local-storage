@@ -1,17 +1,17 @@
 import DS from 'ember-data';
+import Adapter from 'ember-local-storage/adapters/adapter';
 
 export function initialize() {
   if (!DS.Store.prototype._emberLocalStoragePatched) {
+    const adapter = Adapter.create();
+
     DS.Store.reopen({
       _emberLocalStoragePatched: true,
-      importData: function(types) {
-        // TODO Fix we need a type to get the right adapter
-        const adapter = this.adapterFor(types[0]);
-        return adapter.import.apply(adapter, arguments);
+      importData: function(json, options) {
+        return adapter.importData.call(adapter, this, json, options);
       },
-      exportData: function(types) {
-        const adapter = this.adapterFor(types[0]);
-        return adapter.export.apply(adapter, arguments);
+      exportData: function(types, options) {
+        return adapter.exportData.call(adapter, this, types, options);
       }
     });
   }

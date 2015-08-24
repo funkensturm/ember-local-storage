@@ -38,25 +38,23 @@ export default Route.extend({
       post.destroyRecord();
       this.transitionTo('posts');
     },
-    import: function(event) {
+    importData: function(event) {
       this.readFile(event.target.files[0])
         .then((file) => {
-          const types = ['post', 'comment'];
-          types.forEach((type) => {
-            this.store.unloadAll(type);
-          });
-          // TODO fix we need a type to get the right adapter
-          this.store.importData(file.data);
-          types.forEach((type) => {
-            this.store.findAll(type);
-          });
+          this.store
+            .importData(file.data)
+            .then(function() {
+              // show a flash message or transitionTo somewehere
+            });
         });
     },
-    export: function() {
+    exportData: function() {
       this.store.exportData(
         ['posts', 'comments'],
         {download: true, filename: 'my-data.json'}
-      );
+      ).then(function() {
+        // show a flash message or transitionTo somewehere
+      });
     }
   }
 });
