@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/funkensturm/ember-local-storage.svg?branch=master)](https://travis-ci.org/funkensturm/ember-local-storage)
 
-An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app.
+An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app. It ships with an ember-data adapter that works almost the same as the new JSONAPIAdapter with some relationship sugar added.
 
 The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 
@@ -11,6 +11,8 @@ It supports:
 * localStorage
 * Object
 * Array
+* DS.Adapter & DS.Serializer
+* Import & Export of localStorage records
 
 
 ## Installation
