@@ -187,7 +187,7 @@ export default Model.extend({
 **Options**
 
 - `dependent` can be used in `hasMany` relationships to destroy the child records when the parent record is destroyed.
-- `autoSave` can be used in belongsTo relationships to update the association on the parent. It's recommended to use it.
+- `autoSave` can be used in `belongsTo` relationships to update the association on the parent. It's recommended to use it.
 
 #### Export & Import
 
