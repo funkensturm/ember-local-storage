@@ -148,6 +148,47 @@ export { default } from 'ember-local-storage/adapters/adapter';
 export { default } from 'ember-local-storage/serializers/serializer';
 ```
 
+#### Model
+
+Your model is a `DS.Model` with two new relationship options
+
+```javascript
+// app/models/post.js
+import DS from 'ember-data';
+
+const {
+  Model,
+  attr,
+  hasMany
+} = DS;
+
+export default Model.extend({
+  name: attr('string'),
+
+  comments: hasMany('comment', { async: true, dependent: 'destroy' })
+});
+
+// app/models/comment.js
+import DS from 'ember-data';
+
+const {
+  Model,
+  attr,
+  belongsTo
+} = DS;
+
+export default Model.extend({
+  name: attr('string'),
+
+  post: belongsTo('post', { async: true, autoSave: true })
+});
+```
+
+**Options**
+
+- `dependent` can be used in `hasMany` relationships to destroy the child records when the parent record is destroyed.
+- `autoSave` can be used in belongsTo relationships to update the association on the parent. It's recommended to use it.
+
 #### Export & Import
 
 The addon ships with an initializer that enables export and import of you LocalStorage data.
