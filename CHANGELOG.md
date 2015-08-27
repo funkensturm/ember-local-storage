@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.8
+* [BUGFIX] Fixes an issue with the app config not beein present
+
+## 0.0.7
+* [ENHANCEMENT] Adds `Adapter` & `Serializer` see [Adapter & Serializer](https://github.com/funkensturm/ember-local-storage/blob/master/README.md#adapter--serializer)
+
 ## 0.0.6
 * [BUGFIX] Make sure that the changes are persisted on `StorageArray.reset()`
 * [ENHANCEMENT] Calling `StorageObject.isInitialContent()` and `StorageArray.isInitialContent()` returns a boolean that indicates if the content was mutated
