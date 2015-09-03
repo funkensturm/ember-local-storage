@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.9
+* [BUGFIX] Checks if ember-data >= 1.13.0
+
 ## 0.0.8
 * [BUGFIX] Fixes an issue with the app config not beein present
 

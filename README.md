@@ -1,6 +1,8 @@
 # ember-local-storage
 
 [![Build Status](https://api.travis-ci.org/funkensturm/ember-local-storage.svg?branch=master)](https://travis-ci.org/funkensturm/ember-local-storage)
+[![Ember Observer Score](http://emberobserver.com/badges/ember-local-storage.svg)](http://emberobserver.com/addons/ember-local-storage)
+
 
 An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app. It ships with an ember-data adapter that works almost the same as the new JSONAPIAdapter with some relationship sugar added.
 
