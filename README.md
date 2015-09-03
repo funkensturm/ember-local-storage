@@ -11,10 +11,12 @@ The idea was taken from Tom Dale's gist [Ember Array that writes every change to
 It supports:
 * sessionStorage
 * localStorage
-* Object
-* Array
-* DS.Adapter & DS.Serializer
-* Import & Export of localStorage records
+
+Usage:
+* [Object](#object)
+* [Array](#array)
+* [DS.Adapter & DS.Serializer](#adapter--serializer)
+* [Import & Export of localStorage records](#export--import)
 
 
 ## Installation
