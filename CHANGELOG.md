@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.10
+* [BUGFIX] Do not crash if ember-data isn't present
+
 ## 0.0.9
 * [BUGFIX] Checks if ember-data >= 1.13.0
 
