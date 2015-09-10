@@ -12,7 +12,15 @@ module.exports = {
     var checker = new VersionChecker(this);
     var dep = checker.for('ember-data', 'bower');
 
-    this.hasEmberData = dep.version && dep.satisfies('>= 1.13.0');
+    if (
+      dep.version && (
+        dep.satisfies('>= 1.13.0') ||
+        dep.satisfies('>= 2.0.0') ||
+        dep.gt('2.0.0')
+      )
+    ) {
+      this.hasEmberData = true;
+    }
 
     // determin if saveAs and Blob should be imported
     var projectConfig = this.project.config(app.env);
