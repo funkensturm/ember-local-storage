@@ -46,3 +46,16 @@ test('it saves changes to localStorage', function(assert) {
     welcomeMessageSeen: true
   });
 });
+
+test('it updates when change events fire', function(assert) {
+  assert.expect(3);
+
+  assert.equal(settings.get('changeFired'), undefined);
+  window.dispatchEvent(new window.StorageEvent('storage', {
+    key: 'settings',
+    newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
+    oldValue: '{"welcomeMessageSeen":false}'
+  }));
+  assert.equal(settings.get('welcomeMessageSeen'), false);
+  assert.equal(settings.get('changeFired'), true);
+});
