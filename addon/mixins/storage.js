@@ -55,6 +55,15 @@ export default Mixin.create({
     // Do not change to set(this, 'content', content)
     this.set('content', content);
 
+    // Keep in sync with other windows
+    if (window.addEventListener) {
+      window.addEventListener('storage', (event) => {
+        if (event.key === storageKey) {
+          this.set('content', JSON.parse(event.newValue));
+        }
+      });
+    }
+
     return this._super.apply(this, arguments);
   },
 
