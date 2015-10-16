@@ -5,10 +5,19 @@ import StorageArray from '../local/array';
 import ImportExportMixin from '../mixins/adapters/import-export';
 
 const get = Ember.get;
+const keys = Object.keys || Ember.keys;
 
 const {
   JSONAPIAdapter
 } = DS;
+
+const {
+  Inflector,
+  typeOf
+} = Ember;
+
+// Ember data ships with ember-inflector
+const inflector = Inflector.inflector;
 
 // TODO const Adapter = JSONAPIAdapter || RESTAdapter;
 const Adapter = JSONAPIAdapter;
@@ -83,7 +92,7 @@ export default Adapter.extend(ImportExportMixin, {
     return this._handleStorageRequest.apply(this, arguments);
   },
 
-  _handleStorageRequest(url, type, options) {
+  _handleStorageRequest(url, type, options = {}) {
     if (this._debug) {
       console.log(url, type, options);
     }
@@ -92,7 +101,7 @@ export default Adapter.extend(ImportExportMixin, {
       let data;
 
       if (type === 'GET') {
-        data = this._handleGETRequest(url);
+        data = this._handleGETRequest(url, options.data);
       }
 
       if (type === 'POST') {
@@ -112,19 +121,27 @@ export default Adapter.extend(ImportExportMixin, {
     }, 'DS: LocalStorageAdapter#_handleRequest ' + type + ' to ' + url);
   },
 
-  _handleGETRequest(url) {
+  _handleGETRequest(url, query) {
     const { type, id } = this._urlParts(url);
     const storage = get(this, '_storage'),
       storageKey = this._storageKey(type, id);
 
     if (id) {
       return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
-    } else {
-      return this._getIndex(type)
-        .map(function(storageKey) {
-          return JSON.parse(storage[storageKey]);
-        });
     }
+
+    const records = this._getIndex(type)
+      .map(function(storageKey) {
+        return JSON.parse(storage[storageKey]);
+      });
+
+    if (query && query.hasOwnProperty('filter')) {
+      return records.filter((record) => {
+        return this._queryFilter(record, query.filter);
+      });
+    }
+
+    return records;
   },
 
   _handlePOSTRequest(record) {
@@ -154,6 +171,46 @@ export default Adapter.extend(ImportExportMixin, {
     delete get(this, '_storage')[storageKey];
 
     return null;
+  },
+
+  _queryFilter(record, query = {}) {
+    return keys(query).every((key) => {
+      const value = query[key],
+        matches = key.match(/(.*)Id$/),
+        relationships = record.relationships;
+
+      // Relationships
+      if (relationships && matches && matches[1]) {
+        const type = matches[1],
+          pluralType = inflector.pluralize(type);
+
+        // belongsTo
+        if (get(relationships, `${type}.data`)) {
+          return this._matches(get(relationships, `${type}.data.id`), value);
+
+        // hasMany
+        } else if (get(relationships, `${pluralType}.data`)) {
+          return get(relationships, `${pluralType}.data`)
+            .some((record) => {
+              return this._matches(record.id, value);
+            });
+        }
+
+        return false;
+      }
+
+      // Attributes
+      const recordValue = (key === 'id') ? record[key] : record.attributes[key];
+      return this._matches(recordValue, value);
+    });
+  },
+
+  _matches(recordValue, queryValue) {
+    if (typeOf(queryValue) === 'regexp') {
+      return queryValue.test(recordValue);
+    }
+
+    return recordValue === queryValue;
   },
 
   _urlParts(url) {
