@@ -39,6 +39,7 @@ export default Adapter.extend(ImportExportMixin, {
     return Math.random().toString(32).slice(2).substr(0, 8);
   },
 
+  // Relationship sugar
   createRecord(store, type, snapshot) {
     snapshot.eachRelationship(function(name, relationship) {
       const {
@@ -86,6 +87,26 @@ export default Adapter.extend(ImportExportMixin, {
     });
 
     return this._super.apply(this, arguments);
+  },
+
+  // Polyfill queryRecord
+  queryRecord(store, type, query) {
+    let records = this._super.apply(this, arguments);
+
+    if (!records) {
+      var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
+
+      if (this.sortQueryParams) {
+        query = this.sortQueryParams(query);
+      }
+
+      records = this.ajax(url, 'GET', { data: query });
+    }
+
+    return records
+      .then(function(result) {
+        return {data: result.data[0]};
+      });
   },
 
   ajax() {

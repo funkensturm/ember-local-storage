@@ -272,14 +272,6 @@ test('query hasMany relationship', function(assert) {
 });
 
 test('queryRecord attributes', function(assert) {
-  // queryRecord was introduced in ember-data v1.13.7
-  if (!this.store().adapterFor('post').queryRecord) {
-    assert.expect(1);
-    assert.ok(true);
-
-    return;
-  }
-
   assert.expect(3);
   const done = assert.async();
   const store = this.store();
