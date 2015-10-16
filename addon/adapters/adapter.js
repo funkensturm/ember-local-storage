@@ -84,6 +84,8 @@ export default Adapter.extend(ImportExportMixin, {
   },
 
   _handleStorageRequest(url, type, options) {
+    options = options || {};
+    
     if (this._debug) {
       console.log(url, type, options);
     }
