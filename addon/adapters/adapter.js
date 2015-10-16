@@ -92,7 +92,7 @@ export default Adapter.extend(ImportExportMixin, {
       let data;
 
       if (type === 'GET') {
-        data = this._handleGETRequest(url);
+        data = this._handleGETRequest(url, options.data);
       }
 
       if (type === 'POST') {
@@ -112,19 +112,39 @@ export default Adapter.extend(ImportExportMixin, {
     }, 'DS: LocalStorageAdapter#_handleRequest ' + type + ' to ' + url);
   },
 
-  _handleGETRequest(url) {
+  _handleGETRequest(url, query) {
+    query = query || {};
+    
     const { type, id } = this._urlParts(url);
     const storage = get(this, '_storage'),
       storageKey = this._storageKey(type, id);
+      
+    let records;
 
     if (id) {
-      return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
+      records = storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
     } else {
-      return this._getIndex(type)
+      records = this._getIndex(type)
         .map(function(storageKey) {
           return JSON.parse(storage[storageKey]);
         });
+      if (query.hasOwnProperty('filter')) {
+        records = records.filter((record) => {
+          for (let key in query.filter) {
+            let recordValue = (key === 'id' || key === 'type') ?
+            record[key] : record.attributes[key];
+             
+            if (Ember.typeOf(query.filter[key]) === 'regexp') {
+              if (!query.filter[key].test(recordValue)) { return false; }
+            } else {
+              if (query.filter[key] !== recordValue) { return false; }
+            }
+          }
+          return true;
+        });
+      }
     }
+    return records;
   },
 
   _handlePOSTRequest(record) {
