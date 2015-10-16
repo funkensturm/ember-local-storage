@@ -225,7 +225,7 @@ Querying relationships also works:
   this.store.query('comment', { filter: { postId: /^12/ } });
 ```
 
-Starting with ember-data v1.13.7 you can use `queryRecord` to return only one record. See the [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.
+You can use `queryRecord` to return only one record. See the [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.
 
 #### Export & Import
 
