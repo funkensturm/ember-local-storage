@@ -270,3 +270,57 @@ test('query hasMany relationship', function(assert) {
       done();
     });
 });
+
+test('queryRecord attributes', function(assert) {
+  // queryRecord was introduced in ember-data v1.13.7
+  if (!this.store().adapterFor('post').queryRecord) {
+    assert.expect(1);
+    assert.ok(true);
+
+    return;
+  }
+
+  assert.expect(3);
+  const done = assert.async();
+  const store = this.store();
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  let paul;
+
+  run(function() {
+    paul = store.createRecord('user', {
+      name: 'Paul'
+    });
+    paul.save();
+  });
+
+  run(function() {
+    store.createRecord('post', {
+      name: 'Super Name',
+      user: paul
+    }).save();
+
+    store.createRecord('post', {
+      name: 'Just a Name',
+      user: paul
+    }).save();
+
+    store.createRecord('post', {
+      name: 'Just a Name',
+      user: paul
+    }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 3);
+    });
+
+  store.queryRecord('post', { filter: { name: 'Super Name' } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Super Name');
+      done();
+    });
+});

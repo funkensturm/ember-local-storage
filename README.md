@@ -195,6 +195,38 @@ export default Model.extend({
 - `dependent` can be used in `hasMany` relationships to destroy the child records when the parent record is destroyed.
 - `autoSave` can be used in `belongsTo` relationships to update the association on the parent. It's recommended to use it.
 
+#### .query() & .queryRecord()
+
+As per ember [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-multiple-records) you can query for attributes:
+
+```js
+  // with a string
+  this.store.query('post', { filter: { name: 'Just a name' } });
+
+  // or a regex
+  this.store.query('post', { filter: { name: /^Just(.*)/ } });
+```
+
+Querying relationships also works:
+
+```js
+  // belongsTo
+  // with a string
+  this.store.query('post', { filter: { userId: '1234' } });
+
+  // or a regex
+  this.store.query('post', { filter: { userId: /^12/ } });
+
+  // hasMany
+  // with a string
+  this.store.query('comment', { filter: { postId: '1234' } });
+
+  // or a regex
+  this.store.query('comment', { filter: { postId: /^12/ } });
+```
+
+Starting with ember-data v1.13.7 you can use `queryRecord` to return only one record. See the [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.
+
 #### Export & Import
 
 The addon ships with an initializer that enables export and import of you LocalStorage data.
