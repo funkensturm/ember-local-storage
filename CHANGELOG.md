@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0
+* [ENHANCEMENT] Add `query` & `queryRecord` thanks to [@robbiespeed](https://github.com/robbiespeed) for pairing
+* [ENHANCEMENT] Sync storage across tabs [@davewasmer](https://github.com/davewasmer)
+
 ## 0.0.10
 * [BUGFIX] Do not crash if ember-data isn't present
 

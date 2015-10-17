@@ -13,7 +13,8 @@ const {
 
 const {
   Inflector,
-  typeOf
+  typeOf,
+  isEmpty
 } = Ember;
 
 // Ember data ships with ember-inflector
@@ -194,66 +195,64 @@ export default Adapter.extend(ImportExportMixin, {
     return null;
   },
 
-  _queryFilter(record, query = {}) {
-    return keys(query).every((key) => {
-      const queryValue = query[key];
+  _queryFilter(data, query = {}) {
+    const queryType = typeOf(query),
+      dataType = typeOf(data);
 
-      // Attributes
-      const recordValue = (key === 'id') ? record[key] : record.attributes[key];
+    if (queryType === 'object' && dataType === 'object') {
+      return keys(query).every((key) => {
+        let queryValue = query[key],
+          recordValue;
 
-      if (recordValue) {
-        return this._matches(recordValue, queryValue);
-      }
-
-      // Relationships
-      if (record.relationships && record.relationships[key]) {
-        const relationship = record.relationships[key].data,
-          queryValueType = typeOf(queryValue);
-
-        // belongsTo
-        if (typeOf(relationship) === 'object') {
-          if (queryValueType === 'object') {
-            return this._matchesObject(relationship, queryValue);
-          } else if (queryValueType === 'array') {
-            // error
-          } else {
-            return this._matches(relationship.id, queryValue);
-          }
-        // hasMany
-        } else {
-          if (queryValueType === 'object') {
-            return relationship.some((record) => {
-              return this._matchesObject(record, queryValue);
-            });
-          } else if (queryValueType === 'array') {
-            return queryValue.every((queryValue) => {
-              return relationship.some((record) => {
-                return this._matchesObject(record, queryValue);
-              });
-            });
-          } else {
-            return relationship.some((record) => {
-              return this._matches(record.id, queryValue);
-            });
-          }
+        // normalize type
+        if (key === 'type' && typeOf(queryValue) === 'string') {
+          queryValue = inflector.pluralize(queryValue);
         }
 
-        return false;
+        // Attributes
+        if (key === 'id' || key === 'type') {
+          recordValue = data[key];
+        } else {
+          recordValue = data.attributes[key];
+        }
+
+        if (recordValue) {
+          return this._matches(recordValue, queryValue);
+        }
+
+        // Relationships
+        if (data.relationships && data.relationships[key]) {
+          if (isEmpty(data.relationships[key].data)) {
+            return;
+          }
+
+          return this._queryFilter(data.relationships[key].data, queryValue);
+        }
+      });
+    } else if (queryType === 'array') {
+      // belongsTo
+      if (dataType === 'object') {
+        // error
+        console.log('error');
+
+      // hasMany
+      } else {
+        return query.every((queryValue) => {
+          return this._queryFilter(data, queryValue);
+        });
       }
-    });
-  },
+    } else {
+      // belongsTo
+      if (dataType === 'object') {
+        return this._matches(data.id, query);
 
-  _matchesObject(recordValue, queryValue) {
-    return keys(queryValue).every((key) => {
-      let value = queryValue[key];
-
-      // pluralize type
-      if (key === 'type' && typeOf(value) === 'string') {
-        value = inflector.pluralize(value);
+      // hasMany
+      } else {
+        return data.some((record) => {
+          return this._queryFilter(record, query);
+        });
       }
-
-      return this._matches(recordValue[key], value);
-    });
+    }
   },
 
   _matches(recordValue, queryValue) {
