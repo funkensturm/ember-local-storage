@@ -9,5 +9,7 @@ const {
 export default Model.extend({
   name: attr('string'),
 
-  posts: hasMany('post', { async: true, dependent: 'destroy' })
+  projects: hasMany('project', { async: true }),
+  posts: hasMany('post', { async: true, dependent: 'destroy' }),
+  pets: hasMany('pet', { async: true, polymorphic: true, dependent: 'destroy' })
 });

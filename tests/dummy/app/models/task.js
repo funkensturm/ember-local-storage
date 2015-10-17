@@ -16,6 +16,7 @@ export default Model.extend({
     autoSave: true,
     inverse: 'children'
   }),
+
   children: hasMany('task', {
     async: true,
     autoSave: true,

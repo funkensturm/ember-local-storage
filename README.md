@@ -210,19 +210,39 @@ As per ember [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#t
 Querying relationships also works:
 
 ```js
-  // belongsTo
-  // with a string
-  this.store.query('post', { filter: { userId: '1234' } });
+// belongsTo
+// get posts from user '123'
+this.store.query('post', { filter: { user: '123' } });
+this.store.query('post', { filter: { user: { id: '123' } } });
+// or regex
+this.store.query('post', { filter: { user: /^12/ } });
+this.store.query('post', { filter: { user: { id: /^12/ } } });
 
-  // or a regex
-  this.store.query('post', { filter: { userId: /^12/ } });
+// belongsTo polymorphic
+// get posts from editors
+this.store.query('post', { filter: { user: { type: 'editor' } } });
+this.store.query('post', { filter: { user: { type: /^ed(.*)ors$/ } } }); // you need to use the plural
+// get posts from editor '123'
+this.store.query('post', { filter: { user: { id: '123', type: 'editor' } } });
+this.store.query('post', { filter: { user: { id: '123', type: /^ed(.*)ors$/ } } }); // you need to use the plural
 
-  // hasMany
-  // with a string
-  this.store.query('comment', { filter: { postId: '1234' } });
+// hasMany
+// get users who've contributed to project.id = 123
+this.store.query('user', { filter: { projects: '123' } });
+this.store.query('user', { filter: { projects: { id: '123' } } });
+// or regex
+this.store.query('user', { filter: { projects: /^12/ });
+this.store.query('user', { filter: { projects: { id: /^12/ } } });
 
-  // or a regex
-  this.store.query('comment', { filter: { postId: /^12/ } });
+// hasMany polymorphic
+// get users with cats
+this.store.query('user', { filter: { pets: { type: 'cat' } } });
+// get users with cat '123'
+this.store.query('user', { filter: { pets: { id: '123', type: 'cat' } }) };
+// get users with cats AND dogs
+this.store.query('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } });
+// get users with cats OR dogs
+this.store.query('user', { filter: { pets: { type: /cats|dogs/ } } }); // you need to use the plural
 ```
 
 You can use `queryRecord` to return only one record. See the [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.

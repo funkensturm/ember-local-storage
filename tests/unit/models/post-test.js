@@ -13,11 +13,16 @@ moduleForModel('post', 'Unit | Model | post', {
     'adapter:application',
     'serializer:application',
     'model:comment',
-    'model:user'
+    'model:user',
+    'model:pet',
+    'model:project'
   ],
   beforeEach: function() {
     const adapter = this.container.lookup('adapter:application');
-    adapter._getIndex('posts').reset();
+
+    ['posts', 'users', 'projects', 'comments', 'pets'].forEach(function(key) {
+      adapter._getIndex(key).reset();
+    });
 
     window.localStorage.clear();
   }
@@ -27,6 +32,28 @@ test('it exists', function(assert) {
   let model = this.subject();
   // var store = this.store();
   assert.ok(!!model);
+});
+
+test('create a record', function(assert) {
+  assert.expect(2);
+  const done = assert.async();
+  const store = this.store();
+
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  run(function() {
+    store.createRecord('post', { name: 'Super Name' }).save();
+    store.createRecord('post', { name: 'Just awesome' }).save();
+    store.createRecord('post', { name: 'Just a Name' }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 3);
+      done();
+    });
 });
 
 test('find a single record', function(assert) {
@@ -76,197 +103,6 @@ test('get all', function(assert) {
   store.findAll('post')
     .then(function(posts) {
       assert.equal(get(posts, 'length'), 2);
-      done();
-    });
-});
-
-test('query attributes', function(assert) {
-  assert.expect(3);
-  const done = assert.async();
-  const store = this.store();
-  let posts = store.findAll('post');
-
-  assert.equal(get(posts, 'length'), 0);
-
-  let paul;
-
-  run(function() {
-    paul = store.createRecord('user', {
-      name: 'Paul'
-    });
-    paul.save();
-  });
-
-  run(function() {
-    store.createRecord('post', {
-      name: 'Super Name',
-      user: paul
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Just a Name',
-      user: paul
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Just a Name',
-      user: paul
-    }).save();
-  });
-
-  store.findAll('post')
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
-    });
-
-  store.query('post', { filter: { name: 'Super Name' } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
-      done();
-    });
-});
-
-test('query attributes with regex', function(assert) {
-  assert.expect(3);
-  const done = assert.async();
-  const store = this.store();
-  let posts = store.findAll('post');
-
-  assert.equal(get(posts, 'length'), 0);
-
-  let paul;
-
-  run(function() {
-    paul = store.createRecord('user', {
-      name: 'Paul'
-    });
-    paul.save();
-  });
-
-  run(function() {
-    store.createRecord('post', {
-      name: 'Super Name',
-      user: paul
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Just awesome',
-      user: paul
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Just a Name',
-      user: paul
-    }).save();
-  });
-
-  store.findAll('post')
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
-    });
-
-  store.query('post', { filter: { name: /^Just(.*)/ } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-      done();
-    });
-});
-
-
-test('query belongsTo relationship', function(assert) {
-  assert.expect(3);
-  const done = assert.async();
-  const store = this.store();
-  let posts = store.findAll('post');
-
-  assert.equal(get(posts, 'length'), 0);
-
-  let paul, moritz;
-
-  run(function() {
-    paul = store.createRecord('user', {
-      name: 'Paul'
-    });
-    paul.save();
-
-    moritz = store.createRecord('user', {
-      name: 'Moritz'
-    });
-    moritz.save();
-  });
-
-  run(function() {
-    store.createRecord('post', {
-      name: 'Ember.js: 10 most common mistakes',
-      user: paul
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Ember.js: Ember-CPM',
-      user: paul
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Ember.js: Testing with Ember PageObjects',
-      user: moritz
-    }).save();
-  });
-
-  store.findAll('post')
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
-    });
-
-  store.query('post', { filter: { userId: get(paul, 'id') } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-      done();
-    });
-});
-
-test('query hasMany relationship', function(assert) {
-  assert.expect(3);
-  const done = assert.async();
-  const store = this.store();
-  let posts = store.findAll('post');
-
-  assert.equal(get(posts, 'length'), 0);
-
-  let paul, comment;
-
-  run(function() {
-    paul = store.createRecord('user', {
-      name: 'Paul'
-    });
-    paul.save();
-
-    comment = store.createRecord('comment', {
-      name: 'I like it'
-    });
-    comment.save();
-  });
-
-  run(function() {
-    store.createRecord('post', {
-      name: 'Ember.js: 10 most common mistakes',
-      user: paul,
-      comments: [comment]
-    }).save();
-
-    store.createRecord('post', {
-      name: 'Ember.js: Testing with Ember PageObjects',
-      user: paul
-    }).save();
-  });
-
-  store.findAll('post')
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
-
-  store.query('post', { filter: { commentId: get(comment, 'id') } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
       done();
     });
 });

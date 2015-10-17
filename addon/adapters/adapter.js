@@ -196,33 +196,63 @@ export default Adapter.extend(ImportExportMixin, {
 
   _queryFilter(record, query = {}) {
     return keys(query).every((key) => {
-      const value = query[key],
-        matches = key.match(/(.*)Id$/),
-        relationships = record.relationships;
+      const queryValue = query[key];
+
+      // Attributes
+      const recordValue = (key === 'id') ? record[key] : record.attributes[key];
+
+      if (recordValue) {
+        return this._matches(recordValue, queryValue);
+      }
 
       // Relationships
-      if (relationships && matches && matches[1]) {
-        const type = matches[1],
-          pluralType = inflector.pluralize(type);
+      if (record.relationships && record.relationships[key]) {
+        const relationship = record.relationships[key].data,
+          queryValueType = typeOf(queryValue);
 
         // belongsTo
-        if (get(relationships, `${type}.data`)) {
-          return this._matches(get(relationships, `${type}.data.id`), value);
-
+        if (typeOf(relationship) === 'object') {
+          if (queryValueType === 'object') {
+            return this._matchesObject(relationship, queryValue);
+          } else if (queryValueType === 'array') {
+            // error
+          } else {
+            return this._matches(relationship.id, queryValue);
+          }
         // hasMany
-        } else if (get(relationships, `${pluralType}.data`)) {
-          return get(relationships, `${pluralType}.data`)
-            .some((record) => {
-              return this._matches(record.id, value);
+        } else {
+          if (queryValueType === 'object') {
+            return relationship.some((record) => {
+              return this._matchesObject(record, queryValue);
             });
+          } else if (queryValueType === 'array') {
+            return queryValue.every((queryValue) => {
+              return relationship.some((record) => {
+                return this._matchesObject(record, queryValue);
+              });
+            });
+          } else {
+            return relationship.some((record) => {
+              return this._matches(record.id, queryValue);
+            });
+          }
         }
 
         return false;
       }
+    });
+  },
 
-      // Attributes
-      const recordValue = (key === 'id') ? record[key] : record.attributes[key];
-      return this._matches(recordValue, value);
+  _matchesObject(recordValue, queryValue) {
+    return keys(queryValue).every((key) => {
+      let value = queryValue[key];
+
+      // pluralize type
+      if (key === 'type' && typeOf(value) === 'string') {
+        value = inflector.pluralize(value);
+      }
+
+      return this._matches(recordValue[key], value);
     });
   },
 
