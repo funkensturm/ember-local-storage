@@ -232,8 +232,16 @@ export default Adapter.extend(ImportExportMixin, {
     } else if (queryType === 'array') {
       // belongsTo
       if (dataType === 'object') {
-        // error
-        console.log('error');
+        const queryMessage = query.map(function(item) {
+          return keys(item).map(function(key) {
+            return key + ': ' + item[key];
+          });
+        }).join(', ');
+
+        throw new Error(
+          'You can not provide an array with a belongsTo relation. ' +
+          'Query: ' + queryMessage
+        );
 
       // hasMany
       } else {
