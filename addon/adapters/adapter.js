@@ -5,10 +5,20 @@ import StorageArray from '../local/array';
 import ImportExportMixin from '../mixins/adapters/import-export';
 
 const get = Ember.get;
+const keys = Object.keys || Ember.keys;
 
 const {
   JSONAPIAdapter
 } = DS;
+
+const {
+  Inflector,
+  typeOf,
+  isEmpty
+} = Ember;
+
+// Ember data ships with ember-inflector
+const inflector = Inflector.inflector;
 
 // TODO const Adapter = JSONAPIAdapter || RESTAdapter;
 const Adapter = JSONAPIAdapter;
@@ -30,6 +40,7 @@ export default Adapter.extend(ImportExportMixin, {
     return Math.random().toString(32).slice(2).substr(0, 8);
   },
 
+  // Relationship sugar
   createRecord(store, type, snapshot) {
     snapshot.eachRelationship(function(name, relationship) {
       const {
@@ -79,11 +90,31 @@ export default Adapter.extend(ImportExportMixin, {
     return this._super.apply(this, arguments);
   },
 
+  // Polyfill queryRecord
+  queryRecord(store, type, query) {
+    let records = this._super.apply(this, arguments);
+
+    if (!records) {
+      var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
+
+      if (this.sortQueryParams) {
+        query = this.sortQueryParams(query);
+      }
+
+      records = this.ajax(url, 'GET', { data: query });
+    }
+
+    return records
+      .then(function(result) {
+        return {data: result.data[0]};
+      });
+  },
+
   ajax() {
     return this._handleStorageRequest.apply(this, arguments);
   },
 
-  _handleStorageRequest(url, type, options) {
+  _handleStorageRequest(url, type, options = {}) {
     if (this._debug) {
       console.log(url, type, options);
     }
@@ -92,7 +123,7 @@ export default Adapter.extend(ImportExportMixin, {
       let data;
 
       if (type === 'GET') {
-        data = this._handleGETRequest(url);
+        data = this._handleGETRequest(url, options.data);
       }
 
       if (type === 'POST') {
@@ -112,19 +143,27 @@ export default Adapter.extend(ImportExportMixin, {
     }, 'DS: LocalStorageAdapter#_handleRequest ' + type + ' to ' + url);
   },
 
-  _handleGETRequest(url) {
+  _handleGETRequest(url, query) {
     const { type, id } = this._urlParts(url);
     const storage = get(this, '_storage'),
       storageKey = this._storageKey(type, id);
 
     if (id) {
       return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
-    } else {
-      return this._getIndex(type)
-        .map(function(storageKey) {
-          return JSON.parse(storage[storageKey]);
-        });
     }
+
+    const records = this._getIndex(type)
+      .map(function(storageKey) {
+        return JSON.parse(storage[storageKey]);
+      });
+
+    if (query && query.filter) {
+      return records.filter((record) => {
+        return this._queryFilter(record, query.filter);
+      });
+    }
+
+    return records;
   },
 
   _handlePOSTRequest(record) {
@@ -154,6 +193,82 @@ export default Adapter.extend(ImportExportMixin, {
     delete get(this, '_storage')[storageKey];
 
     return null;
+  },
+
+  _queryFilter(data, query = {}) {
+    const queryType = typeOf(query),
+      dataType = typeOf(data);
+
+    if (queryType === 'object' && dataType === 'object') {
+      return keys(query).every((key) => {
+        let queryValue = query[key],
+          recordValue;
+
+        // normalize type
+        if (key === 'type' && typeOf(queryValue) === 'string') {
+          queryValue = inflector.pluralize(queryValue);
+        }
+
+        // Attributes
+        if (key === 'id' || key === 'type') {
+          recordValue = data[key];
+        } else {
+          recordValue = data.attributes ? data.attributes[key] : null;
+        }
+
+        if (recordValue) {
+          return this._matches(recordValue, queryValue);
+        }
+
+        // Relationships
+        if (data.relationships && data.relationships[key]) {
+          if (isEmpty(data.relationships[key].data)) {
+            return;
+          }
+
+          return this._queryFilter(data.relationships[key].data, queryValue);
+        }
+      });
+    } else if (queryType === 'array') {
+      // belongsTo
+      if (dataType === 'object') {
+        const queryMessage = query.map(function(item) {
+          return keys(item).map(function(key) {
+            return key + ': ' + item[key];
+          });
+        }).join(', ');
+
+        throw new Error(
+          'You can not provide an array with a belongsTo relation. ' +
+          'Query: ' + queryMessage
+        );
+
+      // hasMany
+      } else {
+        return query.every((queryValue) => {
+          return this._queryFilter(data, queryValue);
+        });
+      }
+    } else {
+      // belongsTo
+      if (dataType === 'object') {
+        return this._matches(data.id, query);
+
+      // hasMany
+      } else {
+        return data.some((record) => {
+          return this._queryFilter(record, query);
+        });
+      }
+    }
+  },
+
+  _matches(recordValue, queryValue) {
+    if (typeOf(queryValue) === 'regexp') {
+      return queryValue.test(recordValue);
+    }
+
+    return recordValue === queryValue;
   },
 
   _urlParts(url) {

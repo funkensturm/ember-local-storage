@@ -28,9 +28,11 @@ export default Route.extend({
 
   actions: {
     createPost: function() {
-      const post = this.store.createRecord('post', {
-        name: 'Test Post'
-      });
+      const user = this.store.createRecord('user', { name: 'User' }),
+        post = this.store.createRecord('post', {
+          name: 'Test Post',
+          user: user
+        });
 
       post.save();
     },

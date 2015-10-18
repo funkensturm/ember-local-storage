@@ -12,11 +12,17 @@ moduleForModel('post', 'Unit | Model | post', {
   needs: [
     'adapter:application',
     'serializer:application',
-    'model:comment'
+    'model:comment',
+    'model:user',
+    'model:pet',
+    'model:project'
   ],
   beforeEach: function() {
     const adapter = this.container.lookup('adapter:application');
-    adapter._getIndex('posts').reset();
+
+    ['posts', 'users', 'projects', 'comments', 'pets'].forEach(function(key) {
+      adapter._getIndex(key).reset();
+    });
 
     window.localStorage.clear();
   }
@@ -26,6 +32,28 @@ test('it exists', function(assert) {
   let model = this.subject();
   // var store = this.store();
   assert.ok(!!model);
+});
+
+test('create a record', function(assert) {
+  assert.expect(2);
+  const done = assert.async();
+  const store = this.store();
+
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  run(function() {
+    store.createRecord('post', { name: 'Super Name' }).save();
+    store.createRecord('post', { name: 'Just awesome' }).save();
+    store.createRecord('post', { name: 'Just a Name' }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 3);
+      done();
+    });
 });
 
 test('find a single record', function(assert) {
@@ -61,19 +89,66 @@ test('get all', function(assert) {
 
   assert.equal(get(posts, 'length'), 0);
 
-  let newPost;
 
   run(function() {
-    newPost = store.createRecord('post', {
+    store.createRecord('post', {
       name: 'Ember.js: 10 most common mistakes'
-    });
+    }).save();
 
-    newPost.save();
+    store.createRecord('post', {
+      name: 'Ember.js: Ember-CPM'
+    }).save();
   });
 
   store.findAll('post')
     .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
+      assert.equal(get(posts, 'length'), 2);
+      done();
+    });
+});
+
+test('queryRecord attributes', function(assert) {
+  assert.expect(3);
+  const done = assert.async();
+  const store = this.store();
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  let paul;
+
+  run(function() {
+    paul = store.createRecord('user', {
+      name: 'Paul'
+    });
+    paul.save();
+  });
+
+  run(function() {
+    store.createRecord('post', {
+      name: 'Super Name',
+      user: paul
+    }).save();
+
+    store.createRecord('post', {
+      name: 'Just a Name',
+      user: paul
+    }).save();
+
+    store.createRecord('post', {
+      name: 'Just a Name',
+      user: paul
+    }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 3);
+    });
+
+  store.queryRecord('post', { filter: { name: 'Super Name' } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Super Name');
       done();
     });
 });
