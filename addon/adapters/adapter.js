@@ -157,7 +157,7 @@ export default Adapter.extend(ImportExportMixin, {
         return JSON.parse(storage[storageKey]);
       });
 
-    if (query && query.hasOwnProperty('filter')) {
+    if (query && query.filter) {
       return records.filter((record) => {
         return this._queryFilter(record, query.filter);
       });
@@ -213,7 +213,7 @@ export default Adapter.extend(ImportExportMixin, {
         if (key === 'id' || key === 'type') {
           recordValue = data[key];
         } else {
-          recordValue = data.attributes[key];
+          recordValue = data.attributes ? data.attributes[key] : null;
         }
 
         if (recordValue) {
