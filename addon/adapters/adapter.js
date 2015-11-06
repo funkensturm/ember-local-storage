@@ -299,8 +299,14 @@ export default Adapter.extend(ImportExportMixin, {
     return indices[type];
   },
 
+  _indexHasKey(type, id) {
+    return this._getIndex(type).indexOf(id) !== -1;
+  },
+
   _addToIndex(type, id) {
-    this._getIndex(type).addObject(id);
+    if (!this._indexHasKey(type, id)) {
+      this._getIndex(type).addObject(id);
+    }
   },
 
   _removeFromIndex(type, id) {
