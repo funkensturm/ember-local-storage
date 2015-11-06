@@ -57,6 +57,37 @@ test('create a record', function(assert) {
     });
 });
 
+test('push a record', function(assert) {
+  assert.expect(2);
+  const done = assert.async();
+  const store = this.store();
+
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  run(function() {
+    store.push({data: [
+      {
+        id: '1',
+        type: 'post',
+        attributes: {name: 'Super Name'}
+      },
+      {
+        id: '2',
+        type: 'post',
+        attributes: {name: 'Totally rad'}
+      }
+    ]});
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 2);
+      done();
+    });
+});
+
 test('find a single record', function(assert) {
   assert.expect(2);
   const done = assert.async();
