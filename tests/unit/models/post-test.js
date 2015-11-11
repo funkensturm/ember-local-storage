@@ -15,7 +15,8 @@ moduleForModel('post', 'Unit | Model | post', {
     'model:comment',
     'model:user',
     'model:pet',
-    'model:project'
+    'model:project',
+    'model:book-publication'
   ],
   beforeEach: function() {
     const adapter = this.container.lookup('adapter:application');
