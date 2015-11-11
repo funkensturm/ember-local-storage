@@ -158,7 +158,7 @@ export default Adapter.extend(ImportExportMixin, {
       });
 
     if (query && query.filter) {
-      const serializer = this.store.serializerFor(type);
+      const serializer = this.store.serializerFor(inflector.singularize(type));
 
       return records.filter((record) => {
         return this._queryFilter(record, serializer, query.filter);
