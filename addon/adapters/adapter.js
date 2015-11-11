@@ -182,6 +182,7 @@ export default Adapter.extend(ImportExportMixin, {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
 
+    this._addToIndex(type, storageKey);
     get(this, '_storage')[storageKey] = JSON.stringify(record.data);
 
     return null;
