@@ -106,7 +106,7 @@ export default Adapter.extend(ImportExportMixin, {
 
     return records
       .then(function(result) {
-        return {data: result.data[0]};
+        return {data: result.data[0] === undefined ? null : result.data[0]};
       });
   },
 
