@@ -158,8 +158,10 @@ export default Adapter.extend(ImportExportMixin, {
       });
 
     if (query && query.filter) {
+      const serializer = this.store.serializerFor(type);
+
       return records.filter((record) => {
-        return this._queryFilter(record, query.filter);
+        return this._queryFilter(record, serializer, query.filter);
       });
     }
 
@@ -195,7 +197,7 @@ export default Adapter.extend(ImportExportMixin, {
     return null;
   },
 
-  _queryFilter(data, query = {}) {
+  _queryFilter(data, serializer, query = {}) {
     const queryType = typeOf(query),
       dataType = typeOf(data);
 
@@ -213,6 +215,7 @@ export default Adapter.extend(ImportExportMixin, {
         if (key === 'id' || key === 'type') {
           recordValue = data[key];
         } else {
+          key = serializer.keyForAttribute(key);
           recordValue = data.attributes ? data.attributes[key] : null;
         }
 
@@ -221,12 +224,17 @@ export default Adapter.extend(ImportExportMixin, {
         }
 
         // Relationships
+        key = serializer.keyForRelationship(key);
         if (data.relationships && data.relationships[key]) {
           if (isEmpty(data.relationships[key].data)) {
             return;
           }
 
-          return this._queryFilter(data.relationships[key].data, queryValue);
+          return this._queryFilter(
+            data.relationships[key].data,
+            serializer,
+            queryValue
+          );
         }
       });
     } else if (queryType === 'array') {
@@ -246,7 +254,7 @@ export default Adapter.extend(ImportExportMixin, {
       // hasMany
       } else {
         return query.every((queryValue) => {
-          return this._queryFilter(data, queryValue);
+          return this._queryFilter(data, serializer, queryValue);
         });
       }
     } else {
@@ -257,7 +265,7 @@ export default Adapter.extend(ImportExportMixin, {
       // hasMany
       } else {
         return data.some((record) => {
-          return this._queryFilter(record, query);
+          return this._queryFilter(record, serializer, query);
         });
       }
     }
