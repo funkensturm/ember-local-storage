@@ -153,3 +153,22 @@ test('queryRecord attributes', function(assert) {
       done();
     });
 });
+
+test('queryRecord empty store', function(assert) {
+  assert.expect(2);
+  const done = assert.async();
+  const store = this.store();
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  store.queryRecord('post', { filter: { name: 'Super Name' } })
+    .then(function(post) {
+      assert.strictEqual(post, undefined);
+      done();
+    }).catch(function(error) {
+    assert.ok(false, 'queryRecord on empty store throws error: ' + error.message);
+    done();
+  });
+});
+
