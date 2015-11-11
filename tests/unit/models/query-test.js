@@ -13,6 +13,7 @@ moduleForModel('post', 'Unit | Model | query', {
     'adapter:application',
     'serializer:application',
     'model:project',
+    'model:book-publication',
     'model:comment',
     'model:user',
     'model:editor',
@@ -32,15 +33,24 @@ moduleForModel('post', 'Unit | Model | query', {
 });
 
 test('attributes (string and regex)', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
   const done = assert.async();
   const store = this.store();
 
   run(function() {
     // Create records
-    store.createRecord('post', { name: 'Super Name' }).save();
-    store.createRecord('post', { name: 'Just awesome' }).save();
-    store.createRecord('post', { name: 'Just a Name' }).save();
+    store.createRecord('post', {
+      name: 'Super Name',
+      commentCount: 3
+    }).save();
+    store.createRecord('post', {
+      name: 'Just awesome',
+      commentCount: 1
+    }).save();
+    store.createRecord('post', {
+      name: 'Just a Name',
+      commentCount: 3
+    }).save();
   });
 
   // string
@@ -51,6 +61,12 @@ test('attributes (string and regex)', function(assert) {
 
   // regex
   store.query('post', { filter: { name: /^Just(.*)/ } })
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 2);
+    });
+
+  // camelized key
+  store.query('post', { filter: { commentCount: 3 } })
     .then(function(posts) {
       assert.equal(get(posts, 'length'), 2);
       done();
@@ -147,15 +163,19 @@ test('belongsTo relationship', function(assert) {
 });
 
 test('hasMany relationship', function(assert) {
-  assert.expect(8);
+  assert.expect(9);
   const done = assert.async();
   const store = this.store();
 
-  let anna, peter, moritz, project, cat, dog, dog2;
+  let anna, peter, moritz, project, bookPublication, cat, dog, dog2;
 
   run(function() {
     project = store.createRecord('project', {
       name: 'Componentize all the things!'
+    });
+
+    bookPublication = store.createRecord('book-publication', {
+      name: 'Books For Dummies'
     });
 
     cat = store.createRecord('cat', { name: 'Cat name' });
@@ -167,27 +187,26 @@ test('hasMany relationship', function(assert) {
       pets: [cat]
     });
     anna.save();
+
     peter = store.createRecord('user', {
       name: 'Peter',
       pets: [dog2],
-      projects: [project]
+      projects: [project],
+      bookPublications: [bookPublication]
     });
     peter.save();
+
     moritz = store.createRecord('user', {
       name: 'Moritz',
       pets: [cat, dog],
-      projects: [project]
+      projects: [project],
+      bookPublications: [bookPublication]
     });
     moritz.save();
 
-    // get(project, 'users').addObjects([peter, moritz]);
     project.save();
-
-    // get(cat, 'users').addObjects([anna, moritz]);
     cat.save();
-    // get(dog, 'users').addObjects([moritz]);
     dog.save();
-    // get(dog2, 'users').addObjects([peter]);
     dog2.save();
   });
 
@@ -242,6 +261,14 @@ test('hasMany relationship', function(assert) {
   store.query('user', { filter: { pets: { type: /cats|dogs/ } } })
     .then(function(posts) {
       assert.equal(get(posts, 'length'), 3);
+    });
+
+  // get the users with superHeroes '123' (camelcased key)
+  store.query('user', {
+      filter: { bookPublications: get(bookPublication, 'id') }
+    })
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 2);
       done();
     });
 });
