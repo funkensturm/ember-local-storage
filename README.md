@@ -8,16 +8,6 @@ An addon for ember-cli that provides sessionStorage and localStorage object and 
 
 The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 
-It supports:
-* sessionStorage
-* localStorage
-
-Usage:
-* [Object](#object)
-* [Array](#array)
-* [DS.Adapter & DS.Serializer](#adapter--serializer)
-* [Import & Export of localStorage records](#export--import)
-
 
 ## Installation
 
@@ -28,6 +18,11 @@ Usage:
 See the [CHANGELOG](CHANGELOG.md)
 
 ## Usage
+
+* [Object](#object)
+* [Array](#array)
+* [DS.Adapter & DS.Serializer](#adapter--serializer)
+* [Import & Export of localStorage records](#export--import)
 
 ### Object & Array
 
