@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+* [BUGFIX] fixes `store.push()` to persist the pushed payload [@Ramblurr](https://github.com/Ramblurr)
+* [BUGFIX] normalize query filter keys (`bookPublication` -> `book-publication`) thanks to [@Ramblurr](https://github.com/Ramblurr) for reporting
+* [BUGFIX] fixes `queryRecord()` for empty results. The behavior is still irritating because in case of no match we return an empty array. It's an issue with ember-data. See [#3790](https://github.com/emberjs/data/issues/3790) as soon as [#3866](https://github.com/emberjs/data/pull/3866) makes it into a release `queryRecord()` will return `null`. Thanks to [@Ramblurr](https://github.com/Ramblurr) for reporting.
+
 ## 0.1.0
 * [ENHANCEMENT] Add `query` & `queryRecord` thanks to [@robbiespeed](https://github.com/robbiespeed) for pairing
 * [ENHANCEMENT] Sync storage across tabs [@davewasmer](https://github.com/davewasmer)
