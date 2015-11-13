@@ -22,6 +22,7 @@ See the [CHANGELOG](CHANGELOG.md)
 * [Object](#object)
 * [Array](#array)
 * [DS.Adapter & DS.Serializer](#adapter--serializer)
+* [.query() & .queryRecord()](#query--queryrecord)
 * [Import & Export of localStorage records](#export--import)
 
 ### Object & Array
