@@ -72,7 +72,7 @@ export default Adapter.extend(ImportExportMixin, {
         snapshot.record.get(name)
           .then(function(records) {
             records.forEach(function(record) {
-              record.destroyRecord({test: 'moin'});
+              record.destroyRecord();
             });
           });
       }
@@ -106,7 +106,15 @@ export default Adapter.extend(ImportExportMixin, {
 
     return records
       .then(function(result) {
-        return {data: result.data[0]};
+        result = result.data[0];
+        // hack to fix https://github.com/emberjs/data/issues/3790
+        // and https://github.com/emberjs/data/pull/3866
+        try {
+          store._pushInternalModel(null);
+          return {data: result || null};
+        } finally {
+          return {data: result || []};
+        }
       });
   },
 
