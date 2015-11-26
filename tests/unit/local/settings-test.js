@@ -54,7 +54,8 @@ test('it updates when change events fire', function(assert) {
   window.dispatchEvent(new window.StorageEvent('storage', {
     key: 'settings',
     newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
-    oldValue: '{"welcomeMessageSeen":false}'
+    oldValue: '{"welcomeMessageSeen":false}',
+    storageArea: settings.storage()
   }));
   assert.equal(settings.get('welcomeMessageSeen'), false);
   assert.equal(settings.get('changeFired'), true);
