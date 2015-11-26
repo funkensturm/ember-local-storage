@@ -58,10 +58,21 @@ export default Mixin.create({
     // Keep in sync with other windows
     if (window.addEventListener) {
       window.addEventListener('storage', (event) => {
-        if (event.key === storageKey) {
-          this.set('content', JSON.parse(event.newValue));
+        if (event.storageArea === storage && event.key === storageKey) {
+          if (
+            event.newValue === event.oldValue ||
+            event.newValue === JSON.stringify(this.get('content'))
+          ) {
+            return;
+          }
+
+          if (event.newValue) {
+            this.set('content', JSON.parse(event.newValue));
+          } else {
+            this.clear();
+          }
         }
-      });
+      }, false);
     }
 
     return this._super.apply(this, arguments);
