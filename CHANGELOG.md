@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+* [BUGFIX] Prevents the value to become `null` if the `newValue` of the storage event is `undefined` or `null`.
+* [BUGFIX] Prevents infinite loop in IE 11 if the storage event fires in the same tab.
+
 ## 0.1.1
 * [BUGFIX] fixes `store.push()` to persist the pushed payload [@Ramblurr](https://github.com/Ramblurr)
 * [BUGFIX] normalize query filter keys (`bookPublication` -> `book-publication`) thanks to [@Ramblurr](https://github.com/Ramblurr) for reporting
