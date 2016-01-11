@@ -60,6 +60,7 @@ export default Mixin.create({
       window.addEventListener('storage', (event) => {
         if (event.storageArea === storage && event.key === storageKey) {
           if (
+            ('hidden' in document && !document.hidden) ||
             event.newValue === event.oldValue ||
             event.newValue === JSON.stringify(this.get('content'))
           ) {
