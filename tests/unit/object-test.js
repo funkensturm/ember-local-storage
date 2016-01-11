@@ -142,6 +142,9 @@ test('it does not share data', function(assert) {
 test('it updates when change events fire', function(assert) {
   assert.expect(3);
 
+  // setup testing
+  subject.get('settings')._testing = true;
+
   assert.equal(subject.get('settings.changeFired'), undefined);
   window.dispatchEvent(new window.StorageEvent('storage', {
     key: 'storage:settings',
