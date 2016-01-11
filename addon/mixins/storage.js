@@ -17,6 +17,8 @@ export default Mixin.create({
   initialContent: null,
   _initialContentString: null,
   _isInitialContent: true,
+  // we need it for storage event testing
+  _testing: false,
 
   init: function() {
     const storage = this.storage(),
@@ -60,7 +62,7 @@ export default Mixin.create({
       window.addEventListener('storage', (event) => {
         if (event.storageArea === storage && event.key === storageKey) {
           if (
-            ('hidden' in document && !document.hidden) ||
+            ('hidden' in document && !document.hidden && !this._testing) ||
             event.newValue === event.oldValue ||
             event.newValue === JSON.stringify(this.get('content'))
           ) {

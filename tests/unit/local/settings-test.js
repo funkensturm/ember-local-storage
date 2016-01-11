@@ -50,7 +50,11 @@ test('it saves changes to localStorage', function(assert) {
 test('it updates when change events fire', function(assert) {
   assert.expect(3);
 
+  // setup testing
+  settings._testing = true;
+
   assert.equal(settings.get('changeFired'), undefined);
+
   window.dispatchEvent(new window.StorageEvent('storage', {
     key: 'settings',
     newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
