@@ -118,10 +118,12 @@ export default Adapter.extend(ImportExportMixin, {
       });
   },
 
+  // Delegate to _handleStorageRequest
   ajax() {
     return this._handleStorageRequest.apply(this, arguments);
   },
 
+  // Delegate to _handle${type}Request
   _handleStorageRequest(url, type, options = {}) {
     if (this._debug) {
       console.log(url, type, options);
