@@ -68,7 +68,7 @@ export default Storage;
 ```javascript
 // app/controllers/application.js
 import Ember from 'ember';
-import { storageFor } from 'ember-local-storage/helpers/storage';
+import { storageFor } from 'ember-local-storage';
 
 export default Ember.Controller.extend({
   stats: storageFor('stats'),
@@ -124,6 +124,7 @@ export default Storage;
 ```javascript
 // app/components/like-item.js
 import Ember from 'ember';
+import { storageFor } from 'ember-local-storage';
 
 export default Ember.Component.extend({
   anonymousLikes: storageFor('anonymous-likes'),
