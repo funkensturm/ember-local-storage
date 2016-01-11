@@ -41,7 +41,8 @@
   "dependencies": {
     "broccoli-stew": "^0.3.6",
     "ember-cli-babel": "^5.1.3",
-    "ember-cli-version-checker": "^1.1.4"
+    "ember-cli-version-checker": "^1.1.4",
+    "ember-cli-string-utils": "^1.0.0"
   },
   "keywords": [
     "ember-addon",

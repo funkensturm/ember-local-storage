@@ -37,19 +37,26 @@ export default Ember.Component.extend({
 
 #### Object
 
+Run `ember g storage -h` for all options.
+
+```shell
+ember g storage stats
+// will generate a localStorage object
+
+ember g storage stats -s
+// will generate a sessionStorage object
+```
+
 ```javascript
-// app/storages/settings.js
+// app/storages/stats.js
 import StorageObject from 'ember-local-storage/local/object';
-// or use sessionStorage
-// `import StorageObject from 'ember-local-storage/session/object';`
 
 const Storage = StorageObject.extend();
 
+// Uncomment if you would like to set initialState
 Storage.reopenClass({
   initialState() {
-    return {
-      counter: 0
-    };
+    return { counter: 0 };
   }
 });
 
@@ -86,13 +93,30 @@ export default Ember.Controller.extend({
 
 #### Array
 
+Run `ember g storage -h` for all options.
+
+```shell
+ember g storage anonymous-likes -a
+// will generate a localStorage array
+
+ember g storage anonymous-likes -a -s
+// will generate a sessionStorage array
+```
+
 ```javascript
 // app/storages/anonymous-likes.js
 import StorageArray from 'ember-local-storage/local/array';
-// or use sessionStorage
-// `import StorageArray from 'ember-local-storage/session/array';`
 
-export default StorageArray.extend();
+const Storage = StorageArray.extend();
+
+// Uncomment if you would like to set initialState
+// Storage.reopenClass({
+//   initialState() {
+//     return [];
+//   }
+// });
+
+export default Storage;
 ```
 
 ```javascript
