@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.3
+* [BUGFIX] Prevents infinite loop in IE 11 if the storage event fires in the same tab. Thanks to [@MattNguyen](https://github.com/MattNguyen) for reporting.
+
 ## 0.1.2
 * [BUGFIX] Prevents the value to become `null` if the `newValue` of the storage event is `undefined` or `null`.
 * [BUGFIX] Prevents infinite loop in IE 11 if the storage event fires in the same tab.
