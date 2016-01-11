@@ -19,21 +19,23 @@ See the [CHANGELOG](CHANGELOG.md)
 
 ## Usage
 
-* [Object](#object)
-* [Array](#array)
-* [DS.Adapter & DS.Serializer](#adapter--serializer)
-* [.query() & .queryRecord()](#query--queryrecord)
-* [Import & Export of localStorage records](#export--import)
-
-### Object & Array
-
 If you upgrade from a version `<= 0.1.2` you need to set a `legacyKey` on the computed `storageFor`:
 ```javascript
 export default Ember.Component.extend({
   settings: storageFor('settings', null, {legacyKey: 'your-old-key'})
 });
 ```
+* [Object & Array](#object--array)
+ * [Object](#object)
+ * [Array](#array)
+ * [storageFor](#storagefor-options)
+ * [Methods](#methods)
+* [Adapter & Serializer](#adapter--serializer)
+ * [Model](#model)
+ * [.query() & .queryRecord()](#query--queryrecord)
+ * [Import & Export of localStorage records](#export--import)
 
+### Object & Array
 
 #### Object
 

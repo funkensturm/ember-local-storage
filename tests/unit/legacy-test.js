@@ -22,7 +22,6 @@ module('legacy - config', {
     container = new Ember.Container(registry);
 
     // old serialized content
-    console.log('setup');
     window.localStorage.settings = JSON.stringify({
       mapStyle: 'dark'
     });
