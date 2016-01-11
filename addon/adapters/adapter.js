@@ -118,37 +118,31 @@ export default Adapter.extend(ImportExportMixin, {
       });
   },
 
+  // Delegate to _handleStorageRequest
   ajax() {
     return this._handleStorageRequest.apply(this, arguments);
   },
 
+  // Delegate to _handle${type}Request
   _handleStorageRequest(url, type, options = {}) {
     if (this._debug) {
       console.log(url, type, options);
     }
 
-    return new Ember.RSVP.Promise((resolve) => {
-      let data;
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      if (this[`_handle${type}Request`]) {
+        const data = this[`_handle${type}Request`](url, options.data);
 
-      if (type === 'GET') {
-        data = this._handleGETRequest(url, options.data);
+        // TODO make it work for RESTAdapter
+        Ember.run(null, resolve, {data: data});
+      } else {
+        Ember.run(
+          null,
+          reject,
+          `There is nothing to handle _handle${type}Request`
+        );
       }
-
-      if (type === 'POST') {
-        data = this._handlePOSTRequest(options.data);
-      }
-
-      if (type === 'PATCH') {
-        data = this._handlePATCHRequest(options.data);
-      }
-
-      if (type === 'DELETE') {
-        data = this._handleDELETERequest(url);
-      }
-
-      // TODO make it work for RESTAdapter
-      Ember.run(null, resolve, {data: data});
-    }, 'DS: LocalStorageAdapter#_handleRequest ' + type + ' to ' + url);
+    }, 'DS: LocalStorageAdapter#_handleStorageRequest ' + type + ' to ' + url);
   },
 
   _handleGETRequest(url, query) {
@@ -176,7 +170,7 @@ export default Adapter.extend(ImportExportMixin, {
     return records;
   },
 
-  _handlePOSTRequest(record) {
+  _handlePOSTRequest(url, record) {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
 
@@ -186,7 +180,7 @@ export default Adapter.extend(ImportExportMixin, {
     return null;
   },
 
-  _handlePATCHRequest(record) {
+  _handlePATCHRequest(url, record) {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
 
