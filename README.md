@@ -27,87 +27,113 @@ See the [CHANGELOG](CHANGELOG.md)
 
 ### Object & Array
 
+If you upgrade from a version `<= 0.1.2` you need to set a `legacyKey` on the computed `storageFor`:
+```javascript
+export default Ember.Component.extend({
+  settings: storageFor('settings', null, {legacyKey: 'your-old-key'})
+});
+```
+
+
 #### Object
 
 ```javascript
-// app/models/settings.js
+// app/storages/settings.js
 import StorageObject from 'ember-local-storage/local/object';
 // or use sessionStorage
 // `import StorageObject from 'ember-local-storage/session/object';`
 
-export default StorageObject.extend({
-  storageKey: 'your-app-settings',
-  initialContent: {
-    welcomeMessageSeen: false
+const Storage = StorageObject.extend();
+
+Storage.reopenClass({
+  initialState() {
+    return {
+      counter: 0
+    };
   }
 });
+
+export default Storage;
 ```
 
 ```javascript
 // app/controllers/application.js
 import Ember from 'ember';
-import Settings from 'your-app/models/settings';
+import { storageFor } from 'ember-local-storage/helpers/storage';
 
 export default Ember.Controller.extend({
-  settings: Settings.create(),
+  stats: storageFor('stats'),
 
   actions: {
-	hideWelcomeMessage: function() {
-		this.set('settings.welcomeMessageSeen', true);
-	}
+    countUp() {
+      this.incrementProperty('stats.counter');
+    },
+    resetCounter() {
+      this.get('stats').clear();
+      // or
+      // this.get('stats').reset();
+      // this.set('stats.counter', 0);
+    }
   }
 });
 ```
 
 ```handlebars
 {{! app/templates/application.hbs}}
-{{#unless settings.welcomeMessageSeen}}
-  Welcome message.
-  <button {{action "hideWelcomeMessage"}}>X</button>
-{{/unless}}
+<button {{action "countUp"}}>Page Visits: {{stats.counter}}</button>
+<button {{action "resetCounter"}}>X</button>
 ```
 
 #### Array
 
 ```javascript
-// app/models/anonymous-likes.js
+// app/storages/anonymous-likes.js
 import StorageArray from 'ember-local-storage/local/array';
 // or use sessionStorage
 // `import StorageArray from 'ember-local-storage/session/array';`
 
-export default StorageArray.extend({
-  storageKey: 'your-app-anonymous-likes'
-});
+export default StorageArray.extend();
 ```
 
 ```javascript
-// app/controllers/item.js
+// app/components/like-item.js
 import Ember from 'ember';
-import AnonymousLikes from 'your-app/models/anonymous-likes';
 
-export default Ember.ObjectController.extend({
-  anonymousLikes: AnonymousLikes.create(),
+export default Ember.Component.extend({
+  anonymousLikes: storageFor('anonymous-likes'),
 
   isLiked: computed('id', function() {
-	return this.get('anonymousLikes').contains(this.get('id'));
+    return this.get('anonymousLikes').contains(this.get('id'));
   }),
 
   actions: {
-	like: function() {
-		this.get('anonymousLikes').addObject(this.get('id'));
-	}
+    like: function(id) {
+      this.get('anonymousLikes').addObject(id);
+    }
   }
 });
 ```
 
 ```handlebars
-{{! app/templates/item.hbs}}
+{{! app/templates/components/like-item.hbs}}
 {{#unless isLiked}}
-  <button {{action "like"}}>Like it</button>
+  <button {{action "like" id}}>Like it</button>
 {{else}}
   You like it!
 {{/unless}}
 ```
+
+#### storageFor options
+
+`storageFor(kye, model, options)`
+
+`key` String
+
+`model` An ember data model or an object with `modelName` and `id` properties. (It is still experimental)
+
+`options` are:
+- `legacyKey` String
+
 
 #### Methods
 

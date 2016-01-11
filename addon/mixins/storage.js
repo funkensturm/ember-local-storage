@@ -15,15 +15,16 @@ const {
 export default Mixin.create({
   storageKey: null,
   initialContent: null,
+  _initialContent: null,
   _initialContentString: null,
   _isInitialContent: true,
 
   init: function() {
-    const storage = this.storage(),
-      initialContent = get(this, 'initialContent');
+    const storage = this.storage();
 
     let serialized, content,
-      storageKey = get(this, 'storageKey');
+      storageKey = get(this, 'storageKey'),
+      initialContent = get(this, '_initialContent');
 
     // TODO remove on 1.0 release and make storageKey a const
     if (get(this, 'localStorageKey')) {
@@ -33,6 +34,12 @@ export default Mixin.create({
 
     if (!storageKey) {
       throw new Error('You must specify which property name should be used to save ' + this + ' in ' + get(this, '_storage') + 'Storage by setting its storageKey property.');
+    }
+
+    // TODO remove on 1.0 release and make initialContent a const
+    if (get(this, 'initialContent')) {
+      initialContent = get(this, 'initialContent');
+      deprecate('Usage of initialContent is deprecated use initialState() function instead.');
     }
 
     if (!initialContent) {
@@ -100,7 +107,7 @@ export default Mixin.create({
   },
 
   _getInitialContentCopy: function() {
-    const initialContent = get(this, 'initialContent'),
+    const initialContent = get(this, '_initialContent'),
       content = copy(initialContent, true);
 
     // Ember.copy returns a normal array when prototype extensions are off

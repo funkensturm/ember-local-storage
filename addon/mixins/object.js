@@ -4,7 +4,7 @@ import StorageProxyMixin from './storage';
 const set = Ember.set;
 
 export default Ember.Mixin.create(StorageProxyMixin, {
-  initialContent: {},
+  _initialContent: {},
 
   // TODO remove on 1.0 release i guess it's not a breaking change but i'm not sure
   setUnknownProperty: function(key) {
