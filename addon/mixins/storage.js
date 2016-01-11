@@ -14,6 +14,7 @@ const {
 
 export default Mixin.create({
   storageKey: null,
+  // TODO remove on 1.0 release
   initialContent: null,
   _initialContent: null,
   _initialContentString: null,
@@ -29,9 +30,10 @@ export default Mixin.create({
     // TODO remove on 1.0 release and make storageKey a const
     if (get(this, 'localStorageKey')) {
       storageKey = get(this, 'localStorageKey');
-      deprecate('Usage of localStorageKey is deprecated use storageKey instead.');
+      deprecate('Usage of localStorageKey is deprecated use the generator instead: ember g storage -h');
     }
 
+    // TODO Do we need it? we should check for the key in storageFor
     if (!storageKey) {
       throw new Error('You must specify which property name should be used to save ' + this + ' in ' + get(this, '_storage') + 'Storage by setting its storageKey property.');
     }
@@ -39,9 +41,10 @@ export default Mixin.create({
     // TODO remove on 1.0 release and make initialContent a const
     if (get(this, 'initialContent')) {
       initialContent = get(this, 'initialContent');
-      deprecate('Usage of initialContent is deprecated use initialState() function instead.');
+      deprecate('Usage of initialContent is deprecated use the generator instead: ember g storage -h');
     }
 
+    // TODO do we need it?
     if (!initialContent) {
       throw new Error('You must specify the initialContent.');
     }
@@ -62,6 +65,7 @@ export default Mixin.create({
     // Do not change to set(this, 'content', content)
     this.set('content', content);
 
+    // TODO move into method
     // Keep in sync with other windows
     if (window.addEventListener) {
       window.addEventListener('storage', (event) => {
@@ -85,6 +89,7 @@ export default Mixin.create({
     return this._super.apply(this, arguments);
   },
 
+  // TODO make it private
   save: function() {
     const storage = this.storage(),
       content = get(this, 'content'),
@@ -102,6 +107,7 @@ export default Mixin.create({
     }
   },
 
+  // TODO make it private
   storage: function() {
     return getStorage(get(this, '_storage'));
   },
@@ -115,10 +121,15 @@ export default Mixin.create({
     return isArray(content) ? Ember.A(content) : content;
   },
 
+  // Public API
+
+  // returns boolean
   isInitialContent: function() {
     return get(this, '_isInitialContent');
   },
 
+  // reset the content
+  // returns void
   reset: function() {
     const content = this._getInitialContentCopy();
 
@@ -127,6 +138,8 @@ export default Mixin.create({
     set(this, '_isInitialContent', true);
   },
 
+  // clear the content
+  // returns void
   clear: function() {
     this._clear();
     delete this.storage()[get(this, 'storageKey')];

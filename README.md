@@ -167,12 +167,12 @@ The following methods work on `StorageObject` and `StorageArray`
 
 **.isInitialContent()**
 
-You can call `.isInitialContent()` to determine if `content` is equal to `initialContent`.
+You can call `.isInitialContent()` to determine if `content` is equal to `initialState`.
 Returns a boolean.
 
 **.reset()**
 
-You can invoke `.reset()` to reset the `content` to the `initialContent`.
+You can invoke `.reset()` to reset the `content` to the `initialState`.
 
 **.clear()**
 
