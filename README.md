@@ -338,6 +338,8 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 ## Publishing
 
 ```bash
+ember github-pages:commit --message "New gh-pages release"
+
 ember release
 npm publish
 ```
