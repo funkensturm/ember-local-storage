@@ -32,8 +32,8 @@ moduleForModel('post', 'Unit | Model | query', {
   }
 });
 
-test('attributes (string and regex)', function(assert) {
-  assert.expect(3);
+test('attributes (string, regex, boolean, number)', function(assert) {
+  assert.expect(5);
   const done = assert.async();
   const store = this.store();
 
@@ -51,10 +51,29 @@ test('attributes (string and regex)', function(assert) {
       name: 'Just a Name',
       commentCount: 3
     }).save();
+    store.createRecord('post', {
+      commentCount: 2,
+      isPrivate: false
+    }).save();
+    store.createRecord('post', {
+      commentCount: 0
+    }).save();
   });
 
   // string
   store.query('post', { filter: { name: 'Super Name' } })
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 1);
+    });
+
+  // boolean
+  store.query('post', { filter: { isPrivate: false } })
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 1);
+    });
+
+  // number
+  store.query('post', { filter: { commentCount: 0 } })
     .then(function(posts) {
       assert.equal(get(posts, 'length'), 1);
     });
