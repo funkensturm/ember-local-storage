@@ -4,7 +4,6 @@ import { getStorage } from '../helpers/storage';
 import StorageArray from '../local/array';
 import ImportExportMixin from '../mixins/adapters/import-export';
 
-const get = Ember.get;
 const keys = Object.keys || Ember.keys;
 
 const {
@@ -12,6 +11,9 @@ const {
 } = DS;
 
 const {
+  get,
+  RSVP,
+  run,
   Inflector,
   typeOf,
   isEmpty
@@ -129,14 +131,14 @@ export default Adapter.extend(ImportExportMixin, {
       console.log(url, type, options);
     }
 
-    return new Ember.RSVP.Promise((resolve, reject) => {
-      if (this[`_handle${type}Request`]) {
-        const data = this[`_handle${type}Request`](url, options.data);
-
+    return new RSVP.Promise((resolve, reject) => {
+      const handler = this[`_handle${type}Request`];
+      if (handler) {
+        const data = handler.call(this, url, options.data);
         // TODO make it work for RESTAdapter
-        Ember.run(null, resolve, {data: data});
+        run(null, resolve, {data: data});
       } else {
-        Ember.run(
+        run(
           null,
           reject,
           `There is nothing to handle _handle${type}Request`
@@ -222,7 +224,7 @@ export default Adapter.extend(ImportExportMixin, {
           recordValue = data.attributes ? data.attributes[key] : null;
         }
 
-        if (recordValue) {
+        if (recordValue !== undefined) {
           return this._matches(recordValue, queryValue);
         }
 
