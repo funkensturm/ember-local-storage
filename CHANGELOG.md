@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.4
+* [BUGFIX] Allow querying on boolean attributes that are false. Thanks to [@Ramblurr](https://github.com/Ramblurr) for reporting and [@bekzod](https://github.com/bekzod) for fixing.
+
 ## 0.1.3
 * [BUGFIX] Prevents infinite loop in IE 11 if the storage event fires in the same tab. Thanks to [@MattNguyen](https://github.com/MattNguyen) for reporting.
 
