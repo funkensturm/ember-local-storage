@@ -10,13 +10,23 @@ module.exports = {
   included: function included(app) {
     // determine if ember-data is present
     var checker = new VersionChecker(this);
-    var dep = checker.for('ember-data', 'bower');
+    var bowerDep = checker.for('ember-data', 'bower');
+    var npmDep = checker.for('ember-data', 'npm');
 
     if (
-      dep.version && (
-        dep.satisfies('>= 1.13.0') ||
-        dep.satisfies('>= 2.0.0') ||
-        dep.gt('2.0.0')
+      (
+        bowerDep.version && (
+          bowerDep.satisfies('>= 1.13.0') ||
+          bowerDep.satisfies('>= 2.0.0') ||
+          bowerDep.gt('2.0.0')
+        )
+      ) ||
+      (
+        npmDep.version  && (
+          npmDep.satisfies('>= 1.13.0') ||
+          npmDep.satisfies('>= 2.0.0') ||
+          npmDep.gt('2.0.0')
+        )
       )
     ) {
       this.hasEmberData = true;

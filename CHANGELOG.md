@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.5
+* [BUGFIX] Fixes detection of `ember-data` now that it is an addon (npm package). Thanks to [@Arkham](https://github.com/Arkham) for reporting.
+
 ## 0.1.4
 * [BUGFIX] Allow querying on boolean attributes that are false. Thanks to [@Ramblurr](https://github.com/Ramblurr) for reporting and [@bekzod](https://github.com/bekzod) for fixing.
 
