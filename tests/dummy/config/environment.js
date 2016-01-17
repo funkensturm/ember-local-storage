@@ -45,7 +45,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = '/ember-local-storage'
+    ENV.locationType = 'hash';
   }
 
   return ENV;
