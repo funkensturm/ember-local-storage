@@ -40,7 +40,7 @@ module('legacy - config', {
 
     subject = Ember.Object.extend({
       container,
-      settings: storageFor('config', null, { legacyKey: 'settings' })
+      settings: storageFor('config', { legacyKey: 'settings' })
     }).create();
   },
   afterEach() {
@@ -52,8 +52,8 @@ module('legacy - config', {
 test('it has correct defaults', function(assert) {
   assert.expect(3);
 
-  assert.equal(subject.get('settings._storage'), 'local');
-  assert.equal(subject.get('settings.storageKey'), 'settings');
+  assert.equal(subject.get('settings._storageType'), 'local');
+  assert.equal(subject.get('settings._storageKey'), 'settings');
   assert.deepEqual(subject.get('settings._initialContent'), {
     token: 1234
   });

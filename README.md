@@ -22,7 +22,7 @@ See the [CHANGELOG](CHANGELOG.md)
 If you upgrade from a version `<= 0.1.2` you need to set a `legacyKey` on the computed `storageFor`:
 ```javascript
 export default Ember.Component.extend({
-  settings: storageFor('settings', null, {legacyKey: 'your-old-key'})
+  settings: storageFor('settings', { legacyKey: 'your-old-key' })
 });
 ```
 * [Object & Array](#object--array)
@@ -152,11 +152,11 @@ export default Ember.Component.extend({
 
 #### storageFor options
 
-`storageFor(kye, model, options)`
+`storageFor(key, model, options)`
 
 `key` String
 
-`model` An ember data model or an object with `modelName` and `id` properties. (It is still experimental)
+`model` Optional string - The dependent property. Must be an ember data model or an object with `modelName` and `id` properties. (It is still experimental)
 
 `options` are:
 - `legacyKey` String

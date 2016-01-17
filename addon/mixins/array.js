@@ -8,13 +8,13 @@ export default Ember.Mixin.create(StorageProxyMixin, {
 
   replaceContent: function() {
     this._super.apply(this, arguments);
-    this.save();
+    this._save();
   },
 
   // we need to save
   reset: function() {
     this._super.apply(this, arguments);
-    this.save();
+    this._save();
   },
 
   _clear: function() {

@@ -38,6 +38,11 @@ function getStorage(name) {
 let storages = {};
 
 function storageFor(key, modelName, options = {}) {
+  if (arguments.length === 2 && typeof modelName === 'object') {
+    options = modelName;
+    modelName = null;
+  }
+
   assert('The options argument must be an object', typeof options === 'object');
 
   // normalize key
@@ -79,23 +84,23 @@ function storageFor(key, modelName, options = {}) {
  * on the instance if desired.
  */
 function createStorage(context, key, modelKey, options) {
-  const storage = `storage:${key}`;
+  const storageFactory = `storage:${key}`;
   let storageKey;
 
   if (options.legacyKey) {
     storageKey = options.legacyKey;
   } else {
-    storageKey = modelKey ? `${storage}:${modelKey}` : storage;
+    storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
   }
 
   const initialState = {},
     defaultState = {
-      storageKey: storageKey
+      _storageKey: storageKey
     },
-    StorageFactory = context.container.lookupFactory(storage);
+    StorageFactory = context.container.lookupFactory(storageFactory);
 
   if (!StorageFactory) {
-    throw new TypeError(`Unknown StorageFactory: ${storage}`);
+    throw new TypeError(`Unknown StorageFactory: ${storageFactory}`);
   }
 
   if (typeof(StorageFactory.initialState) === 'function') {
@@ -124,6 +129,7 @@ function _modelKey(model) {
   return `${modelName}:${id}`;
 }
 
+// Testing helper
 function _resetStorages() {
   storages = {};
 }

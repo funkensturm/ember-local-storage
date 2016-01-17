@@ -70,14 +70,14 @@ module('object - settings', {
 test('it has correct defaults', function(assert) {
   assert.expect(6);
 
-  assert.equal(subject.get('settings._storage'), 'local');
-  assert.equal(subject.get('settings.storageKey'), 'storage:settings');
+  assert.equal(subject.get('settings._storageType'), 'local');
+  assert.equal(subject.get('settings._storageKey'), 'storage:settings');
   assert.deepEqual(subject.get('settings._initialContent'), {
     welcomeMessageSeen: false
   });
 
-  assert.equal(subject.get('cache._storage'), 'session');
-  assert.equal(subject.get('cache.storageKey'), 'storage:cache');
+  assert.equal(subject.get('cache._storageType'), 'session');
+  assert.equal(subject.get('cache._storageKey'), 'storage:cache');
   assert.deepEqual(subject.get('cache._initialContent'), {});
 });
 
@@ -114,8 +114,8 @@ test('it saves changes to localStorage', function(assert) {
 test('it does not share data', function(assert) {
   assert.expect(10);
 
-  assert.equal(subject.get('cache._storage'), 'session');
-  assert.equal(subject.get('cache.storageKey'), 'storage:cache');
+  assert.equal(subject.get('cache._storageType'), 'session');
+  assert.equal(subject.get('cache._storageKey'), 'storage:cache');
   assert.deepEqual(subject.get('cache._initialContent'), {});
 
   Ember.run(function() {
@@ -124,8 +124,8 @@ test('it does not share data', function(assert) {
 
   assert.deepEqual(subject.get('cache.key1'), '123456');
 
-  assert.equal(subject.get('localCache._storage'), 'local');
-  assert.equal(subject.get('localCache.storageKey'), 'storage:local-cache');
+  assert.equal(subject.get('localCache._storageType'), 'local');
+  assert.equal(subject.get('localCache._storageKey'), 'storage:local-cache');
   assert.deepEqual(subject.get('localCache._initialContent'), {});
 
   assert.deepEqual(subject.get('cache.key1'), '123456');
@@ -150,7 +150,7 @@ test('it updates when change events fire', function(assert) {
     key: 'storage:settings',
     newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
     oldValue: '{"welcomeMessageSeen":false}',
-    storageArea: subject.get('settings').storage()
+    storageArea: subject.get('settings')._storage()
   }));
   assert.equal(subject.get('settings.welcomeMessageSeen'), false);
   assert.equal(subject.get('settings.changeFired'), true);

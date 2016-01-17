@@ -42,9 +42,9 @@ module('array - likes', {
 test('it has correct defaults', function(assert) {
   assert.expect(3);
 
-  assert.equal(subject.get('anonymousLikes._storage'), 'local');
+  assert.equal(subject.get('anonymousLikes._storageType'), 'local');
   assert.equal(
-    subject.get('anonymousLikes.storageKey'),
+    subject.get('anonymousLikes._storageKey'),
     'storage:anonymous-likes'
   );
   assert.deepEqual(subject.get('anonymousLikes._initialContent'), []);

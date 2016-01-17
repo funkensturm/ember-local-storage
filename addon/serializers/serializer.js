@@ -4,10 +4,7 @@ const {
   JSONAPISerializer
 } = DS;
 
-// TODO const Serializer = JSONAPISerializer || RESTSerializer;
-const Serializer = JSONAPISerializer;
-
-export default Serializer.extend({
+export default JSONAPISerializer.extend({
   // Serialization behavior
   _shouldSerializeHasMany: function() { return true; }
 });
