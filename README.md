@@ -4,7 +4,9 @@
 [![Ember Observer Score](http://emberobserver.com/badges/ember-local-storage.svg)](http://emberobserver.com/addons/ember-local-storage)
 
 
-An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app. It ships with an ember-data adapter that works almost the same as the new JSONAPIAdapter with some relationship sugar added.
+The addon provides a `storageFor` computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It works with objects and arrays and has a generator to create the proxy objects or arrays.
+
+It ships with an ember-data adapter that works almost the same as the new JSONAPIAdapter with some relationship sugar added.
 
 The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 
@@ -19,7 +21,9 @@ See the [CHANGELOG](CHANGELOG.md)
 
 ## Usage
 
-If you upgrade from a version `<= 0.1.2` you need to set a `legacyKey` on the computed `storageFor`:
+The documentation is for versions `>= 1.0.0` if you are looking for older versions look [here](https://github.com/funkensturm/ember-local-storage/tree/v0.1.5#readme).
+
+If you upgrade from a version `<= 0.1.5` you need to set a `legacyKey` on the computed `storageFor`:
 ```javascript
 export default Ember.Component.extend({
   settings: storageFor('settings', { legacyKey: 'your-old-key' })
@@ -154,7 +158,7 @@ export default Ember.Component.extend({
 
 `storageFor(key, model, options)`
 
-`key` String
+`key` String - The filename of the storage (e.g. stats)
 
 `model` Optional string - The dependent property. Must be an ember data model or an object with `modelName` and `id` properties. (It is still experimental)
 
