@@ -6,7 +6,7 @@
 
 The addon provides a `storageFor` computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It works with objects and arrays and has a generator to create the proxy objects or arrays.
 
-It ships with an ember-data adapter that works almost the same as the new JSONAPIAdapter with some relationship sugar added.
+It ships with an ember-data adapter that works almost the same as the JSONAPIAdapter with some relationship sugar added.
 
 The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 The `storageFor` API was inspired by [Ember State Services](https://github.com/stefanpenner/ember-state-services).
