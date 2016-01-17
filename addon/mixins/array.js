@@ -4,17 +4,17 @@ import StorageProxyMixin from './storage';
 const set = Ember.set;
 
 export default Ember.Mixin.create(StorageProxyMixin, {
-  initialContent: Ember.A(),
+  _initialContent: Ember.A(),
 
   replaceContent: function() {
     this._super.apply(this, arguments);
-    this.save();
+    this._save();
   },
 
   // we need to save
   reset: function() {
     this._super.apply(this, arguments);
-    this.save();
+    this._save();
   },
 
   _clear: function() {

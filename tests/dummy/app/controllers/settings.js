@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import Settings from 'dummy/models/settings';
+import { storageFor } from 'ember-local-storage/helpers/storage';
 
 export default Ember.Controller.extend({
-  settings: Settings.create(),
+  settings: storageFor('settings'),
 
   actions: {
-    hideWelcomeMessage: function() {
+    hideWelcomeMessage() {
       this.set('settings.welcomeMessageSeen', true);
     }
   }

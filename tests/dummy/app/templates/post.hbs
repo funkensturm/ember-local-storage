@@ -3,6 +3,10 @@
 {{model.name}}<br>
 {{model.comments.length}}<br>
 
+<button {{action "countUp"}}>Post Visits: {{postStats.counter}}</button>
+
+<button {{action "resetCounter"}}>X</button>
+
 <br>
 {{#each model.comments as |comment|}}
   {{comment.name}} -

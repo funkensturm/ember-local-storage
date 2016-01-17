@@ -4,7 +4,6 @@ import { getStorage } from '../helpers/storage';
 import StorageArray from '../local/array';
 import ImportExportMixin from '../mixins/adapters/import-export';
 
-const get = Ember.get;
 const keys = Object.keys || Ember.keys;
 
 const {
@@ -12,6 +11,9 @@ const {
 } = DS;
 
 const {
+  get,
+  RSVP,
+  run,
   Inflector,
   typeOf,
   isEmpty
@@ -20,10 +22,7 @@ const {
 // Ember data ships with ember-inflector
 const inflector = Inflector.inflector;
 
-// TODO const Adapter = JSONAPIAdapter || RESTAdapter;
-const Adapter = JSONAPIAdapter;
-
-export default Adapter.extend(ImportExportMixin, {
+export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
   _storage: getStorage('local'),
   _indices: {},
@@ -129,14 +128,13 @@ export default Adapter.extend(ImportExportMixin, {
       console.log(url, type, options);
     }
 
-    return new Ember.RSVP.Promise((resolve, reject) => {
-      if (this[`_handle${type}Request`]) {
-        const data = this[`_handle${type}Request`](url, options.data);
-
-        // TODO make it work for RESTAdapter
-        Ember.run(null, resolve, {data: data});
+    return new RSVP.Promise((resolve, reject) => {
+      const handler = this[`_handle${type}Request`];
+      if (handler) {
+        const data = handler.call(this, url, options.data);
+        run(null, resolve, {data: data});
       } else {
-        Ember.run(
+        run(
           null,
           reject,
           `There is nothing to handle _handle${type}Request`
@@ -166,7 +164,6 @@ export default Adapter.extend(ImportExportMixin, {
         return this._queryFilter(record, serializer, query.filter);
       });
     }
-
     return records;
   },
 
@@ -222,7 +219,7 @@ export default Adapter.extend(ImportExportMixin, {
           recordValue = data.attributes ? data.attributes[key] : null;
         }
 
-        if (recordValue) {
+        if (recordValue !== undefined) {
           return this._matches(recordValue, queryValue);
         }
 
@@ -303,7 +300,7 @@ export default Adapter.extend(ImportExportMixin, {
 
     if (!indices[type]) {
       indices[type] = StorageArray
-        .extend({storageKey: 'index-' + type})
+        .extend({ _storageKey: 'index-' + type })
         .create();
     }
 
