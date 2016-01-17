@@ -22,10 +22,7 @@ const {
 // Ember data ships with ember-inflector
 const inflector = Inflector.inflector;
 
-// TODO const Adapter = JSONAPIAdapter || RESTAdapter;
-const Adapter = JSONAPIAdapter;
-
-export default Adapter.extend(ImportExportMixin, {
+export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
   _storage: getStorage('local'),
   _indices: {},
@@ -135,7 +132,6 @@ export default Adapter.extend(ImportExportMixin, {
       const handler = this[`_handle${type}Request`];
       if (handler) {
         const data = handler.call(this, url, options.data);
-        // TODO make it work for RESTAdapter
         run(null, resolve, {data: data});
       } else {
         run(
@@ -304,7 +300,7 @@ export default Adapter.extend(ImportExportMixin, {
 
     if (!indices[type]) {
       indices[type] = StorageArray
-        .extend({storageKey: 'index-' + type})
+        .extend({ _storageKey: 'index-' + type })
         .create();
     }
 

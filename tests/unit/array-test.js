@@ -4,158 +4,163 @@ import {
   storageDeepEqual
 } from '../helpers/storage';
 
-import AnonymousLikes from 'dummy/models/anonymous-likes';
+import StorageArray from 'ember-local-storage/local/array';
+import {
+  storageFor,
+  _resetStorages
+} from 'ember-local-storage/helpers/storage';
+
+let registry;
+let container;
+let subject;
+
+const registryOpts = { singleton: true, instantiate: false };
 
 module('array - likes', {
-  afterEach: function() {
+  setup() {
+    registry  = new Ember.Registry();
+    container = new Ember.Container(registry);
+
+    let mockStorage = StorageArray.extend();
+    let mockStorageB = StorageArray.extend();
+
+    registry.register('storage:anonymous-likes', mockStorage, registryOpts);
+    registry.register('storage:post-likes', mockStorageB, registryOpts);
+
+    subject = Ember.Object.extend({
+      container,
+      anonymousLikes: storageFor('anonymous-likes'),
+      postLikes: storageFor('post-likes')
+    }).create();
+  },
+  afterEach() {
     window.localStorage.clear();
+    _resetStorages();
   }
 });
 
-test('it does not share data', function(assert) {
-  var imageLikes,
-    postLikes;
+test('it has correct defaults', function(assert) {
+  assert.expect(3);
 
+  assert.equal(subject.get('anonymousLikes._storageType'), 'local');
+  assert.equal(
+    subject.get('anonymousLikes._storageKey'),
+    'storage:anonymous-likes'
+  );
+  assert.deepEqual(subject.get('anonymousLikes._initialContent'), []);
+});
+
+test('it does not share data', function(assert) {
   assert.expect(5);
 
   // ImageLikes
-  imageLikes = AnonymousLikes.create({
-    storageKey: 'image-likes',
-  });
-
-  assert.deepEqual(imageLikes.get('initialContent'), []);
-
+  assert.deepEqual(subject.get('anonymousLikes._initialContent'), []);
   Ember.run(function() {
-    imageLikes.addObject('martin');
+    subject.get('anonymousLikes').addObject('martin');
   });
-
-  assert.deepEqual(imageLikes.get('content'), ['martin']);
-
+  assert.deepEqual(subject.get('anonymousLikes.content'), ['martin']);
 
   // PostLikes
-  postLikes = AnonymousLikes.create({
-    storageKey: 'post-likes',
-  });
-
-  assert.deepEqual(postLikes.get('initialContent'), []);
-
+  assert.deepEqual(subject.get('postLikes._initialContent'), []);
   Ember.run(function() {
-    postLikes.addObject('peter');
+    subject.get('postLikes').addObject('peter');
   });
-
-  assert.deepEqual(postLikes.get('content'), ['peter']);
+  assert.deepEqual(subject.get('postLikes.content'), ['peter']);
 
   // ImageLikes don't change
-  assert.deepEqual(imageLikes.get('content'), ['martin']);
+  assert.deepEqual(subject.get('anonymousLikes.content'), ['martin']);
 });
 
 test('reset method restores initialContent', function(assert) {
-  var imageLikes = AnonymousLikes.create({
-    storageKey: 'image-likes',
-  });
-
   assert.expect(4);
 
   //initialContent is set properly
-  assert.deepEqual(imageLikes.get('content'), []);
+  assert.deepEqual(subject.get('postLikes.content'), []);
 
   //add new objects
   Ember.run(function() {
-    imageLikes.addObject('martin');
+    subject.get('postLikes').addObject('martin');
   });
 
   //we expect them to be present
-  assert.deepEqual(imageLikes.get('content'), ['martin']);
+  assert.deepEqual(subject.get('postLikes.content'), ['martin']);
 
   //reset
-  imageLikes.reset();
+  subject.get('postLikes').reset();
 
   //data is back to initial values
-  assert.deepEqual(imageLikes.get('content'), []);
+  assert.deepEqual(subject.get('postLikes.content'), []);
 
   // localStorage is in sync
-  storageDeepEqual(assert, window.localStorage['image-likes'], []);
+  storageDeepEqual(assert, window.localStorage['storage:post-likes'], []);
 });
 
 test('it updates _isInitialContent', function(assert) {
   assert.expect(2);
 
-  const imageLikes = AnonymousLikes.create({
-    storageKey: 'image-likes',
-  });
-
-  assert.equal(imageLikes.isInitialContent(), true);
-
+  assert.equal(subject.get('postLikes').isInitialContent(), true);
   Ember.run(function() {
-    imageLikes.addObject('martin');
+    subject.get('postLikes').addObject('martin');
   });
-
-  assert.equal(imageLikes.isInitialContent(), false);
+  assert.equal(subject.get('postLikes').isInitialContent(), false);
 });
 
 test('it updates _isInitialContent on reset', function(assert) {
   assert.expect(2);
 
-  const imageLikes = AnonymousLikes.create({
-    storageKey: 'image-likes',
+  Ember.run(function() {
+    subject.get('postLikes').addObject('martin');
   });
+  assert.equal(subject.get('postLikes').isInitialContent(), false);
 
   Ember.run(function() {
-    imageLikes.addObject('martin');
+    subject.get('postLikes').reset();
   });
-
-  assert.equal(imageLikes.isInitialContent(), false);
-
-  Ember.run(function() {
-    imageLikes.reset();
-  });
-
-  assert.equal(imageLikes.isInitialContent(), true);
+  assert.equal(subject.get('postLikes').isInitialContent(), true);
 });
 
 test('clear method removes the content from localStorage', function(assert) {
   assert.expect(2);
 
-  const imageLikes = AnonymousLikes.create({
-    storageKey: 'image-likes',
+  Ember.run(function() {
+    subject.get('postLikes').addObject('martin');
   });
+  storageDeepEqual(
+    assert,
+    window.localStorage['storage:post-likes'],
+    ['martin']
+  );
 
   Ember.run(function() {
-    imageLikes.addObject('martin');
+    subject.get('postLikes').clear();
   });
-
-  storageDeepEqual(assert, window.localStorage['image-likes'], ['martin']);
-
-  Ember.run(function() {
-    imageLikes.clear();
-  });
-
-  assert.equal(window.localStorage['image-likes'], undefined);
+  assert.equal(window.localStorage['storage:post-likes'], undefined);
 });
 
 test('after .clear() the array works as expected', function(assert) {
   assert.expect(4);
 
-  const imageLikes = AnonymousLikes.create({
-    storageKey: 'image-likes',
+  Ember.run(function() {
+    subject.get('postLikes').addObject('martin');
   });
+  storageDeepEqual(
+    assert,
+    window.localStorage['storage:post-likes'],
+    ['martin']
+  );
 
   Ember.run(function() {
-    imageLikes.addObject('martin');
+    subject.get('postLikes').clear();
   });
-
-  storageDeepEqual(assert, window.localStorage['image-likes'], ['martin']);
+  assert.equal(window.localStorage['storage:post-likes'], undefined);
 
   Ember.run(function() {
-    imageLikes.clear();
+    subject.get('postLikes').addObject('martin');
   });
-
-  assert.equal(window.localStorage['image-likes'], undefined);
-
-  Ember.run(function() {
-    imageLikes.addObject('martin');
-  });
-
-  storageDeepEqual(assert, window.localStorage['image-likes'], ['martin']);
-  assert.deepEqual(imageLikes.get('content'), ['martin']);
+  storageDeepEqual(
+    assert,
+    window.localStorage['storage:post-likes'],
+    ['martin']
+  );
+  assert.deepEqual(subject.get('postLikes.content'), ['martin']);
 });

@@ -73,9 +73,9 @@ test('attributes (string, regex, boolean, number)', function(assert) {
     });
 
   // number
-  store.query('post', { filter: { commentCount: 0 } })
+  store.query('post', { filter: { commentCount: 3 } })
     .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
+      assert.equal(get(posts, 'length'), 2);
     });
 
   // regex
