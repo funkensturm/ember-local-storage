@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+* [ENHANCEMENT] New `storageFor` API. See the README for more information.
+* [BREAKING] Not sure if the release is breaking. If so please open an issue.
+
 ## 0.1.5
 * [BUGFIX] Fixes detection of `ember-data >= 2.3.0` now that it is an addon (npm package). Thanks to [@Arkham](https://github.com/Arkham) for reporting.
 
