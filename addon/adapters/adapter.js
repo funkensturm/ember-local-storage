@@ -153,6 +153,9 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     }
 
     const records = this._getIndex(type)
+      .filter(function(storageKey) {
+        return storage[storageKey];
+      })
       .map(function(storageKey) {
         return JSON.parse(storage[storageKey]);
       });
