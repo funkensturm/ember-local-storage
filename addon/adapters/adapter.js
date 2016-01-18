@@ -164,6 +164,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
         return this._queryFilter(record, serializer, query.filter);
       });
     }
+
     return records;
   },
 

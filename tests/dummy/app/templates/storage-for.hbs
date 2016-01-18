@@ -1,0 +1,29 @@
+<h3>Generator</h3>
+
+<code>
+ember g storage stats
+// will generate a localStorage object
+
+ember g storage stats -s
+// will generate a sessionStorage object
+
+ember g storage anonymous-likes -a
+// will generate a localStorage array
+
+ember g storage anonymous-likes -a -s
+// will generate a sessionStorage array
+</code>
+
+
+<h3>Examples</h3>
+
+<h4>Welcome message</h4>
+
+{{#unless settings.welcomeMessageSeen}}
+  You will see this message until you click
+  <button {{action "hideWelcomeMessage"}}>X</button>
+{{else}}
+  <button {{action "showWelcomeMessage"}}>Undo</button>
+{{/unless}}
+
+{{outlet}}

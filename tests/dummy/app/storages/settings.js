@@ -5,8 +5,8 @@ const Storage = StorageObject.extend();
 Storage.reopenClass({
   initialState() {
     return {
-      apiToken: null,
-      welcomeMessageSeen: false
+      welcomeMessageSeen: false,
+      userId: null
     };
   }
 });

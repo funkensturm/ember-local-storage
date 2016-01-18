@@ -19,7 +19,8 @@ moduleForModel('post', 'Unit | Model | query', {
     'model:editor',
     'model:pet',
     'model:cat',
-    'model:dog'
+    'model:dog',
+    'model:task'
   ],
   beforeEach: function() {
     const adapter = this.container.lookup('adapter:application');
