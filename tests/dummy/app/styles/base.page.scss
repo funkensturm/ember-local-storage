@@ -1,0 +1,33 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  max-width: 1200px;
+  margin: $inuit-base-spacing-unit auto;
+  padding: 0 $inuit-base-spacing-unit;
+
+  a {
+    color: $base-link-color;
+    text-decoration: none;
+
+    &:hover {
+      color: $base-link-hover-color;
+    }
+  }
+
+  code {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.85em;
+    padding: 0;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin: 0;
+    background-color: rgba(0,0,0,0.04);
+    border-radius: 3px;
+
+    &:before,
+    &:after {
+      letter-spacing: -0.2em;
+      content: "\00a0";
+    }
+  }
+}

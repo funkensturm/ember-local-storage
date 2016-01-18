@@ -1,7 +1,7 @@
 {
   "name": "ember-local-storage",
   "version": "0.1.5",
-  "description": "An addon for ember-cli that provides sessionStorage and localStorage object and array in your ember-cli app. It ships with an ember-data adapter that works almost the same as the new JSONAPIAdapter with some relationship sugar added.",
+  "description": "The addon provides a storageFor computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It ships with an ember-data adapter.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -29,8 +29,10 @@
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-ic-ajax": "0.2.4",
     "ember-cli-inject-live-reload": "^1.3.1",
+    "ember-cli-inuitcss": "0.1.2",
     "ember-cli-qunit": "^1.0.4",
     "ember-cli-release": "0.2.8",
+    "ember-cli-sass": "5.2.1",
     "ember-cli-sri": "^1.2.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "1.13.15",

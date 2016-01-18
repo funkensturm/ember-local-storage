@@ -9,9 +9,7 @@ export default Ember.Controller.extend({
       this.incrementProperty('stats.counter');
     },
     resetCounter() {
-      this.get('stats').clear();
-
-      // this.set('stats.counter', 0);
+      this.get('stats').reset();
     }
   }
 });
