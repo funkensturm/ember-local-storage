@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1
+* [ENHANCEMENT] Use `getOwner` polyfill to remove deprecations. Thanks to [@kepek](https://github.com/kepek) for implementing.
+
 ## 1.0.0
 * [ENHANCEMENT] New `storageFor` API. See the README for more information.
 * [BREAKING] Not sure if the release is breaking. If so please open an issue.
