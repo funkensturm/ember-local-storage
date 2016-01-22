@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 import { moduleForModel, test } from 'ember-qunit';
 
 const get = Ember.get;
@@ -19,7 +20,7 @@ moduleForModel('post', 'Unit | Model | post', {
     'model:book-publication'
   ],
   beforeEach: function() {
-    const adapter = this.container.lookup('adapter:application');
+    const adapter = getOwner(this).lookup('adapter:application');
 
     ['posts', 'users', 'projects', 'comments', 'pets'].forEach(function(key) {
       adapter._getIndex(key).reset();

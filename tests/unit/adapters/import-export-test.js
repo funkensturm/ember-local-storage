@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 import { moduleForModel, test } from 'ember-qunit';
 import testData from '../../helpers/test-data';
 import { initialize } from 'ember-local-storage/initializers/local-storage-adapter';
@@ -18,7 +19,7 @@ moduleForModel('post', 'Unit | Adapter | import/export', {
   ],
   beforeEach: function() {
     initialize();
-    const adapter = this.container.lookup('adapter:application');
+    const adapter = getOwner(this).lookup('adapter:application');
     adapter._getIndex('posts').reset();
     adapter._getIndex('comments').reset();
 

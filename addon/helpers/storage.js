@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 
 const {
   assert,
@@ -84,8 +85,13 @@ function storageFor(key, modelName, options = {}) {
  * on the instance if desired.
  */
 function createStorage(context, key, modelKey, options) {
-  const storageFactory = `storage:${key}`;
+  const owner = getOwner(context);
+  const factoryType = 'storage';
+  const storageFactory = `${factoryType}:${key}`;
+
   let storageKey;
+
+  owner.registerOptionsForType(factoryType, { instantiate: false });
 
   if (options.legacyKey) {
     storageKey = options.legacyKey;
@@ -97,7 +103,7 @@ function createStorage(context, key, modelKey, options) {
     defaultState = {
       _storageKey: storageKey
     },
-    StorageFactory = context.container.lookupFactory(storageFactory);
+    StorageFactory = owner.lookup(storageFactory);
 
   if (!StorageFactory) {
     throw new TypeError(`Unknown StorageFactory: ${storageFactory}`);
