@@ -1,3 +1,4 @@
+import getOwner from 'ember-getowner-polyfill';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageEqual,
@@ -8,7 +9,7 @@ moduleFor('adapter:application', 'Unit | Adapter | indices', {
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
   beforeEach: function() {
-    const adapter = this.container.lookup('adapter:application');
+    const adapter = getOwner(this).lookup('adapter:application');
 
     ['projects'].forEach(function(key) {
       adapter._getIndex(key).reset();
