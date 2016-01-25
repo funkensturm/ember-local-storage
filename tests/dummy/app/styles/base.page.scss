@@ -15,19 +15,50 @@ body {
   }
 
   code {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 0.85em;
-    padding: 0;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-    margin: 0;
+    font: 14px Consolas, "Liberation Mono", Menlo, Courier, monospace;
     background-color: rgba(0,0,0,0.04);
     border-radius: 3px;
+    padding: 3px 6px;
+  }
 
-    &:before,
-    &:after {
-      letter-spacing: -0.2em;
-      content: "\00a0";
+  pre {
+    code {
+      padding: 8px;
+      overflow: auto;
+      line-height: 1.35;
+    }
+  }
+
+  .nav {
+    &__item {
+      display: inline-block;
+
+      a {
+        display: block;
+        background-color: #a5c261;
+        border-radius: 3px;
+        padding: 6px 8px;
+
+        &.active,
+        &:hover,
+        &:active {
+          color: $base-link-color;
+          background-color: #c26230;
+        }
+      }
+    }
+  }
+  .example {
+    background-color: #e8bf6a;
+    border-radius: 3px;
+    padding: 8px;
+  }
+
+  .projects {
+    &__list {
+    }
+
+    &__project {
     }
   }
 }

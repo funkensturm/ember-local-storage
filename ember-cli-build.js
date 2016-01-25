@@ -13,6 +13,18 @@ module.exports = function(defaults) {
     This build file does *not* influence how the addon or the app using it
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
+  app.import(app.bowerDirectory + '/highlightjs/styles/railscasts.css');
+  app.import(app.bowerDirectory + '/highlightjs/highlight.pack.js');
+  app.import('vendor/highlightjs-shim.js', {
+    exports: {
+      'highlightjs': [
+        'default',
+        'highlight',
+        'highlightAuto',
+        'highlightBlock'
+      ]
+    }
+  });
 
   return app.toTree();
 };

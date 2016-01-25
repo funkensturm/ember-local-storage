@@ -1,0 +1,33 @@
+Open the developer tools and go to <code>Resources</code> -> <code>Local Storage</code> or reload to see the effect.<br><br>
+
+{{file-input importData='importData'}}
+<a {{action 'exportData'}}>Export</a>
+
+<br>
+<br>
+
+<strong>Name:</strong>
+{{one-way-input
+  value=name
+  update=(action (mut name))
+  onenter=(action "createProject")
+}}
+<a {{action 'createProject' name}}>Create project</a>
+
+<br>
+<br>
+
+<div class="projects layout">
+  <div class="projects__list layout__item u-1/4">
+    <strong>Projects:</strong><br>
+
+    {{#each model as |project|}}
+      {{#link-to 'projects.project' project}}{{project.name}}{{/link-to}} -
+      <a {{action 'deleteProject' project}}>Delete</a>
+      <br>
+    {{/each}}
+  </div><!--
+  --><div class="projects__project layout__item u-3/4">
+    {{outlet}}
+  </div>
+</div>

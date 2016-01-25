@@ -1,29 +1,73 @@
 <h3>Generator</h3>
 
-<code>
-ember g storage stats
-// will generate a localStorage object
+Run <code>ember g storage -h</code> for all options.<br><br>
 
-ember g storage stats -s
-// will generate a sessionStorage object
+{{#highlight-js land='bash'}}
+ember g storage stats // will generate a localStorage object
+ember g storage stats -s // will generate a sessionStorage object
 
-ember g storage anonymous-likes -a
-// will generate a localStorage array
-
-ember g storage anonymous-likes -a -s
-// will generate a sessionStorage array
-</code>
-
+ember g storage anonymous-likes -a // will generate a localStorage array
+ember g storage anonymous-likes -a -s // will generate a sessionStorage array
+{{/highlight-js}}
 
 <h3>Examples</h3>
 
+Open the developer tools and go to <code>Resources</code> -> <code>Local Storage</code> or reload to see the effect.<br><br>
+
 <h4>Welcome message</h4>
 
-{{#unless settings.welcomeMessageSeen}}
+<div class="example">
+  {{#unless settings.welcomeMessageSeen}}
+    You will see this message until you click
+    <button {{action "toggleWelcomeMessage"}}>X</button>
+  {{else}}
+    <button {{action "toggleWelcomeMessage"}}>Undo</button>
+  {{/unless}}
+</div>
+
+<br><br>
+
+{{#highlight-js lang='js'}}
+// app/storages/settings.js
+import StorageObject from 'ember-local-storage/local/object';
+
+const Storage = StorageObject.extend();
+
+Storage.reopenClass({
+  initialState() {
+    return {
+      welcomeMessageSeen: false
+    };
+  }
+});
+
+export default Storage;
+{{/highlight-js}}
+
+{{#highlight-js lang='js'}}
+// app/controllers/application.js
+import Ember from 'ember';
+import { storageFor } from 'ember-local-storage';
+
+export default Ember.Controller.extend({
+  settings: storageFor('settings'),
+
+  actions: {
+    toggleWelcomeMessage() {
+      this.toggleProperty('settings.welcomeMessageSeen');
+    }
+  }
+});
+{{/highlight-js}}
+
+{{#highlight-js lang="hbs"}}
+\{{! app/templates/application.hbs }}
+\{{#unless settings.welcomeMessageSeen}}
   You will see this message until you click
-  <button {{action "hideWelcomeMessage"}}>X</button>
-{{else}}
-  <button {{action "showWelcomeMessage"}}>Undo</button>
-{{/unless}}
+  &lt;button \{{action "toggleWelcomeMessage"}}>X&lt;/button>
+\{{else}}
+  &lt;button \{{action "toggleWelcomeMessage"}}>Undo&lt;/button>
+\{{/unless}}
+{{/highlight-js}}
 
 {{outlet}}

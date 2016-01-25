@@ -1,0 +1,31 @@
+<strong>{{model.name}}</strong>
+
+<br>
+<br>
+
+<strong>Name:</strong>
+{{one-way-input
+  value=name
+  update=(action (mut name))
+  onenter=(action "createTask")
+}}
+<a {{action 'createTask' name}}>Create task</a>
+
+<br>
+<br>
+
+<div class="tasks layout">
+  <div class="tasks__list layout__item u-1/4">
+    <strong>Tasks:</strong><br>
+
+    {{#each model.tasks as |task|}}
+      {{#link-to 'tasks.task' task}}{{task.name}}{{/link-to}} -
+      <a {{action 'deleteTask' task}}>Delete</a>
+      <br>
+    {{/each}}
+  </div><!--
+  --><div class="tasks__task layout__item u-3/4">
+    {{outlet}}
+  </div>
+</div>
+

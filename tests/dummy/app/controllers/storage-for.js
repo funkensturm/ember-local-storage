@@ -5,11 +5,8 @@ export default Ember.Controller.extend({
   settings: storageFor('settings'),
 
   actions: {
-    hideWelcomeMessage() {
+    toggleWelcomeMessage() {
       this.toggleProperty('settings.welcomeMessageSeen');
-    },
-    showWelcomeMessage() {
-      this.set('settings.welcomeMessageSeen', false);
-    },
+    }
   }
 });
