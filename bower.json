@@ -34,7 +34,8 @@
     "inuit-spacing-responsive": "~0.0.8",
     "inuit-tools-widths": "~0.1.4",
     "inuit-widths": "~0.4.2",
-    "inuit-widths-responsive": "~0.2.2"
+    "inuit-widths-responsive": "~0.2.2",
+    "highlightjs": "~9.1.0"
   },
   "resolutions": {
     "inuit-spacing": "~0.7.0"
