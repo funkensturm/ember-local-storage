@@ -289,9 +289,17 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     // remove empty part
     parts.shift();
 
+    let type = parts.shift();
+    let id = parts.shift();
+
+    if (type === this.modelNamespace) {
+      type = `${type}/${id}`;
+      id = parts.shift();
+    }
+
     return {
-      type: parts.shift(),
-      id: parts.shift()
+      type: type,
+      id: id
     };
   },
 
