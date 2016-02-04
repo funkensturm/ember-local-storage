@@ -39,7 +39,7 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
-    "ember-one-way-controls": "0.4.0",
+    "ember-one-way-controls": "0.4.1",
     "ember-try": "~0.0.8"
   },
   "dependencies": {
