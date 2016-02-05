@@ -40,7 +40,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-one-way-controls": "0.4.0",
-    "ember-try": "~0.0.8"
+    "ember-try": "~0.1.2"
   },
   "dependencies": {
     "broccoli-stew": "^1.2.0",
