@@ -207,6 +207,17 @@ export { default } from 'ember-local-storage/adapters/adapter';
 export { default } from 'ember-local-storage/serializers/serializer';
 ```
 
+If you use namespaced models e.g. `blog/post` you have to add the `modelNamespace` property to the corresponding adapter:
+
+```js
+// app/adapters/blog/post.js
+import Adapter from 'ember-local-storage/adapters/adapter';
+
+export default Adapter.extend({
+  modelNamespace: 'blog'
+});
+```
+
 #### Model
 
 Your model is a `DS.Model` with two new relationship options

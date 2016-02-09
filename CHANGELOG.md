@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1
+* [ENHANCEMENT] Allow namespaced models. See the [README](https://github.com/funkensturm/ember-local-storage#adapter--serializer) for more information. Thanks to [@juni0r](https://github.com/juni0r) for requesting.
+
 ## 1.0.1
 * [ENHANCEMENT] Use `getOwner` polyfill to remove deprecations. Thanks to [@kepek](https://github.com/kepek) for implementing.
 
