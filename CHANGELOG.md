@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.1
+## 1.1.0
 * [ENHANCEMENT] Allow namespaced models. See the [README](https://github.com/funkensturm/ember-local-storage#adapter--serializer) for more information. Thanks to [@juni0r](https://github.com/juni0r) for requesting.
 
 ## 1.0.1
