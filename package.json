@@ -37,7 +37,7 @@
     "ember-data": "^2.5.2",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-one-way-controls": "0.5.2",
+    "ember-one-way-controls": "0.8.0",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
     "ember-try": "^0.2.2",
