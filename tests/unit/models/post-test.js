@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 import getOwner from 'ember-getowner-polyfill';
 import { moduleForModel, test } from 'ember-qunit';
 
@@ -196,7 +197,12 @@ test('queryRecord empty store', function(assert) {
 
   store.queryRecord('post', { filter: { name: 'Super Name' } })
     .then(function(post) {
-      assert.deepEqual(post, null);
+      if (DS.VERSION.match(/^1\.13\./) || DS.VERSION.match(/^2\.[0|1]\./)) {
+        assert.deepEqual(post, []);
+      } else {
+        assert.equal(post, null);
+      }
+
       done();
     }).catch(function(error) {
       assert.ok(false, 'queryRecord on empty store throws error: ' + error.message);
