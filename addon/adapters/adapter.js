@@ -111,7 +111,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
         try {
           store._pushInternalModel(null);
           return {data: result || null};
-        } finally {
+        } catch(e) {
           return {data: result || []};
         }
       });
