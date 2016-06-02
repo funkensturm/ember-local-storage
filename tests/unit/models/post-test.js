@@ -196,7 +196,7 @@ test('queryRecord empty store', function(assert) {
 
   store.queryRecord('post', { filter: { name: 'Super Name' } })
     .then(function(post) {
-      assert.deepEqual(post, []);
+      assert.deepEqual(post, null);
       done();
     }).catch(function(error) {
       assert.ok(false, 'queryRecord on empty store throws error: ' + error.message);
