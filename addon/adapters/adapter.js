@@ -109,7 +109,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
         // hack to fix https://github.com/emberjs/data/issues/3790
         // and https://github.com/emberjs/data/pull/3866
         try {
-          store._pushInternalModel(null);
+          store.push({data: null});
           return {data: result || {}};
         } catch(e) {
           return {data: result || []};
