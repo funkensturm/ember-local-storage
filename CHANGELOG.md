@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.0
+* [ENHANCEMENT] A `queryRecord()` for empty results now returns `null` for ember-data versions >= 2.2.X. Thanks to [EmberHH Hack Night](http://www.meetup.com/de-DE/emberHH/events/230984832/) for the time to fix this.
+
 ## 1.1.0
 * [ENHANCEMENT] Allow namespaced models. See the [README](https://github.com/funkensturm/ember-local-storage#adapter--serializer) for more information. Thanks to [@juni0r](https://github.com/juni0r) for requesting.
 
