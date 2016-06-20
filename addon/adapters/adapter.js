@@ -122,6 +122,15 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     return this._handleStorageRequest.apply(this, arguments);
   },
 
+  // Work arround ds-improved-ajax Feature Flag
+  _makeRequest(request) {
+    return this._handleStorageRequest(
+      request.url,
+      request.method,
+      { data: request.data }
+    );
+  },
+
   // Delegate to _handle${type}Request
   _handleStorageRequest(url, type, options = {}) {
     if (this._debug) {
