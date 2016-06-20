@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "4"
 
 sudo: false
 
@@ -34,9 +34,10 @@ before_install:
   - "npm install -g npm@^2"
 
 install:
-  - npm install -g bower
   - npm install
   - bower install
 
 script:
-  - ember try:one $EMBER_TRY_SCENARIO test
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  - ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
