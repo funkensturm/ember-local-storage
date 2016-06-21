@@ -63,6 +63,9 @@ module.exports = {
     if (!this.hasEmberData) {
       [
         'adapters/adapter.js',
+        'adapters/base.js',
+        'adapters/local.js',
+        'adapters/session.js',
         'initializers/local-storage-adapter.js',
         'mixins/adapters/import-export.js',
         'serializers/serializer.js'

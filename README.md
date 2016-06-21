@@ -191,7 +191,8 @@ If your app is a pure LocalStorage app you just need to create the application a
 
 ```javascript
 // app/adapters/application.js
-export { default } from 'ember-local-storage/adapters/adapter';
+export { default } from 'ember-local-storage/adapters/local';
+// or export { default } from 'ember-local-storage/adapters/session';
 
 // app/serializers/application.js
 export { default } from 'ember-local-storage/serializers/serializer';
@@ -201,7 +202,8 @@ If you already use Ember Data for non LocalStorage models you can use a per type
 
 ```javascript
 // app/adapters/post.js
-export { default } from 'ember-local-storage/adapters/adapter';
+export { default } from 'ember-local-storage/adapters/local';
+// or export { default } from 'ember-local-storage/adapters/session';
 
 // app/serializers/post.js
 export { default } from 'ember-local-storage/serializers/serializer';
@@ -211,7 +213,8 @@ If you use namespaced models e.g. `blog/post` you have to add the `modelNamespac
 
 ```js
 // app/adapters/blog/post.js
-import Adapter from 'ember-local-storage/adapters/adapter';
+import Adapter from 'ember-local-storage/adapters/local';
+// or import Adapter from 'ember-local-storage/adapters/session';
 
 export default Adapter.extend({
   modelNamespace: 'blog'

@@ -1,7 +1,7 @@
 {
   "name": "ember-local-storage",
   "version": "1.2.0",
-  "description": "The addon provides a storageFor computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It ships with an ember-data adapter.",
+  "description": "The addon provides an ember-data adapter and a storageFor computed property that persists the changes to localStorage or sessionStorage.",
   "directories": {
     "doc": "doc",
     "test": "tests"
