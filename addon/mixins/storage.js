@@ -52,9 +52,10 @@ export default Mixin.create({
       throw new Error('You must specify the initialContent.');
     }
 
+    // TODO: we should think about ignoring the defaults on FastBoot
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
-    // Retrieve the serialized version from storage..
+    // Retrieve the serialized version from storage.
     serialized = storage[storageKey];
 
     // Merge the serialized version into defaults.
@@ -86,6 +87,7 @@ export default Mixin.create({
     const storage = this._storage(),
       storageKey = get(this, '_storageKey');
 
+    // TODO: check if window.addEventListener evals to null || undefined on node (FastBoot)
     if (window.addEventListener) {
       window.addEventListener('storage', (event) => {
         if (event.storageArea === storage && event.key === storageKey) {

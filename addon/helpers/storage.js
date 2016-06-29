@@ -28,11 +28,16 @@ function tryStorage(name) {
   return nativeStorage;
 }
 
-function getStorage(name) {
+function getStorage(name, fallback = {}) {
+  // On FastBoot we force a fallback that will work
+  if (isFastBoot()) {
+    fallback = {};
+  }
+
   if (storage[name]) {
     return storage[name];
   } else {
-    return storage[name] = tryStorage(name) || {};
+    return storage[name] = tryStorage(name) || fallback;
   }
 }
 
@@ -124,6 +129,10 @@ function createStorage(context, key, modelKey, options) {
   return Ember.Object.create(StorageFactory);
 }
 
+function isFastBoot() {
+  return typeof FastBoot !== 'undefined';
+}
+
 function _modelKey(model) {
   const modelName = model.modelName || model.constructor.typeKey,
     id = model.get('id');
@@ -144,5 +153,6 @@ export {
   tryStorage,
   getStorage,
   storageFor,
+  isFastBoot,
   _resetStorages
 };

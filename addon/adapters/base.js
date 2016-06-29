@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
+import { isFastBoot } from '../helpers/storage';
 
 const keys = Object.keys || Ember.keys;
 
@@ -135,10 +136,23 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     }
 
     return new RSVP.Promise((resolve, reject) => {
-      const handler = this[`_handle${type}Request`];
+      let handler;
+
+      handler = this[`_handle${type}Request`];
+
+      // FastBoot support
+      // if (isFastBoot()) {
+      //   handler = this[`_handleFastBoot${type}Request`];
+      // } else {
+      //   handler = this[`_handle${type}Request`];
+      // }
+
       if (handler) {
-        const data = handler.call(this, url, options.data);
-        run(null, resolve, {data: data});
+        run(
+          null,
+          resolve,
+          {data: handler.call(this, url, options.data)}
+        );
       } else {
         run(
           null,
@@ -146,8 +160,17 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
           `There is nothing to handle _handle${type}Request`
         );
       }
-    }, 'DS: LocalStorageAdapter#_handleStorageRequest ' + type + ' to ' + url);
+    }, `DS: LocalStorageAdapter#_handleStorageRequest ${type} to ${url}`;
   },
+
+  // FastBoot support - no work for us
+  // _handleFastBootGETRequest(url) {
+  //   const { id } = this._urlParts(url);
+  //   return id ? null : [];
+  // },
+  // _handleFastBootPOSTRequest() { return null; },
+  // _handleFastBootPATCHRequest() { return null; },
+  // _handleFastBootDELETERequest() { return null; },
 
   _handleGETRequest(url, query) {
     const { type, id } = this._urlParts(url);
