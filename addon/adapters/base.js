@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
+import { isLocalForage } from '../helpers/storage';
 
 const keys = Object.keys || Ember.keys;
 
@@ -156,7 +157,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
     if (id) {
       // TODO: localForage - use getItem()
-      // TODO: localForage - no need to parse if isLocalForage
+      // TODO: localForage - no need to parse if (isLocalForage())
       return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
     }
 
@@ -168,7 +169,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       })
       .map(function(storageKey) {
         // TODO: localForage - use getItem()
-        // TODO: localForage - no need to parse if isLocalForage
+        // TODO: localForage - no need to parse if (isLocalForage())
         return JSON.parse(storage[storageKey]);
       });
 
@@ -189,7 +190,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
     this._addToIndex(type, storageKey);
     // TODO: localForage - use setItem()
-    // TODO: localForage - no need to stringify if isLocalForage
+    // TODO: localForage - no need to stringify if (isLocalForage())
     get(this, '_storage')[storageKey] = JSON.stringify(record.data);
 
     return null;
@@ -201,7 +202,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
     this._addToIndex(type, storageKey);
     // TODO: localForage - use setItem()
-    // TODO: localForage - no need to stringify if isLocalForage
+    // TODO: localForage - no need to stringify if (isLocalForage())
     get(this, '_storage')[storageKey] = JSON.stringify(record.data);
 
     return null;

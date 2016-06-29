@@ -116,7 +116,7 @@ export default Mixin.create({
       initialContentString = get(this, '_initialContentString');
 
     if (storageKey) {
-      // TODO: localForage - we don't have to stringify if isLocalForage()
+      // TODO: localForage - we don't have to stringify if (isLocalForage())
       let json = JSON.stringify(content);
 
       if (json !== initialContentString) {

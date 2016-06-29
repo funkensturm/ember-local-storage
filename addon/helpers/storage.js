@@ -29,13 +29,13 @@ function tryStorage(name) {
 }
 
 function getStorage(name) {
-  // TODO: localForage add mappings for session and local
+  // TODO: localForage - add mappings for session and local if (isLocalForage())
   // local -> localStorageWrapper, etc
   if (storage[name]) {
     return storage[name];
   } else {
     // TODO: localForage - check if the localForage check is sufficient (safari private mode)
-    // TODO: localForage - if isLocalForage use localforage
+    // TODO: localForage - if (isLocalForage()) use localforage
     return storage[name] = tryStorage(name) || {};
   }
 }
