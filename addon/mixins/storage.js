@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { getStorage } from '../helpers/storage';
+import { getStorage, isLocalForage } from '../helpers/storage';
 
 const get = Ember.get;
 const set = Ember.set;
