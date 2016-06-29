@@ -18,6 +18,7 @@ export default Ember.Mixin.create(StorageProxyMixin, {
   },
 
   _clear: function() {
+    // TODO: localForage - use setItem
     set(this, 'content', Ember.A());
   }
 });

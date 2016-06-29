@@ -54,6 +54,7 @@ export default Mixin.create({
 
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
+    // TODO: localForage - use getItem()
     // Retrieve the serialized version from storage..
     serialized = storage[storageKey];
 
@@ -86,6 +87,7 @@ export default Mixin.create({
     const storage = this._storage(),
       storageKey = get(this, '_storageKey');
 
+    // TODO: localForage - do we have to check for the driver?
     if (window.addEventListener) {
       window.addEventListener('storage', (event) => {
         if (event.storageArea === storage && event.key === storageKey) {
@@ -114,12 +116,14 @@ export default Mixin.create({
       initialContentString = get(this, '_initialContentString');
 
     if (storageKey) {
+      // TODO: localForage - we don't have to stringify if isLocalForage()
       let json = JSON.stringify(content);
 
       if (json !== initialContentString) {
         set(this, '_isInitialContent', false);
       }
 
+      // TODO: localForage - use setItem()
       storage[storageKey] = json;
     }
   },
@@ -147,6 +151,7 @@ export default Mixin.create({
   // returns void
   clear: function() {
     this._clear();
+    // TODO: localForage - use removeItem()
     delete this._storage()[get(this, '_storageKey')];
   }
 });
