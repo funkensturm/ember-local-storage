@@ -42,7 +42,7 @@ function getStorage(name) {
 
 // TODO: localForage - add isLocalForage helper
 function isLocalForage() {
-  return typeof localforage !== 'undefined'
+  return typeof localforage !== 'undefined';
 }
 
 let storages = {};
