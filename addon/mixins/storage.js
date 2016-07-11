@@ -8,7 +8,7 @@ const {
   Mixin,
   deprecate,
   copy,
-  merge,
+  assign,
   isArray
 } = Ember;
 
@@ -61,7 +61,7 @@ export default Mixin.create({
     content = this._getInitialContentCopy();
 
     if (serialized) {
-      merge(content, JSON.parse(serialized));
+      assign(content, JSON.parse(serialized));
     }
 
     // Do not change to set(this, 'content', content)
