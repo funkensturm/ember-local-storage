@@ -6,9 +6,9 @@ const {
   Mixin,
   String: {
     singularize
-  },
-  assign
+  }
 } = Ember;
+const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   importData(store, content, options) {

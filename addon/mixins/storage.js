@@ -8,9 +8,9 @@ const {
   Mixin,
   deprecate,
   copy,
-  assign,
   isArray
 } = Ember;
+const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   // TODO remove on 2.0 release
