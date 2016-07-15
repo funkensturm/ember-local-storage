@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1
+* [ENHANCEMENT] Replace `Ember.merge` with `Ember.assign` `[deprecation id: ember-metal.merge]`. Thanks to [@aharita](https://github.com/aharita) for the PR.
+
+## 1.3.0
+* [ENHANCEMENT] Add `session` adapter. Thanks to [@schickm](https://github.com/schickm) for the implementation.
+
 ## 1.2.0
 * [ENHANCEMENT] A `queryRecord()` for empty results now returns `null` for ember-data versions >= 2.2.X. Thanks to [EmberHH Hack Night](http://www.meetup.com/de-DE/emberHH/events/230984832/) for the time to fix this.
 
