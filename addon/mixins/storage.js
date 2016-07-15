@@ -8,9 +8,9 @@ const {
   Mixin,
   deprecate,
   copy,
-  merge,
   isArray
 } = Ember;
+const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   // TODO remove on 2.0 release
@@ -61,7 +61,7 @@ export default Mixin.create({
     content = this._getInitialContentCopy();
 
     if (serialized) {
-      merge(content, JSON.parse(serialized));
+      assign(content, JSON.parse(serialized));
     }
 
     // Do not change to set(this, 'content', content)

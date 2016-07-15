@@ -4,12 +4,11 @@ import getOwner from 'ember-getowner-polyfill';
 const {
   assert,
   computed,
-  merge,
   String: {
     dasherize
   }
 } = Ember;
-
+const assign = Ember.assign || Ember.merge;
 
 const storage = {};
 
@@ -115,7 +114,7 @@ function createStorage(context, key, modelKey, options) {
     throw new TypeError('initialState property must be a function');
   }
 
-  merge(initialState, defaultState);
+  assign(initialState, defaultState);
 
   if (StorageFactory.create) {
     return StorageFactory.create(initialState);

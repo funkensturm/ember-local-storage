@@ -6,14 +6,14 @@ const {
   Mixin,
   String: {
     singularize
-  },
-  merge
+  }
 } = Ember;
+const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   importData(store, content, options) {
     // merge defaults
-    options = merge({
+    options = assign({
       json: true,
       truncate: true
     }, options || {});
@@ -57,7 +57,7 @@ export default Mixin.create({
 
   exportData(store, types, options) {
     // merge defaults
-    options = merge({
+    options = assign({
       json: true,
       download: false,
       filename: 'ember-data.json'
