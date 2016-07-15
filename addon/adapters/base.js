@@ -129,7 +129,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   },
 
   // Work arround ds-improved-ajax Feature Flag
-  _makeRequest(request) {
+  _makeRequest() {
     return this.makeRequest.apply(this, arguments);
   },
 
