@@ -119,13 +119,23 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     return this._handleStorageRequest.apply(this, arguments);
   },
 
-  // Work arround ds-improved-ajax Feature Flag
-  _makeRequest(request) {
+  // Delegate to _handleStorageRequest
+  makeRequest(request) {
     return this._handleStorageRequest(
       request.url,
       request.method,
       { data: request.data }
     );
+  },
+
+  // Work arround ds-improved-ajax Feature Flag
+  _makeRequest(request) {
+    return this.makeRequest.apply(this, arguments);
+  },
+
+  // Remove the ajax() deprecation warning
+  _hasCustomizedAjax() {
+    return false;
   },
 
   // Delegate to _handle${type}Request
