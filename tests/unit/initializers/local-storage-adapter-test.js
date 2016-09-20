@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 import { initialize } from '../../../initializers/local-storage-adapter';
 import { module, test } from 'qunit';
 
