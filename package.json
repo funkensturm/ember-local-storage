@@ -45,7 +45,7 @@
     "loader.js": "^4.0.9"
   },
   "dependencies": {
-    "broccoli-stew": "^1.3.2",
+    "broccoli-stew": "^1.3.3",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-version-checker": "^1.1.5",
     "ember-cli-string-utils": "^1.0.0",
