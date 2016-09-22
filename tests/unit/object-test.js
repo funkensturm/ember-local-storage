@@ -57,6 +57,8 @@ moduleFor('router:main', 'object - settings', {
       localCache: storageFor('local-cache')
     }));
     subject = this.container.lookup('object:test');
+    // }).create();
+    // run(subject, 'getProperties', 'settings', 'nestedObjects', 'cache', 'localCache');
   },
   afterEach() {
     window.localStorage.clear();
@@ -67,16 +69,16 @@ moduleFor('router:main', 'object - settings', {
 
 test('it has correct defaults', function(assert) {
   assert.expect(6);
-
-  assert.equal(get(subject, 'settings._storageType'), 'local');
-  assert.equal(get(subject, 'settings._storageKey'), 'storage:settings');
-  assert.deepEqual(get(subject, 'settings._initialContent'), {
-    welcomeMessageSeen: false
+  run(function() {
+    assert.equal(get(subject, 'settings._storageType'), 'local');
+    assert.equal(get(subject, 'settings._storageKey'), 'storage:settings');
+    assert.deepEqual(get(subject, 'settings._initialContent'), {
+      welcomeMessageSeen: false
+    });
+    assert.equal(get(subject, 'cache._storageType'), 'session');
+    assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
+    assert.deepEqual(get(subject, 'cache._initialContent'), {});
   });
-
-  assert.equal(get(subject, 'cache._storageType'), 'session');
-  assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
-  assert.deepEqual(get(subject, 'cache._initialContent'), {});
 });
 
 test('it saves changes to sessionStorage', function(assert) {
@@ -111,40 +113,37 @@ test('it saves changes to localStorage', function(assert) {
 
 test('it does not share data', function(assert) {
   assert.expect(10);
-
-  assert.equal(get(subject, 'cache._storageType'), 'session');
-  assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
-  assert.deepEqual(get(subject, 'cache._initialContent'), {});
-
   run(function() {
+    assert.equal(get(subject, 'cache._storageType'), 'session');
+    assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
+    assert.deepEqual(get(subject, 'cache._initialContent'), {});
     subject.set('cache.key1', '123456');
-  });
+    assert.deepEqual(get(subject, 'cache.key1'), '123456');
 
-  assert.deepEqual(get(subject, 'cache.key1'), '123456');
+    assert.equal(get(subject, 'localCache._storageType'), 'local');
+    assert.equal(get(subject, 'localCache._storageKey'), 'storage:local-cache');
+    assert.deepEqual(get(subject, 'localCache._initialContent'), {});
 
-  assert.equal(get(subject, 'localCache._storageType'), 'local');
-  assert.equal(get(subject, 'localCache._storageKey'), 'storage:local-cache');
-  assert.deepEqual(get(subject, 'localCache._initialContent'), {});
+    assert.deepEqual(get(subject, 'cache.key1'), '123456');
 
-  assert.deepEqual(get(subject, 'cache.key1'), '123456');
-
-  run(function() {
     subject.set('localCache.key1', 'abcde');
+
+    assert.deepEqual(get(subject, 'localCache.key1'), 'abcde');
+
+    assert.deepEqual(get(subject, 'cache.key1'), '123456');
   });
-
-  assert.deepEqual(get(subject, 'localCache.key1'), 'abcde');
-
-  assert.deepEqual(get(subject, 'cache.key1'), '123456');
 });
 
 test('it updates when change events fire', function(assert) {
   assert.expect(3);
 
   // setup testing
-  get(subject, 'settings')._testing = true;
+  run(function() {
+    get(subject, 'settings')._testing = true;
+  });
 
   assert.equal(get(subject, 'settings.changeFired'), undefined);
-  window.dispatchEvent(new window.StorageEvent('storage', {
+  run(window, 'dispatchEvent', new window.StorageEvent('storage', {
     key: 'storage:settings',
     newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
     oldValue: '{"welcomeMessageSeen":false}',
@@ -157,11 +156,11 @@ test('it updates when change events fire', function(assert) {
 test('nested values get persisted', function(assert) {
   assert.expect(4);
 
-  storageDeepEqual(assert, window.localStorage['storage:nested-objects'], undefined);
-
-  assert.equal(get(subject, 'nestedObjects.address.first'), null);
-
   run(function() {
+    storageDeepEqual(assert, window.localStorage['storage:nested-objects'], undefined);
+
+    assert.equal(get(subject, 'nestedObjects.address.first'), null);
+
     get(subject, 'nestedObjects').set('address.first', {
       street: 'Somestreet 1',
       city: 'A City'
@@ -188,13 +187,13 @@ test('nested values get persisted', function(assert) {
 test('reset method restores initialContent', function(assert) {
   assert.expect(5);
 
-  //initialContent is set properly
-  assert.deepEqual(get(subject, 'settings.content'), {
-    welcomeMessageSeen: false
-  });
-
-  //set new properties and overwrite others
   run(function() {
+    //initialContent is set properly
+    assert.deepEqual(get(subject, 'settings.content'), {
+      welcomeMessageSeen: false
+    });
+
+    //set new properties and overwrite others
     subject.set('settings.newProp', 'some-value');
     subject.set('settings.welcomeMessageSeen', true);
   });
@@ -204,7 +203,7 @@ test('reset method restores initialContent', function(assert) {
   assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
 
   //reset
-  get(subject, 'settings').reset();
+  run(get(subject, 'settings'), 'reset');
 
   //data is back to initial values
   assert.deepEqual(get(subject, 'settings.content'), {
@@ -216,9 +215,9 @@ test('reset method restores initialContent', function(assert) {
 test('it updates _isInitialContent', function(assert) {
   assert.expect(2);
 
-  assert.equal(get(subject, 'settings').isInitialContent(), true);
-
   run(function() {
+    assert.equal(get(subject, 'settings').isInitialContent(), true);
+
     subject.set('settings.welcomeMessageSeen', true);
   });
 

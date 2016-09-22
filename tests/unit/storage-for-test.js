@@ -3,6 +3,7 @@ import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
+import run from 'ember-runloop';
 
 import StorageObject from 'ember-local-storage/local/object';
 import {
@@ -43,6 +44,8 @@ test('it has the correct key', function(assert) {
     settings: storageFor('settings', 'post')
   }));
   let subject = this.container.lookup('object:test');
+
+  run(subject, 'get', 'settings._storageKey');
 
   assert.equal(
     subject.get('settings._storageKey'),

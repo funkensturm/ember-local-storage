@@ -3,6 +3,7 @@ import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
+import run from 'ember-runloop';
 
 import StorageObject from 'ember-local-storage/local/object';
 import {
@@ -43,20 +44,25 @@ moduleFor('router:main', 'legacy - config', {
 
 test('it has correct defaults', function(assert) {
   assert.expect(3);
-
-  assert.equal(subject.get('settings._storageType'), 'local');
-  assert.equal(subject.get('settings._storageKey'), 'settings');
-  assert.deepEqual(subject.get('settings._initialContent'), {
-    token: 1234
+  run(function() {
+    assert.equal(subject.get('settings._storageType'), 'local');
+    assert.equal(subject.get('settings._storageKey'), 'settings');
+    assert.deepEqual(subject.get('settings._initialContent'), {
+      token: 1234
+    });
   });
 });
 
 test('serialized content can be used', function(assert) {
   assert.expect(2);
-
-  assert.equal(subject.get('settings.mapStyle'), 'dark');
-  storageDeepEqual(assert, window.localStorage.settings, {
-    mapStyle: 'dark',
-    token: 1234
+  run(function() {
+    assert.equal(subject.get('settings.mapStyle'), 'dark');
+  });
+  // above runloop must finish first for changes to propagate
+  run(function() {
+    storageDeepEqual(assert, window.localStorage.settings, {
+      mapStyle: 'dark',
+      token: 1234
+    });
   });
 });

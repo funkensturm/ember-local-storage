@@ -83,7 +83,7 @@ test('reset method restores initialContent', function(assert) {
   assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
 
   //reset
-  get(subject, 'postLikes').reset();
+  run(get(subject, 'postLikes'), 'reset');
 
   //data is back to initial values
   assert.deepEqual(get(subject, 'postLikes.content'), []);
