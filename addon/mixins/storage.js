@@ -87,7 +87,9 @@ export default Mixin.create({
       storageKey = get(this, '_storageKey');
 
     if (window.addEventListener) {
-      window.addEventListener('storage', (event) => {
+      this._storageEventHandler = (event) => {
+        if (this.isDestroying) { return; }
+        
         if (event.storageArea === storage && event.key === storageKey) {
           if (
             ('hidden' in document && !document.hidden && !this._testing) ||
@@ -103,7 +105,9 @@ export default Mixin.create({
             this.clear();
           }
         }
-      }, false);
+      };
+      
+      window.addEventListener('storage', this._storageEventHandler, false);
     }
   },
 
@@ -124,7 +128,13 @@ export default Mixin.create({
     }
   },
 
+  willDestroy() {
+    if (this._storageEventHandler) {
+      window.removeEventHandler('storage', this._storageEventHandler, false);
+    }
 
+    this._super(...arguments);
+  },
 
   // Public API
 
