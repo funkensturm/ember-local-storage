@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.2
+* [FIX] Prevent leaking event listenes during testing. Thanks to [@rwjblue](https://github.com/rwjblue) for the PR.
+
 ## 1.3.1
 * [ENHANCEMENT] Replace `Ember.merge` with `Ember.assign` `[deprecation id: ember-metal.merge]`. Thanks to [@aharita](https://github.com/aharita) for the PR.
 
