@@ -17,7 +17,7 @@ let subject;
 const registryOpts = { singleton: true, instantiate: false };
 
 module('legacy - config', {
-  setup() {
+  beforeEach() {
     registry  = new Ember.Registry();
     container = new Ember.Container(registry);
 

@@ -1,13 +1,14 @@
 import Ember from 'ember';
 
-const get = Ember.get;
-
 const {
   Mixin,
+  get,
   String: {
     singularize
-  }
+  },
+  run
 } = Ember;
+
 const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
@@ -90,7 +91,7 @@ export default Mixin.create({
     }
 
     return new Ember.RSVP.Promise((resolve) => {
-      Ember.run(null, resolve, data);
+      run(null, resolve, data);
     }, 'DS: LocalStorageAdapter#exportData');
   }
 });

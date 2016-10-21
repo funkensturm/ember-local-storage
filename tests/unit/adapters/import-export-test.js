@@ -4,9 +4,8 @@ import { moduleForModel, test } from 'ember-qunit';
 import testData from '../../helpers/test-data';
 import { initialize } from 'ember-local-storage/initializers/local-storage-adapter';
 
-const get = Ember.get;
-
 const {
+  get,
   run
 } = Ember;
 
