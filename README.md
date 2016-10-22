@@ -134,7 +134,7 @@ export default Ember.Component.extend({
   anonymousLikes: storageFor('anonymous-likes'),
 
   isLiked: computed('id', function() {
-    return this.get('anonymousLikes').contains(this.get('id'));
+    return this.get('anonymousLikes').includes(this.get('id'));
   }),
 
   actions: {

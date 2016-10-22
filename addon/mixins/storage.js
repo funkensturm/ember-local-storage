@@ -1,15 +1,15 @@
 import Ember from 'ember';
 import { getStorage } from '../helpers/storage';
 
-const get = Ember.get;
-const set = Ember.set;
-
 const {
   Mixin,
+  get,
+  set,
   deprecate,
   copy,
   isArray
 } = Ember;
+
 const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
@@ -89,7 +89,7 @@ export default Mixin.create({
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
         if (this.isDestroying) { return; }
-        
+
         if (event.storageArea === storage && event.key === storageKey) {
           if (
             ('hidden' in document && !document.hidden && !this._testing) ||
@@ -106,7 +106,7 @@ export default Mixin.create({
           }
         }
       };
-      
+
       window.addEventListener('storage', this._storageEventHandler, false);
     }
   },

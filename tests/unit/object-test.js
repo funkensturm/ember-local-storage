@@ -17,8 +17,13 @@ let subject;
 
 const registryOpts = { singleton: true, instantiate: false };
 
+const {
+  run,
+  get
+} = Ember;
+
 module('object - settings', {
-  setup() {
+  beforeEach() {
     registry  = new Ember.Registry();
     container = new Ember.Container(registry);
 
@@ -70,15 +75,15 @@ module('object - settings', {
 test('it has correct defaults', function(assert) {
   assert.expect(6);
 
-  assert.equal(subject.get('settings._storageType'), 'local');
-  assert.equal(subject.get('settings._storageKey'), 'storage:settings');
-  assert.deepEqual(subject.get('settings._initialContent'), {
+  assert.equal(get(subject, 'settings._storageType'), 'local');
+  assert.equal(get(subject, 'settings._storageKey'), 'storage:settings');
+  assert.deepEqual(get(subject, 'settings._initialContent'), {
     welcomeMessageSeen: false
   });
 
-  assert.equal(subject.get('cache._storageType'), 'session');
-  assert.equal(subject.get('cache._storageKey'), 'storage:cache');
-  assert.deepEqual(subject.get('cache._initialContent'), {});
+  assert.equal(get(subject, 'cache._storageType'), 'session');
+  assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
+  assert.deepEqual(get(subject, 'cache._initialContent'), {});
 });
 
 test('it saves changes to sessionStorage', function(assert) {
@@ -87,7 +92,7 @@ test('it saves changes to sessionStorage', function(assert) {
   assert.ok(window.sessionStorage);
   storageDeepEqual(assert, window.sessionStorage['storage:cache'], undefined);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('cache.image1', 'image1png');
   });
 
@@ -102,7 +107,7 @@ test('it saves changes to localStorage', function(assert) {
   assert.ok(window.localStorage);
   storageDeepEqual(assert, window.localStorage['storage:settings'], undefined);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.welcomeMessageSeen', true);
   });
 
@@ -114,46 +119,46 @@ test('it saves changes to localStorage', function(assert) {
 test('it does not share data', function(assert) {
   assert.expect(10);
 
-  assert.equal(subject.get('cache._storageType'), 'session');
-  assert.equal(subject.get('cache._storageKey'), 'storage:cache');
-  assert.deepEqual(subject.get('cache._initialContent'), {});
+  assert.equal(get(subject, 'cache._storageType'), 'session');
+  assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
+  assert.deepEqual(get(subject, 'cache._initialContent'), {});
 
-  Ember.run(function() {
+  run(function() {
     subject.set('cache.key1', '123456');
   });
 
-  assert.deepEqual(subject.get('cache.key1'), '123456');
+  assert.deepEqual(get(subject, 'cache.key1'), '123456');
 
-  assert.equal(subject.get('localCache._storageType'), 'local');
-  assert.equal(subject.get('localCache._storageKey'), 'storage:local-cache');
-  assert.deepEqual(subject.get('localCache._initialContent'), {});
+  assert.equal(get(subject, 'localCache._storageType'), 'local');
+  assert.equal(get(subject, 'localCache._storageKey'), 'storage:local-cache');
+  assert.deepEqual(get(subject, 'localCache._initialContent'), {});
 
-  assert.deepEqual(subject.get('cache.key1'), '123456');
+  assert.deepEqual(get(subject, 'cache.key1'), '123456');
 
-  Ember.run(function() {
+  run(function() {
     subject.set('localCache.key1', 'abcde');
   });
 
-  assert.deepEqual(subject.get('localCache.key1'), 'abcde');
+  assert.deepEqual(get(subject, 'localCache.key1'), 'abcde');
 
-  assert.deepEqual(subject.get('cache.key1'), '123456');
+  assert.deepEqual(get(subject, 'cache.key1'), '123456');
 });
 
 test('it updates when change events fire', function(assert) {
   assert.expect(3);
 
   // setup testing
-  subject.get('settings')._testing = true;
+  get(subject, 'settings')._testing = true;
 
-  assert.equal(subject.get('settings.changeFired'), undefined);
+  assert.equal(get(subject, 'settings.changeFired'), undefined);
   window.dispatchEvent(new window.StorageEvent('storage', {
     key: 'storage:settings',
     newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
     oldValue: '{"welcomeMessageSeen":false}',
-    storageArea: subject.get('settings')._storage()
+    storageArea: get(subject, 'settings')._storage()
   }));
-  assert.equal(subject.get('settings.welcomeMessageSeen'), false);
-  assert.equal(subject.get('settings.changeFired'), true);
+  assert.equal(get(subject, 'settings.welcomeMessageSeen'), false);
+  assert.equal(get(subject, 'settings.changeFired'), true);
 });
 
 test('nested values get persisted', function(assert) {
@@ -161,16 +166,16 @@ test('nested values get persisted', function(assert) {
 
   storageDeepEqual(assert, window.localStorage['storage:nested-objects'], undefined);
 
-  assert.equal(subject.get('nestedObjects.address.first'), null);
+  assert.equal(get(subject, 'nestedObjects.address.first'), null);
 
-  Ember.run(function() {
-    subject.get('nestedObjects').set('address.first', {
+  run(function() {
+    get(subject, 'nestedObjects').set('address.first', {
       street: 'Somestreet 1',
       city: 'A City'
     });
   });
 
-  assert.deepEqual(subject.get('nestedObjects.address.first'), {
+  assert.deepEqual(get(subject, 'nestedObjects.address.first'), {
     street: 'Somestreet 1',
     city: 'A City'
   });
@@ -191,62 +196,62 @@ test('reset method restores initialContent', function(assert) {
   assert.expect(5);
 
   //initialContent is set properly
-  assert.deepEqual(subject.get('settings.content'), {
+  assert.deepEqual(get(subject, 'settings.content'), {
     welcomeMessageSeen: false
   });
 
   //set new properties and overwrite others
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.newProp', 'some-value');
     subject.set('settings.welcomeMessageSeen', true);
   });
 
   //we expect them to be present
-  assert.equal(subject.get('settings.newProp'), 'some-value');
-  assert.equal(subject.get('settings.welcomeMessageSeen'), true);
+  assert.equal(get(subject, 'settings.newProp'), 'some-value');
+  assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
 
   //reset
-  subject.get('settings').reset();
+  get(subject, 'settings').reset();
 
   //data is back to initial values
-  assert.deepEqual(subject.get('settings.content'), {
+  assert.deepEqual(get(subject, 'settings.content'), {
     welcomeMessageSeen: false
   });
-  assert.strictEqual(subject.get('settings.newProp'), undefined);
+  assert.strictEqual(get(subject, 'settings.newProp'), undefined);
 });
 
 test('it updates _isInitialContent', function(assert) {
   assert.expect(2);
 
-  assert.equal(subject.get('settings').isInitialContent(), true);
+  assert.equal(get(subject, 'settings').isInitialContent(), true);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.welcomeMessageSeen', true);
   });
 
-  assert.equal(subject.get('settings').isInitialContent(), false);
+  assert.equal(get(subject, 'settings').isInitialContent(), false);
 });
 
 test('it updates _isInitialContent on reset', function(assert) {
   assert.expect(2);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.welcomeMessageSeen', true);
   });
 
-  assert.equal(subject.get('settings').isInitialContent(), false);
+  assert.equal(get(subject, 'settings').isInitialContent(), false);
 
-  Ember.run(function() {
-    subject.get('settings').reset();
+  run(function() {
+    get(subject, 'settings').reset();
   });
 
-  assert.equal(subject.get('settings').isInitialContent(), true);
+  assert.equal(get(subject, 'settings').isInitialContent(), true);
 });
 
 test('clear method removes the content from localStorage', function(assert) {
   assert.expect(2);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.welcomeMessageSeen', true);
   });
 
@@ -254,8 +259,8 @@ test('clear method removes the content from localStorage', function(assert) {
     welcomeMessageSeen: true
   });
 
-  Ember.run(function() {
-    subject.get('settings').clear();
+  run(function() {
+    get(subject, 'settings').clear();
   });
 
   assert.equal(window.localStorage['storage:settings'], undefined);
@@ -264,7 +269,7 @@ test('clear method removes the content from localStorage', function(assert) {
 test('after .clear() the object works as expected', function(assert) {
   assert.expect(4);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.welcomeMessageSeen', true);
   });
 
@@ -272,18 +277,18 @@ test('after .clear() the object works as expected', function(assert) {
     welcomeMessageSeen: true
   });
 
-  Ember.run(function() {
-    subject.get('settings').clear();
+  run(function() {
+    get(subject, 'settings').clear();
   });
 
   assert.equal(window.localStorage['storage:settings'], undefined);
 
-  Ember.run(function() {
+  run(function() {
     subject.set('settings.welcomeMessageSeen', true);
   });
 
   storageDeepEqual(assert, window.localStorage['storage:settings'], {
     welcomeMessageSeen: true
   });
-  assert.equal(subject.get('settings.welcomeMessageSeen'), true);
+  assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
 });
