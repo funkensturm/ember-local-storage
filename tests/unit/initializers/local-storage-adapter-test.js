@@ -3,11 +3,15 @@ import DS from 'ember-data';
 import { initialize } from '../../../initializers/local-storage-adapter';
 import { module, test } from 'qunit';
 
-var application;
+const {
+  run
+} = Ember;
+
+let application;
 
 module('Unit | Initializer | local storage adapter', {
   beforeEach: function() {
-    Ember.run(function() {
+    run(function() {
       application = Ember.Application.create();
       application.deferReadiness();
     });
