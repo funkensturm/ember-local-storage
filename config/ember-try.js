@@ -37,6 +37,38 @@ module.exports = {
     },
     // Legacy
     {
+      name: 'ember-lts-2.4',
+      bower: {
+        dependencies: {
+          'ember': 'components/ember#lts-2-4'
+        },
+        resolutions: {
+          'ember': 'lts-2-4'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-data': '~2.4.0'
+        }
+      }
+    },
+    // {
+    //   name: 'ember-lts-2.8',
+    //   bower: {
+    //     dependencies: {
+    //       'ember': 'components/ember#lts-2-8'
+    //     },
+    //     resolutions: {
+    //       'ember': 'lts-2-8'
+    //     }
+    //   },
+    //   npm: {
+    //     devDependencies: {
+    //       'ember-data': '~2.8.0'
+    //     }
+    //   }
+    // },
+    {
       name: 'ember-2.8',
       bower: {
         dependencies: {
