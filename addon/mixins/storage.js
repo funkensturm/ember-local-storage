@@ -1,16 +1,16 @@
 import Ember from 'ember';
 import { getStorage, isLocalForage } from '../helpers/storage';
 
-const get = Ember.get;
-const set = Ember.set;
-
 const {
   Mixin,
+  get,
+  set,
   deprecate,
   copy,
-  merge,
   isArray
 } = Ember;
+
+const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   // TODO remove on 2.0 release
@@ -62,7 +62,7 @@ export default Mixin.create({
     content = this._getInitialContentCopy();
 
     if (serialized) {
-      merge(content, JSON.parse(serialized));
+      assign(content, JSON.parse(serialized));
     }
 
     // Do not change to set(this, 'content', content)
@@ -89,7 +89,9 @@ export default Mixin.create({
 
     // TODO: localForage - do we have to check for the driver?
     if (window.addEventListener) {
-      window.addEventListener('storage', (event) => {
+      this._storageEventHandler = (event) => {
+        if (this.isDestroying) { return; }
+
         if (event.storageArea === storage && event.key === storageKey) {
           if (
             ('hidden' in document && !document.hidden && !this._testing) ||
@@ -105,7 +107,9 @@ export default Mixin.create({
             this.clear();
           }
         }
-      }, false);
+      };
+
+      window.addEventListener('storage', this._storageEventHandler, false);
     }
   },
 
@@ -128,7 +132,13 @@ export default Mixin.create({
     }
   },
 
+  willDestroy() {
+    if (this._storageEventHandler) {
+      window.removeEventHandler('storage', this._storageEventHandler, false);
+    }
 
+    this._super(...arguments);
+  },
 
   // Public API
 

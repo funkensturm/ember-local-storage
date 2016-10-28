@@ -1,19 +1,20 @@
 import Ember from 'ember';
 
-const get = Ember.get;
-
 const {
   Mixin,
+  get,
   String: {
     singularize
   },
-  merge
+  run
 } = Ember;
+
+const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   importData(store, content, options) {
     // merge defaults
-    options = merge({
+    options = assign({
       json: true,
       truncate: true
     }, options || {});
@@ -57,7 +58,7 @@ export default Mixin.create({
 
   exportData(store, types, options) {
     // merge defaults
-    options = merge({
+    options = assign({
       json: true,
       download: false,
       filename: 'ember-data.json'
@@ -90,7 +91,7 @@ export default Mixin.create({
     }
 
     return new Ember.RSVP.Promise((resolve) => {
-      Ember.run(null, resolve, data);
+      run(null, resolve, data);
     }, 'DS: LocalStorageAdapter#exportData');
   }
 });

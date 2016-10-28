@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "4"
 
 sudo: false
 
@@ -13,6 +13,11 @@ env:
   - EMBER_TRY_SCENARIO=default
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  # - EMBER_TRY_SCENARIO=ember-lts-2.8
+  - EMBER_TRY_SCENARIO=ember-2.8
+  - EMBER_TRY_SCENARIO=ember-2.7
+  - EMBER_TRY_SCENARIO=ember-2.6
   - EMBER_TRY_SCENARIO=ember-2.5
   - EMBER_TRY_SCENARIO=ember-2.4
   - EMBER_TRY_SCENARIO=ember-2.3
@@ -27,15 +32,18 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
+  - npm config set spin false
+  - npm install -g bower
+  - bower --version
+  # - npm install phantomjs-prebuilt
+  # - node_modules/phantomjs-prebuilt/bin/phantomjs --version
   - mkdir travis-phantomjs
   - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
   - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
   - export PATH=$PWD/travis-phantomjs:$PATH
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
+
 
 install:
-  - npm install -g bower
   - npm install
   - bower install
 
@@ -43,3 +51,7 @@ script:
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
   - ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+
+branches:
+  only:
+    - "master"
