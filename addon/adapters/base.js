@@ -236,7 +236,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
           recordValue = data[key];
         } else {
           key = serializer.keyForAttribute(key);
-          recordValue = data.attributes ? data.attributes[key] : null;
+          recordValue = data.attributes ? data.attributes[key] : undefined;
         }
 
         if (recordValue !== undefined) {
