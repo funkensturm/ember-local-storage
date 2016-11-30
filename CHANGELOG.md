@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.3
+* [FIX] Return undefined instead of null on queryFilter via queryRecord. Thanks to [@bncoelho](https://github.com/bncoelho) for the PR.
+
 ## 1.3.2
 * [FIX] Prevent leaking event listenes during testing. Thanks to [@rwjblue](https://github.com/rwjblue) for the PR.
 
