@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "broccoli-stew": "^1.4.0",
-    "ember-cli-babel": "^5.1.10",
+    "ember-cli-babel": "^5.2.1",
     "ember-cli-version-checker": "^1.1.7",
     "ember-cli-string-utils": "^1.0.0",
     "ember-getowner-polyfill": "^1.0.1"
