@@ -42,7 +42,7 @@
     "ember-load-initializers": "^0.5.1",
     "ember-one-way-controls": "1.1.1",
     "ember-resolver": "^2.1.0",
-    "loader.js": "^4.0.10"
+    "loader.js": "^4.1.0"
   },
   "dependencies": {
     "broccoli-stew": "^1.4.0",
