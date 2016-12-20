@@ -1,9 +1,13 @@
-import getOwner from 'ember-getowner-polyfill';
+import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageEqual,
   storageDeepEqual
 } from '../../helpers/storage';
+
+const {
+  getOwner
+} = Ember;
 
 moduleFor('adapter:application', 'Unit | Adapter | indices', {
   // Specify the other units that are required for this test.
