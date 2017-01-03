@@ -14,7 +14,8 @@ const {
   run,
   Inflector,
   typeOf,
-  isEmpty
+  isEmpty,
+  computed
 } = Ember;
 
 // Ember data ships with ember-inflector
@@ -22,7 +23,7 @@ const inflector = Inflector.inflector;
 
 export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
-  _indices: {},
+  _indices: computed(function() { return {}; }),
   isNewSerializerAPI: true,
   coalesceFindRequests: false,
 
