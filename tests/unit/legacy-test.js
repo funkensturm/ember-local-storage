@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
@@ -10,17 +10,10 @@ import {
   _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
-let registry;
-let container;
 let subject;
 
-const registryOpts = { singleton: true, instantiate: false };
-
-module('legacy - config', {
+moduleFor('router:main', 'legacy - config', {
   beforeEach() {
-    registry  = new Ember.Registry();
-    container = new Ember.Container(registry);
-
     // old serialized content
     window.localStorage.settings = JSON.stringify({
       mapStyle: 'dark'
@@ -36,12 +29,11 @@ module('legacy - config', {
       }
     });
 
-    registry.register('storage:config', mockStorage, registryOpts);
-
-    subject = Ember.Object.extend({
-      container,
+    this.register('storage:config', mockStorage);
+    this.register('object:test', Ember.Object.extend({
       settings: storageFor('config', { legacyKey: 'settings' })
-    }).create();
+    }));
+    subject = this.container.lookup('object:test');
   },
   afterEach() {
     window.localStorage.clear();

@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 import { moduleForModel, test } from 'ember-qunit';
 import testData from '../../helpers/test-data';
 import { initialize } from 'ember-local-storage/initializers/local-storage-adapter';
 
 const {
   get,
+  getOwner,
   run
 } = Ember;
 
