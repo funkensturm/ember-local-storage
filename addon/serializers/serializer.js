@@ -6,6 +6,6 @@ const {
 
 export default JSONAPISerializer.extend({
   // Serialization behavior
-  _shouldSerializeHasMany: function() { return true; }
+  _shouldSerializeHasMany: function() { return true; },
   shouldSerializeHasMany: function() { return true; }
 });
