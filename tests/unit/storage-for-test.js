@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
@@ -10,16 +10,8 @@ import {
   _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
-let registry;
-let container;
-
-const registryOpts = { singleton: true, instantiate: false };
-
-module('legacy - config', {
+moduleFor('router:main', 'legacy - config', {
   beforeEach() {
-    registry  = new Ember.Registry();
-    container = new Ember.Container(registry);
-
     let mockStorage = StorageObject.extend();
 
     mockStorage.reopenClass({
@@ -30,7 +22,7 @@ module('legacy - config', {
       }
     });
 
-    registry.register('storage:settings', mockStorage, registryOpts);
+    this.register('storage:settings', mockStorage);
   },
   afterEach() {
     window.localStorage.clear();
@@ -46,11 +38,11 @@ test('it has the correct key', function(assert) {
     id: '123'
   }).create();
 
-  let subject = Ember.Object.extend({
-    container,
+  this.register('object:test', Ember.Object.extend({
     post: post,
     settings: storageFor('settings', 'post')
-  }).create();
+  }));
+  let subject = this.container.lookup('object:test');
 
   assert.equal(
     subject.get('settings._storageKey'),

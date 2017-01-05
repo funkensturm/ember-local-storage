@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
@@ -11,22 +11,15 @@ import {
   _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
-let registry;
-let container;
 let subject;
-
-const registryOpts = { singleton: true, instantiate: false };
 
 const {
   run,
   get
 } = Ember;
 
-module('object - settings', {
+moduleFor('router:main', 'object - settings', {
   beforeEach() {
-    registry  = new Ember.Registry();
-    container = new Ember.Container(registry);
-
     let mockStorage = StorageObject.extend();
     let mockStorageB = StorageObject.extend();
     let mockStorageC = SessionStorageObject.extend();
@@ -52,18 +45,18 @@ module('object - settings', {
       }
     });
 
-    registry.register('storage:settings', mockStorage, registryOpts);
-    registry.register('storage:nested-objects', mockStorageB, registryOpts);
-    registry.register('storage:cache', mockStorageC, registryOpts);
-    registry.register('storage:local-cache', mockStorageD, registryOpts);
+    this.register('storage:settings', mockStorage);
+    this.register('storage:nested-objects', mockStorageB);
+    this.register('storage:cache', mockStorageC);
+    this.register('storage:local-cache', mockStorageD);
 
-    subject = Ember.Object.extend({
-      container,
+    this.register('object:test', Ember.Object.extend({
       settings: storageFor('settings'),
       nestedObjects: storageFor('nested-objects'),
       cache: storageFor('cache'),
       localCache: storageFor('local-cache')
-    }).create();
+    }));
+    subject = this.container.lookup('object:test');
   },
   afterEach() {
     window.localStorage.clear();

@@ -13,7 +13,7 @@
   },
   "repository": "https://github.com/funkensturm/ember-local-storage.git",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "author": "Manuel Wiedenmann",
   "license": "MIT",
@@ -39,14 +39,14 @@
     "ember-data": "^2.10.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.1.1",
-    "ember-load-initializers": "^0.5.1",
-    "ember-one-way-controls": "1.1.1",
+    "ember-load-initializers": "^0.6.3",
+    "ember-one-way-controls": "1.1.2",
     "ember-resolver": "^2.1.0",
-    "loader.js": "^4.0.10"
+    "loader.js": "^4.1.0"
   },
   "dependencies": {
     "broccoli-stew": "^1.4.0",
-    "ember-cli-babel": "^5.1.10",
+    "ember-cli-babel": "^5.2.1",
     "ember-cli-version-checker": "^1.1.7",
     "ember-cli-string-utils": "^1.0.0",
     "ember-getowner-polyfill": "^1.1.1"
