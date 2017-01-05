@@ -5,7 +5,9 @@ import {
   storageDeepEqual
 } from '../../helpers/storage';
 
-const { getOwner } = Ember;
+const {
+  getOwner
+} = Ember;
 
 moduleFor('adapter:application', 'Unit | Adapter | indices', {
   // Specify the other units that are required for this test.

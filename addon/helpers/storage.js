@@ -8,6 +8,7 @@ const {
     dasherize
   }
 } = Ember;
+
 const assign = Ember.assign || Ember.merge;
 
 const storage = {};
