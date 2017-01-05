@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 
 const {
   assert,
   computed,
+  getOwner,
   String: {
     dasherize
   }

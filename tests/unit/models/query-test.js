@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 import { moduleForModel, test } from 'ember-qunit';
 
 const {
   get,
+  getOwner,
   run
 } = Ember;
 
