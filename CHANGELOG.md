@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.4
+* [FIX] Remove getOwner deprecation. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
+* [FIX] Don't leak _indices into registry. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
+* [FIX] Remove _shouldSerializeHasMany deprecation.
+
 ## 1.3.3
 * [FIX] Return undefined instead of null on queryFilter via queryRecord. Thanks to [@bncoelho](https://github.com/bncoelho) for the PR.
 
