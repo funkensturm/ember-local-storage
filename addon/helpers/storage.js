@@ -1,13 +1,14 @@
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 
 const {
   assert,
   computed,
+  getOwner,
   String: {
     dasherize
   }
 } = Ember;
+
 const assign = Ember.assign || Ember.merge;
 
 const storage = {};

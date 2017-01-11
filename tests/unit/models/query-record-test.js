@@ -7,7 +7,7 @@ const {
   run
 } = Ember;
 
-moduleForModel('post', 'Unit | Model | query', {
+moduleForModel('post', 'Unit | Model | queryRecord', {
   // Specify the other units that are required for this test.
   needs: [
     'adapter:application',
@@ -62,33 +62,33 @@ test('attributes (string, regex, boolean, number)', function(assert) {
   });
 
   // string
-  store.query('post', { filter: { name: 'Super Name' } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
+  store.queryRecord('post', { filter: { name: 'Super Name' } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Super Name');
     });
 
   // boolean
-  store.query('post', { filter: { isPrivate: false } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
+  store.queryRecord('post', { filter: { isPrivate: false } })
+    .then(function(post) {
+      assert.equal(get(post, 'isPrivate'), false);
     });
 
   // number
-  store.query('post', { filter: { commentCount: 3 } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { commentCount: 3 } })
+    .then(function(post) {
+      assert.equal(get(post, 'commentCount'), 3);
     });
 
   // regex
-  store.query('post', { filter: { name: /^Just(.*)/ } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { name: /^Just(.*)/ } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Just awesome');
     });
 
   // camelized key
-  store.query('post', { filter: { commentCount: 3 } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { commentCount: 3 } })
+    .then(function(post) {
+      assert.equal(get(post, 'commentCount'), 3);
       done();
     });
 });
@@ -129,55 +129,55 @@ test('belongsTo relationship', function(assert) {
     }).save();
   });
 
-  const id = get(paul, 'id'),
+  const id = get(peter, 'id'),
     regexId = new RegExp('^' + id + '$');
 
-  // get posts from user '123'
+  // get first post from user '123'
   // string
-  store.query('post', { filter: { user: id } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { user: id } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: Testing with Ember PageObjects');
     });
 
   // object
-  store.query('post', { filter: { user: { id: id } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { user: { id: id } } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: Testing with Ember PageObjects');
     });
 
   // regex
-  store.query('post', { filter: { user: regexId } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { user: regexId } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: Testing with Ember PageObjects');
     });
 
   // object regex
-  store.query('post', { filter: { user: { id: regexId } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
+  store.queryRecord('post', { filter: { user: { id: regexId } } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: Testing with Ember PageObjects');
     });
 
   // polymorphic
-  // get posts from editors
-  store.query('post', { filter: { user: { type: 'editor' } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
+  // get first post from editors
+  store.queryRecord('post', { filter: { user: { type: 'editor' } } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
     });
   // regex
-  store.query('post', { filter: { user: { type: /^ed(.*)ors$/ } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
+  store.queryRecord('post', { filter: { user: { type: /^ed(.*)ors$/ } } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
     });
 
-  // get posts from editor '123'
-  store.query('post', { filter: { user: { id: id, type: 'editor' } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2, 'nuu');
+  // get first post from editor '123'
+  store.queryRecord('post', { filter: { user: { id: id, type: 'editor' } } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: Testing with Ember PageObjects', 'nuu');
     });
   // regex
-  store.query('post', { filter: { user: { id: id, type: /^ed(.*)ors$/ } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2, 'ups');
+  store.queryRecord('post', { filter: { user: { id: id, type: /^ed(.*)ors$/ } } })
+    .then(function(post) {
+      assert.equal(get(post, 'name'), 'Ember.js: Testing with Ember PageObjects', 'ups');
       done();
     });
 });
@@ -233,62 +233,62 @@ test('hasMany relationship', function(assert) {
   const id = get(project, 'id'),
     regexId = new RegExp('^' + id + '$');
 
-  // get users who've contributed to project.id = 123
+  // get first user who've contributed to project.id = 123
   // string
-  store.query('user', { filter: { projects: id } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+  store.queryRecord('user', { filter: { projects: id } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Peter');
     });
 
   // object
-  store.query('user', { filter: { projects: { id: id } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+  store.queryRecord('user', { filter: { projects: { id: id } } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Peter');
     });
 
   // regex
-  store.query('user', { filter: { projects: regexId } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+  store.queryRecord('user', { filter: { projects: regexId } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Peter');
     });
 
   // object regex
-  store.query('user', { filter: { projects: { id: regexId } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+  store.queryRecord('user', { filter: { projects: { id: regexId } } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Peter');
     });
 
   // polymorphic
-  // get users with cats
-  store.query('user', { filter: { pets: { type: 'cat' } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+  // get first user with cats
+  store.queryRecord('user', { filter: { pets: { type: 'cat' } } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Anna');
     });
 
-  // get users with cat '123'
-  store.query('user', { filter: { pets: { id: get(cat, 'id'), type: 'cat' } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+  // get first user with cat '123'
+  store.queryRecord('user', { filter: { pets: { id: get(cat, 'id'), type: 'cat' } } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Anna');
     });
 
-  // get users with cats AND dogs
-  store.query('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 1);
+  // get first user with cats AND dogs
+  store.queryRecord('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Moritz');
     });
 
-  // get users with cats OR dogs
-  store.query('user', { filter: { pets: { type: /cats|dogs/ } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 3);
+  // get first user with cats OR dogs
+  store.queryRecord('user', { filter: { pets: { type: /cats|dogs/ } } })
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Anna');
     });
 
-  // get the users with bookPublication '123' (camelcased key)
-  store.query('user', {
+  // get the first user with bookPublication '123' (camelcased key)
+  store.queryRecord('user', {
       filter: { bookPublications: get(bookPublication, 'id') }
     })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
+    .then(function(user) {
+      assert.equal(get(user, 'name'), 'Peter');
       done();
     });
 });

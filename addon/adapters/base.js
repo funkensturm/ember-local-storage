@@ -15,7 +15,8 @@ const {
   run,
   Inflector,
   typeOf,
-  isEmpty
+  isEmpty,
+  computed
 } = Ember;
 
 // Ember data ships with ember-inflector
@@ -23,7 +24,7 @@ const inflector = Inflector.inflector;
 
 export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
-  _indices: {},
+  _indices: computed(function() { return {}; }),
   isNewSerializerAPI: true,
   coalesceFindRequests: false,
 
@@ -248,7 +249,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
           recordValue = data[key];
         } else {
           key = serializer.keyForAttribute(key);
-          recordValue = data.attributes ? data.attributes[key] : null;
+          recordValue = data.attributes ? data.attributes[key] : undefined;
         }
 
         if (recordValue !== undefined) {

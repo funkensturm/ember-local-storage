@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
@@ -10,33 +10,25 @@ import {
   _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
-let registry;
-let container;
 let subject;
-
-const registryOpts = { singleton: true, instantiate: false };
 
 const {
   run,
   get
 } = Ember;
 
-module('array - likes', {
+moduleFor('router:main', 'array - likes', {
   beforeEach() {
-    registry  = new Ember.Registry();
-    container = new Ember.Container(registry);
-
     let mockStorage = StorageArray.extend();
     let mockStorageB = StorageArray.extend();
 
-    registry.register('storage:anonymous-likes', mockStorage, registryOpts);
-    registry.register('storage:post-likes', mockStorageB, registryOpts);
-
-    subject = Ember.Object.extend({
-      container,
+    this.register('storage:anonymous-likes', mockStorage);
+    this.register('storage:post-likes', mockStorageB);
+    this.register('object:test', Ember.Object.extend({
       anonymousLikes: storageFor('anonymous-likes'),
       postLikes: storageFor('post-likes')
-    }).create();
+    }));
+    subject = this.container.lookup('object:test');
   },
   afterEach() {
     window.localStorage.clear();
