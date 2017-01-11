@@ -40,7 +40,8 @@ function getStorage(name) {
   }
 }
 
-// TODO: localForage - add isLocalForage helper
+// Detect if localforage is used
+// TODO: localForage - maybe we should check the config as well?
 function isLocalForage() {
   return typeof localforage !== 'undefined';
 }

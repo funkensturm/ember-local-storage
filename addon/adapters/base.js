@@ -163,25 +163,32 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
   _handleGETRequest(url, query) {
     const { type, id } = this._urlParts(url);
-    const storage = get(this, '_storage'),
-      storageKey = this._storageKey(type, id);
+    const storageKey = this._storageKey(type, id);
+    const storage = get(this, '_storage');
 
     if (id) {
-      // TODO: localForage - use getItem()
-      // TODO: localForage - no need to parse if (isLocalForage())
-      return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
+      if (isLocalForage()) {
+        return storage.getItem(storageKey);
+      } else {
+        return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
+      }
     }
 
-    // TODO: we can increase performance by using a forEarch and push to records array
+    // TODO: we can increase performance by using a forEarch and push to records array or just remove empty items
     const records = this._getIndex(type)
       .filter(function(storageKey) {
-        // TODO: localForage - use getItem()
-        return storage[storageKey];
+        if (isLocalForage()) {
+          return storage.getItem(storageKey);
+        } else {
+          return storage[storageKey];
+        }
       })
       .map(function(storageKey) {
-        // TODO: localForage - use getItem()
-        // TODO: localForage - no need to parse if (isLocalForage())
-        return JSON.parse(storage[storageKey]);
+        if (isLocalForage()) {
+          return storage.getItem(storageKey);
+        } else {
+          return JSON.parse(storage[storageKey]);
+        }
       });
 
     if (query && query.filter) {
@@ -198,23 +205,32 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   _handlePOSTRequest(url, record) {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
+    const storage = get(this, '_storage');
 
     this._addToIndex(type, storageKey);
-    // TODO: localForage - use setItem()
-    // TODO: localForage - no need to stringify if (isLocalForage())
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
+
+    if (isLocalForage()) {
+      storage.setItem(storageKey, record.data);
+    } else {
+      storage[storageKey] = JSON.stringify(record.data);
+    }
 
     return null;
   },
 
+  // TODO: Alias to _handlePOSTRequest
   _handlePATCHRequest(url, record) {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
+    const storage = get(this, '_storage');
 
     this._addToIndex(type, storageKey);
-    // TODO: localForage - use setItem()
-    // TODO: localForage - no need to stringify if (isLocalForage())
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
+
+    if (isLocalForage()) {
+      storage.setItem(storageKey, record.data);
+    } else {
+      storage[storageKey] = JSON.stringify(record.data);
+    }
 
     return null;
   },
@@ -222,10 +238,15 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   _handleDELETERequest(url) {
     const { type, id } = this._urlParts(url);
     const storageKey = this._storageKey(type, id);
+    const storage = get(this, '_storage');
 
     this._removeFromIndex(type, storageKey);
-    // TODO: localForage - use removeItem()
-    delete get(this, '_storage')[storageKey];
+
+    if (isLocalForage()) {
+      storage.removeItem(storageKey);
+    } else {
+      delete storage[storageKey];
+    }
 
     return null;
   },
