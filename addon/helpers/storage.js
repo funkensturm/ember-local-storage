@@ -22,7 +22,7 @@ function tryStorage(name) {
     nativeStorage.setItem('emberlocalstorage.test', 'ok');
     nativeStorage.removeItem('emberlocalstorage.test');
   } catch (e) {
-    nativeStorage = null;
+    nativeStorage = undefined;
   }
 
   return nativeStorage;
