@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { getStorage } from '../helpers/storage';
+import { getStorage, isLocalForage } from '../helpers/storage';
 
 const {
   Mixin,
@@ -54,6 +54,7 @@ export default Mixin.create({
 
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
+    // TODO: localForage - use getItem()
     // Retrieve the serialized version from storage..
     serialized = storage[storageKey];
 
@@ -86,6 +87,7 @@ export default Mixin.create({
     const storage = this._storage(),
       storageKey = get(this, '_storageKey');
 
+    // TODO: localForage - do we have to check for the driver?
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
         if (this.isDestroying) { return; }
@@ -124,7 +126,11 @@ export default Mixin.create({
         set(this, '_isInitialContent', false);
       }
 
-      storage[storageKey] = json;
+      if (isLocalForage()) {
+        storage.setItem(storageKey, content);
+      } else {
+        storage[storageKey] = json;
+      }
     }
   },
 
@@ -157,6 +163,7 @@ export default Mixin.create({
   // returns void
   clear: function() {
     this._clear();
+    // TODO: localForage - use removeItem()
     delete this._storage()[get(this, '_storageKey')];
   }
 });
