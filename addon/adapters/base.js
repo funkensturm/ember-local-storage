@@ -166,7 +166,10 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       storageKey = this._storageKey(type, id);
 
     if (id) {
-      return storage[storageKey] ? JSON.parse(storage[storageKey]) : null;
+      if (!storage[storageKey]) {
+        throw this.handleResponse(404, {}, "Not found", { url, method: 'GET' });
+      }
+      return JSON.parse(storage[storageKey]);
     }
 
     const records = this._getIndex(type)
