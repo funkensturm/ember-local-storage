@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.5
+* [FIX] Raise AdapterError on not found. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
+* [FIX] tryStorage now returns undefined instead of null. Thanks to [@xcambar](https://github.com/xcambar) for the PR.
+
 ## 1.3.4
 * [FIX] Remove getOwner deprecation. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
 * [FIX] Don't leak _indices into registry. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
