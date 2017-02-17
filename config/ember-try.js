@@ -14,6 +14,7 @@ module.exports = {
       npm: {
         devDependencies: {
           'ember-data': '~2.4.0',
+          'ember-cli-shims': null,
           'ember-source': null
         }
       }
