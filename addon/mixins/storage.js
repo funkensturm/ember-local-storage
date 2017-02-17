@@ -33,12 +33,11 @@ export default Mixin.create({
 
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
-    // Retrieve the serialized version from storage.
-    serialized = storage[storageKey];
-
     // Merge the serialized version into defaults.
     content = this._getInitialContentCopy();
 
+    // Retrieve the serialized version from storage.
+    serialized = storage[storageKey];
     if (serialized) {
       assign(content, JSON.parse(serialized));
     }
@@ -62,8 +61,8 @@ export default Mixin.create({
   },
 
   _addStorageListener() {
-    const storage = this._storage(),
-      storageKey = get(this, '_storageKey');
+    const storage = this._storage();
+    const storageKey = get(this, '_storageKey');
 
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
@@ -79,6 +78,7 @@ export default Mixin.create({
           }
 
           if (event.newValue) {
+            // TODO: Why do we use this.set here? I guess it's the loop bug...
             this.set('content', JSON.parse(event.newValue));
           } else {
             this.clear();
@@ -91,11 +91,12 @@ export default Mixin.create({
   },
 
   _save() {
-    const storage = this._storage(),
-      content = get(this, 'content'),
-      storageKey = get(this, '_storageKey'),
-      initialContentString = get(this, '_initialContentString');
+    const storage = this._storage();
+    const content = get(this, 'content');
+    const storageKey = get(this, '_storageKey');
+    const initialContentString = get(this, '_initialContentString');
 
+    // TODO: Why is it needed?
     if (storageKey) {
       let json = JSON.stringify(content);
 
@@ -118,13 +119,13 @@ export default Mixin.create({
   // Public API
 
   // returns boolean
-  isInitialContent: function() {
+  isInitialContent() {
     return get(this, '_isInitialContent');
   },
 
   // reset the content
   // returns void
-  reset: function() {
+  reset() {
     const content = this._getInitialContentCopy();
 
     // Do not change to set(this, 'content', content)
@@ -134,7 +135,7 @@ export default Mixin.create({
 
   // clear the content
   // returns void
-  clear: function() {
+  clear() {
     this._clear();
     delete this._storage()[get(this, '_storageKey')];
   }
