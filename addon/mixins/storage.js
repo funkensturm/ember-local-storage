@@ -32,11 +32,12 @@ export default Mixin.create({
 
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
+    // Retrieve the serialized version from storage.
+    serialized = storage[storageKey];
+
     // Merge the serialized version into defaults.
     content = this._getInitialContentCopy();
 
-    // Retrieve the serialized version from storage.
-    serialized = storage[storageKey];
     if (serialized) {
       assign(content, JSON.parse(serialized));
     }
