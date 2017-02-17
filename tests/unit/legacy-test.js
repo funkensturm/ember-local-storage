@@ -1,5 +1,8 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
+import {
+  storageDeepEqual
+} from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
 import {
@@ -48,3 +51,12 @@ test('it has correct defaults', function(assert) {
   });
 });
 
+test('serialized content can be used', function(assert) {
+  assert.expect(2);
+
+  assert.equal(subject.get('settings.mapStyle'), 'dark');
+  storageDeepEqual(assert, window.localStorage.settings, {
+    mapStyle: 'dark',
+    token: 1234
+  });
+});
