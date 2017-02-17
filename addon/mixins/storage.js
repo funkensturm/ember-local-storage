@@ -12,6 +12,7 @@ const {
 const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
+  _storageKey: null,
   _initialContent: null,
   _initialContentString: null,
   _isInitialContent: true,
