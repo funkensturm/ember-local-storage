@@ -2,54 +2,6 @@
   "name": "ember-local-storage",
   "version": "1.3.5",
   "description": "The addon provides an ember-data adapter and a storageFor computed property that persists the changes to localStorage or sessionStorage.",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
-  "scripts": {
-    "build": "ember build",
-    "start": "ember server",
-    "test": "ember try:testall"
-  },
-  "repository": "https://github.com/funkensturm/ember-local-storage.git",
-  "engines": {
-    "node": ">= 4"
-  },
-  "author": "Manuel Wiedenmann",
-  "license": "MIT",
-  "devDependencies": {
-    "broccoli-asset-rev": "^2.5.0",
-    "ember-ajax": "^2.5.2",
-    "ember-cli": "^2.9.1",
-    "ember-cli-app-version": "^2.0.0",
-    "ember-cli-dependency-checker": "^1.3.0",
-    "ember-cli-github-pages": "0.1.2",
-    "ember-cli-htmlbars": "^1.0.10",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.3",
-    "ember-cli-inject-live-reload": "^1.4.1",
-    "ember-cli-inuitcss": "0.1.2",
-    "ember-cli-jshint": "^2.0.1",
-    "ember-cli-qunit": "^3.0.2",
-    "ember-cli-release": "^0.2.9",
-    "ember-cli-sass": "6.1.0",
-    "ember-cli-sri": "^2.1.0",
-    "ember-cli-test-loader": "^1.1.0",
-    "ember-cli-uglify": "^1.2.0",
-    "ember-data": "^2.10.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-export-application-global": "^1.1.1",
-    "ember-load-initializers": "^0.6.3",
-    "ember-one-way-controls": "2.0.0",
-    "ember-resolver": "^2.1.0",
-    "loader.js": "^4.1.0"
-  },
-  "dependencies": {
-    "broccoli-stew": "^1.4.0",
-    "ember-cli-babel": "^5.2.1",
-    "ember-cli-version-checker": "^1.1.7",
-    "ember-cli-string-utils": "^1.0.0",
-    "ember-getowner-polyfill": "^1.1.1"
-  },
   "keywords": [
     "ember-addon",
     "localStorage",
@@ -63,6 +15,56 @@
     "localStorage adapter",
     "local-storage adapter"
   ],
+  "license": "MIT",
+  "author": "Manuel Wiedenmann",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "repository": "https://github.com/funkensturm/ember-local-storage.git",
+  "scripts": {
+    "build": "ember build",
+    "start": "ember server",
+    "test": "ember try:each"
+  },
+  "dependencies": {
+    "broccoli-stew": "^1.4.0",
+    "ember-cli-babel": "^5.2.1",
+    "ember-cli-version-checker": "^1.1.7",
+    "ember-cli-string-utils": "^1.0.0",
+    "ember-getowner-polyfill": "^1.1.1"
+  },
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.5.0",
+    "ember-ajax": "^2.5.2",
+    "ember-cli": "^2.11.1",
+    "ember-cli-app-version": "^2.0.0",
+    "ember-cli-dependency-checker": "^1.3.0",
+    "ember-cli-github-pages": "0.1.2",
+    "ember-cli-htmlbars": "^1.1.1",
+    "ember-cli-htmlbars-inline-precompile": "^0.3.6",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-inuitcss": "0.1.2",
+    "ember-cli-jshint": "^2.0.1",
+    "ember-cli-qunit": "^3.0.2",
+    "ember-cli-release": "^0.2.9",
+    "ember-cli-sass": "6.1.0",
+    "ember-cli-shims": "^1.0.2",
+    "ember-cli-sri": "^2.1.0",
+    "ember-cli-test-loader": "^1.1.0",
+    "ember-cli-uglify": "^1.2.0",
+    "ember-data": "^2.11.0",
+    "ember-disable-prototype-extensions": "^1.1.0",
+    "ember-export-application-global": "^1.1.1",
+    "ember-load-initializers": "^0.6.3",
+    "ember-one-way-controls": "2.0.0",
+    "ember-resolver": "^2.1.0",
+    "ember-source": "~2.11.0",
+    "loader.js": "^4.1.0"
+  },
+  "engines": {
+    "node": ">= 4"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   }
