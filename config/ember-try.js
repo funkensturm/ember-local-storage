@@ -78,17 +78,16 @@ module.exports = {
       name: 'ember-release',
       bower: {
         dependencies: {
-          'ember': 'components/ember#release',
-          'ember-data': 'components/ember-data#release'
+          'ember': 'components/ember#release'
         },
         resolutions: {
-          'ember': 'release',
-          'ember-data': 'release'
+          'ember': 'release'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-data': 'emberjs/data#release'
         }
       }
     },
