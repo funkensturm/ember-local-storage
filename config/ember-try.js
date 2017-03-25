@@ -95,17 +95,16 @@ module.exports = {
       name: 'ember-beta',
       bower: {
         dependencies: {
-          'ember': 'components/ember#beta',
-          'ember-data': 'components/ember-data#beta'
+          'ember': 'components/ember#beta'
         },
         resolutions: {
-          'ember': 'beta',
-          'ember-data': 'beta'
+          'ember': 'beta'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-data': 'emberjs/data#beta'
         }
       }
     },
@@ -113,17 +112,16 @@ module.exports = {
       name: 'ember-canary',
       bower: {
         dependencies: {
-          'ember': 'components/ember#canary',
-          'ember-data': 'components/ember-data#canary'
+          'ember': 'components/ember#canary'
         },
         resolutions: {
-          'ember': 'canary',
-          'ember-data': 'canary'
+          'ember': 'canary'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-data': 'emberjs/data#master'
         }
       }
     },
