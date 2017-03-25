@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
   scenarios: [
     {
@@ -15,48 +16,6 @@ module.exports = {
         devDependencies: {
           'ember-data': '~2.4.0',
           'ember-cli-shims': null,
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.5',
-      bower: {
-        dependencies: {
-          'ember': '~2.5.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-data': '~2.5.0',
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.6',
-      bower: {
-        dependencies: {
-          'ember': '~2.6.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-data': '~2.6.0',
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.7',
-      bower: {
-        dependencies: {
-          'ember': '~2.7.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-data': '~2.7.0',
           'ember-source': null
         }
       }
@@ -107,20 +66,28 @@ module.exports = {
       }
     },
     {
+      name: 'ember-2.11',
+      npm: {
+        devDependencies: {
+          'ember-data': '~2.11.0',
+          'ember-source': '~2.11.0'
+        }
+      }
+    },
+    {
       name: 'ember-release',
       bower: {
         dependencies: {
-          'ember': 'components/ember#release',
-          'ember-data': 'components/ember-data#release'
+          'ember': 'components/ember#release'
         },
         resolutions: {
-          'ember': 'release',
-          'ember-data': 'release'
+          'ember': 'release'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-data': 'emberjs/data#release'
         }
       }
     },
@@ -128,17 +95,16 @@ module.exports = {
       name: 'ember-beta',
       bower: {
         dependencies: {
-          'ember': 'components/ember#beta',
-          'ember-data': 'components/ember-data#beta'
+          'ember': 'components/ember#beta'
         },
         resolutions: {
-          'ember': 'beta',
-          'ember-data': 'beta'
+          'ember': 'beta'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-data': 'emberjs/data#beta'
         }
       }
     },
@@ -146,17 +112,16 @@ module.exports = {
       name: 'ember-canary',
       bower: {
         dependencies: {
-          'ember': 'components/ember#canary',
-          'ember-data': 'components/ember-data#canary'
+          'ember': 'components/ember#canary'
         },
         resolutions: {
-          'ember': 'canary',
-          'ember-data': 'canary'
+          'ember': 'canary'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-data': 'emberjs/data#master'
         }
       }
     },
