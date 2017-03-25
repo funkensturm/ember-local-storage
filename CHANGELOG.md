@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.6
+* [FIX] Fix broken import/export and decouple the methods from the adapter. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
+
 ## 1.3.5
 * [FIX] Raise AdapterError on not found. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
 * [FIX] tryStorage now returns undefined instead of null. Thanks to [@xcambar](https://github.com/xcambar) for the PR.

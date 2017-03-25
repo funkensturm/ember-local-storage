@@ -4,7 +4,6 @@ import { moduleForModel, test } from 'ember-qunit';
 
 const {
   get,
-  getOwner,
   run
 } = Ember;
 
@@ -20,13 +19,8 @@ moduleForModel('post', 'Unit | Model | post', {
     'model:book-publication'
   ],
   beforeEach: function() {
-    const adapter = getOwner(this).lookup('adapter:application');
-
-    ['posts', 'users', 'projects', 'comments', 'pets'].forEach(function(key) {
-      adapter._getIndex(key).reset();
-    });
-
     window.localStorage.clear();
+    window.sessionStorage.clear();
   }
 });
 
