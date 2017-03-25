@@ -142,7 +142,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   // Delegate to _handle${type}Request
   _handleStorageRequest(url, type, options = {}) {
     if (this._debug) {
-      console.log(url, type, options);
+      console.log(url, type, options); // eslint-disable-line no-console
     }
 
     return new RSVP.Promise((resolve, reject) => {
