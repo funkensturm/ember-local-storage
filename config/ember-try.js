@@ -21,48 +21,6 @@ module.exports = {
       }
     },
     {
-      name: 'ember-2.5',
-      bower: {
-        dependencies: {
-          'ember': '~2.5.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-data': '~2.5.0',
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.6',
-      bower: {
-        dependencies: {
-          'ember': '~2.6.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-data': '~2.6.0',
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.7',
-      bower: {
-        dependencies: {
-          'ember': '~2.7.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-data': '~2.7.0',
-          'ember-source': null
-        }
-      }
-    },
-    {
       name: 'ember-lts-2.8',
       bower: {
         dependencies: {
