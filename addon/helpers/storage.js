@@ -125,8 +125,8 @@ function createStorage(context, key, modelKey, options) {
 }
 
 function _modelKey(model) {
-  const modelName = model.modelName || model.constructor.typeKey,
-    id = model.get('id');
+  const modelName = model.modelName || model.constructor.typeKey || model.constructor.modelName;
+  const id = model.get('id');
 
   if (!modelName || !id) {
     throw new TypeError('The model must have a `modelName` and `id` on it');
