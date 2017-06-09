@@ -2063,9 +2063,9 @@ ember-cli-inject-live-reload@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/ember-cli-inject-live-reload/-/ember-cli-inject-live-reload-1.6.1.tgz#82b8f5be454815a75e7f6d42c9ce0bc883a914a3"
 
-ember-cli-inuitcss@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-inuitcss/-/ember-cli-inuitcss-1.0.0.tgz#9a9a8ca7f066948e37bd13444d3d047ac7d008ac"
+ember-cli-inuitcss@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-inuitcss/-/ember-cli-inuitcss-1.0.1.tgz#f04bdc6faace1a0e3e428c4056213e5d51df99d7"
   dependencies:
     ember-cli-babel "^6.1.0"
     ember-cli-sass "6.1.3"
