@@ -1,9 +1,8 @@
 # Ember localStorage
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/funkensturm/ember-local-storage.svg)](https://greenkeeper.io/)
-
 [![Build Status](https://api.travis-ci.org/funkensturm/ember-local-storage.svg?branch=master)](https://travis-ci.org/funkensturm/ember-local-storage)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-local-storage.svg)](http://emberobserver.com/addons/ember-local-storage)
+[![Greenkeeper badge](https://badges.greenkeeper.io/funkensturm/ember-local-storage.svg)](https://greenkeeper.io/)
 
 
 The addon provides a `storageFor` computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It works with objects and arrays and has a generator to create the proxy objects or arrays.
