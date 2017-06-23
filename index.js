@@ -3,6 +3,9 @@
 
 var stew = require('broccoli-stew');
 var VersionChecker = require('ember-cli-version-checker');
+var path = require('path');
+var Funnel = require('broccoli-funnel');
+var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
   name: 'ember-local-storage',
@@ -40,7 +43,7 @@ module.exports = {
 
       if (options.fileExport && this.hasEmberData) {
         app.import('vendor/save-as.js');
-        app.import(app.bowerDirectory + '/blob-polyfill/Blob.js');
+        app.import('vendor/Blob.js');
       }
     }
 
@@ -75,5 +78,13 @@ module.exports = {
     }
 
     return this._super.treeForAddon.call(this, tree);
+  },
+
+  treeForVendor(vendorTree) {
+    var blobTree = new Funnel(path.dirname(require.resolve('blob-polyfill')), {
+      files: ['Blob.js']
+    });
+
+    return mergeTrees([vendorTree, blobTree]);
   }
 };

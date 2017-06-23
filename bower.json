@@ -1,7 +1,6 @@
 {
   "name": "ember-local-storage",
   "dependencies": {
-    "blob-polyfill": "~1.0.20150320",
     "highlightjs": "~9.1.0",
     "inuitcss": "^6.0.0-beta.4"
   }
