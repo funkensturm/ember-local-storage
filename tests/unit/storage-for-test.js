@@ -23,6 +23,7 @@ moduleFor('router:main', 'legacy - config', {
     });
 
     this.register('storage:settings', mockStorage);
+    this.register('storage:options', mockStorage);
   },
   afterEach() {
     window.localStorage.clear();
@@ -31,7 +32,7 @@ moduleFor('router:main', 'legacy - config', {
 });
 
 test('it has the correct key', function(assert) {
-  assert.expect(2);
+  assert.expect(4);
 
   let post = Ember.Object.extend({
     modelName: 'post',
@@ -40,7 +41,8 @@ test('it has the correct key', function(assert) {
 
   this.register('object:test', Ember.Object.extend({
     post: post,
-    settings: storageFor('settings', 'post')
+    settings: storageFor('settings', 'post'),
+    options: storageFor('options', 'post')
   }));
   let subject = this.container.lookup('object:test');
 
@@ -49,7 +51,16 @@ test('it has the correct key', function(assert) {
     'storage:settings:post:123'
   );
 
+  assert.equal(
+    subject.get('options._storageKey'),
+    'storage:options:post:123'
+  );
+
   storageDeepEqual(assert, window.localStorage['storage:settings:post:123'], {
+    perPage: 10
+  });
+
+  storageDeepEqual(assert, window.localStorage['storage:options:post:123'], {
     perPage: 10
   });
 });

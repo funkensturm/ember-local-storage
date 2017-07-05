@@ -70,13 +70,14 @@ function storageFor(key, modelName, options = {}) {
     }
 
     const modelKey = _modelKey(model);
+    const storageKey = `${key}:${modelKey}`;
     // TODO allow callbacks to delete the storage if model gets deleted
 
-    if (!storages[modelKey]) {
-      storages[modelKey] = createStorage(this, key, modelKey, options);
+    if (!storages[storageKey]) {
+      storages[storageKey] = createStorage(this, key, modelKey, options);
     }
 
-    return storages[modelKey];
+    return storages[storageKey];
   });
 }
 
