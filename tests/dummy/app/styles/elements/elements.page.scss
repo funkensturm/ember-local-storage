@@ -2,8 +2,8 @@ body {
   font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   max-width: 1200px;
-  margin: $inuit-base-spacing-unit auto;
-  padding: 0 $inuit-base-spacing-unit;
+  margin: $inuit-global-spacing-unit auto;
+  padding: 0 $inuit-global-spacing-unit;
 
   a {
     color: $base-link-color;
