@@ -2,6 +2,6 @@
   "name": "ember-local-storage",
   "dependencies": {
     "highlightjs": "~9.1.0",
-    "inuitcss": "^6.0.0-beta.4"
+    "inuitcss": "6.0.0-beta.4"
   }
 }
