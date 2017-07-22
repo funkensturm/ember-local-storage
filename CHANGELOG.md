@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.7
+* [FIX] `storageFor`s `model` option now supports latest ember-data models. Thanks to [@offirgolan](https://github.com/offirgolan) for the PR.
+
 ## 1.3.6
 * [FIX] Fix broken import/export and decouple the methods from the adapter. Thanks to [@bendemboski](https://github.com/bendemboski) for the PR.
 
