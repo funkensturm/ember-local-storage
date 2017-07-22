@@ -1,20 +1,35 @@
 /* eslint-env node */
 'use strict';
 
-var stew = require('broccoli-stew');
-var VersionChecker = require('ember-cli-version-checker');
-var path = require('path');
-var Funnel = require('broccoli-funnel');
-var mergeTrees = require('broccoli-merge-trees');
+const stew = require('broccoli-stew');
+const VersionChecker = require('ember-cli-version-checker');
+const path = require('path');
+const Funnel = require('broccoli-funnel');
+const mergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
   name: 'ember-local-storage',
 
-  included: function included(app) {
+  _warn(message) {
+    let chalk = require('chalk');
+    let warning = chalk.yellow('WARNING: ' + message);
+
+    if (this.ui && this.ui.writeWarnLine) {
+      this.ui.writeWarnLine(message);
+    } else if (this.ui) {
+      this.ui.writeLine(warning);
+    } else {
+      console.log(warning);
+    }
+  },
+
+  init(app) {
+    this._super.init && this._super.init.apply(this, arguments);
+
     // determine if ember-data is present
-    var checker = new VersionChecker(this);
-    var bowerDep = checker.for('ember-data', 'bower');
-    var npmDep = checker.for('ember-data', 'npm');
+    let checker = new VersionChecker(this);
+    let bowerDep = checker.for('ember-data', 'bower');
+    let npmDep = checker.for('ember-data', 'npm');
 
     if (
       (
@@ -36,15 +51,37 @@ module.exports = {
     }
 
     // determin if saveAs and Blob should be imported
-    var projectConfig = this.project.config(app.env);
+    let projectConfig = this.project.config(app.env);
+    let options = {};
 
     if (projectConfig) {
-      var options = projectConfig['ember-local-storage'] || {};
+      options = projectConfig['ember-local-storage'] || {};
 
       if (options.fileExport && this.hasEmberData) {
-        app.import('vendor/save-as.js');
-        app.import('vendor/Blob.js');
+        this.needsFileExport = true;
       }
+    }
+
+    // Inform the user about the transition to npm dependencies
+    if (this.needsFileExport && !options.ignoreBlobWarning) {
+      let bowerDeps = this.project.bowerDependencies();
+
+      if (bowerDeps['blob-polyfill']) {
+        this._warn('Please remove `blob-polyfill` from `bower.json`. As of ' +
+                   'Ember localStorage 1.4.0 the `blob-polyfill` NPM ' +
+                   'package is a dependency. If other code depends on the ' +
+                   'bower package add `ignoreBlobWarning: true` to ' +
+                   '`ember-local-storage` config in `environment.js` to ' +
+                   'ignore this warning.'
+                  );
+      }
+    }
+  },
+
+  included: function included(app) {
+    if (this.needsFileExport) {
+      app.import('vendor/save-as.js');
+      app.import('vendor/Blob.js');
     }
 
     this._super.included.apply(this, arguments);
@@ -81,7 +118,7 @@ module.exports = {
   },
 
   treeForVendor(vendorTree) {
-    var blobTree = new Funnel(path.dirname(require.resolve('blob-polyfill')), {
+    let blobTree = new Funnel(path.dirname(require.resolve('blob-polyfill')), {
       files: ['Blob.js']
     });
 
