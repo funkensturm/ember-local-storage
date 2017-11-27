@@ -12,14 +12,13 @@ const {
   get,
   RSVP,
   run,
-  Inflector,
   typeOf,
   isEmpty,
   computed
 } = Ember;
 
 // Ember data ships with ember-inflector
-const inflector = Inflector.inflector;
+import { inflector } from 'ember-inflector';
 
 export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
