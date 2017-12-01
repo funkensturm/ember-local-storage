@@ -50,7 +50,7 @@ module.exports = {
       this.hasEmberData = true;
     }
 
-    // determin if saveAs and Blob should be imported
+    // determine if saveAs and Blob should be imported
     let projectConfig = this.project.config(app.env);
     let options = {};
 
