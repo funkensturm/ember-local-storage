@@ -1,10 +1,8 @@
 import Ember from 'ember';
+import { singularize } from 'ember-inflector';
 
 const {
   get,
-  String: {
-    singularize
-  },
   run
 } = Ember;
 
