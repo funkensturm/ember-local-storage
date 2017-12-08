@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.1
+* [FIX]  Remove singularize + pluralize deprecation warnings. Thanks to [@eharrow](https://github.com/eharrow) and [@CvX](https://github.com/CvX) for the PRs.
+
 ## 1.4.0
 * [FIX] Namespaces storage based on type key if `storageFor`s `model` option is used. Thanks to [@offirgolan](https://github.com/offirgolan) for the PR.
 * [ENHANCEMENT] Moving blob-polyfill dependency from bower to npm. You can remove the bower dependency if its not needed by other code. Thanks to [@gmurphey](https://github.com/gmurphey) for the PR.
