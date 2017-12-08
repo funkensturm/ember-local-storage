@@ -12,14 +12,13 @@ const {
   get,
   RSVP,
   run,
-  Inflector,
   typeOf,
   isEmpty,
   computed
 } = Ember;
 
 // Ember data ships with ember-inflector
-const inflector = Inflector.inflector;
+import { singularize, pluralize } from 'ember-inflector';
 
 export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
@@ -181,7 +180,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       });
 
     if (query && query.filter) {
-      const serializer = this.store.serializerFor(inflector.singularize(type));
+      const serializer = this.store.serializerFor(singularize(type));
 
       return records.filter((record) => {
         return this._queryFilter(record, serializer, query.filter);
@@ -232,7 +231,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
         // normalize type
         if (key === 'type' && typeOf(queryValue) === 'string') {
-          queryValue = inflector.pluralize(queryValue);
+          queryValue = pluralize(queryValue);
         }
 
         // Attributes
