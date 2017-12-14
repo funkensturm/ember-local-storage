@@ -11,23 +11,27 @@ module.exports = {
       type: ['object', 'array'],
       default: 'object',
       aliases:[
-        { 'a': 'array'},
-        { 'array': 'array'}
+        { 'a': 'array' },
+        { 'array': 'array' }
       ]
     },
     {
       name: 'storage',
-      type: ['local', 'session'],
+      type: ['local', 'session', 'indexeddb', 'websql'],
       default: 'local',
       aliases:[
-        { 's': 'session'},
-        { 'session': 'session'}
+        { 's': 'session' },
+        { 'session': 'session' },
+        { 'i': 'indexeddb' },
+        { 'indexeddb': 'indexeddb' },
+        { 'w': 'websql' },
+        { 'websql': 'websql' }
       ]
     }
   ],
 
   afterInstall: function () {
-    return this.addBowerPackageToProject('localforage', '~1.3.1');
+    return this.addBowerPackageToProject('localforage', '~1.5.5');
     return this.addBowerPackageToProject('localforage-sessionstoragewrapper', '~1.2.0');
   },
 

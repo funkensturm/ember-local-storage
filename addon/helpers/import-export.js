@@ -17,7 +17,6 @@ export function importData(store, content, options) {
 
   let reloadTypes = [];
 
-  console.log("IMPORT_DATA");
   content = options.json ? JSON.parse(content) : content;
 
   if (options.truncate) {
@@ -26,7 +25,8 @@ export function importData(store, content, options) {
       const adapter = store.adapterFor(singularize(type));
 
       adapter._getIndex(type).forEach((storageKey) => {
-        delete get(adapter, '_storage')[storageKey];
+        const storage = get(adapter, '_storage');
+        storage.removeItem(storageKey);
       });
 
       adapter._getIndex(type).reset();
@@ -57,7 +57,6 @@ export function importData(store, content, options) {
 }
 
 export function exportData(store, types, options) {
-  console.log("EXPORT");
   // merge defaults
   options = assign({
     json: true,

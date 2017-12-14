@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { setLocalForage } from './utils';
 
 const {
   assert,
@@ -10,44 +9,34 @@ const {
   }
 } = Ember;
 
+const localforage = window.localforage;
+const sessionStorageWrapper = window.sessionStorageWrapper;
+
 const assign = Ember.assign || Ember.merge;
+
+const drivers = {
+  'session': sessionStorageWrapper._driver,
+  'local': localforage.LOCALSTORAGE,
+  'websql': localforage.WEBSQL,
+  'indexeddb': localforage.INDEXEDDB
+};
 
 const storage = {};
 
-function tryNativeStorage(name) {
-  let nativeStorage;
-
-  // safari private mode exposes xStorage but fails on setItem
-  try {
-    nativeStorage = (name === 'local') ? localStorage : sessionStorage;
-    nativeStorage.setItem('emberlocalstorage.test', 'ok');
-    nativeStorage.removeItem('emberlocalstorage.test');
-  } catch (e) {
-    nativeStorage = undefined;
-  }
-  return nativeStorage;
-}
-
-function tryLocalForage(name) {
-  let forage;
-  try {
-    forage = localforage.createInstance();
-    forage.config({driver: name});
-    forage.setItem('emberlocalstorage.test', 'ok').then(function () {
-      forage.removeItem('emberlocalstorage.test');
-    })
-    setLocalForage(forage);
-  } catch (e) {
-    forage = undefined;
-  }
-  return forage;
-}
-
 function tryStorage(name) {
-  if ([localforage.INDEXEDDB, localforage.WEBSQL].indexOf(name) >= 0) {
-    return tryLocalForage(name);
-  } else {
-    return tryNativeStorage(name);
+  const driver = drivers[name];
+  if (driver === undefined) {
+    return undefined;
+  }
+  try {
+    const forage = localforage.createInstance();
+    forage.config({driver: driver});
+    forage.setItem('emberlocalstorage.test', 'ok').then(function () {
+      return forage.removeItem('emberlocalstorage.test');
+    });
+    return forage;
+  } catch (e) {
+    return undefined;
   }
 }
 
@@ -62,7 +51,6 @@ function getStorage(name) {
 let storages = {};
 
 function storageFor(key, modelName, options = {}) {
-  console.log("STORAGE__FOR");
   if (arguments.length === 2 && typeof modelName === 'object') {
     options = modelName;
     modelName = null;

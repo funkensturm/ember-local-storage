@@ -43,6 +43,7 @@ test('it handles requests for missing records', function(assert) {
   assert.expect(1);
 
   return run(() => {
+    console.log('xd');
     return this.store.findRecord('simple', '12345').then(() => {
       assert.notOk(true, "should not have succeeded");
     }).catch((e) => {

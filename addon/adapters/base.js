@@ -147,8 +147,9 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     return new RSVP.Promise((resolve, reject) => {
       const handler = this[`_handle${type}Request`];
       if (handler) {
-        const data = handler.call(this, url, options.data);
-        run(null, resolve, {data: data});
+        handler.call(this, url, options.data).then((data) => {
+          run(null, resolve, {data: data});
+        });
       } else {
         run(
           null,
@@ -160,72 +161,65 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   },
 
   _handleGETRequest(url, query) {
-    console.log("GET");
     const { type, id } = this._urlParts(url);
     const storage = get(this, '_storage'),
       storageKey = this._storageKey(type, id);
 
     if (id) {
-      const json = storage.getItem(storageKey);
-      if (!json) {
-        throw this.handleResponse(404, {}, "Not found", { url, method: 'GET' });
-      }
-      return JSON.parse(json);
+      return storage.getItem(storageKey).then((record) => {
+        if (record === null || record === undefined) {
+          throw this.handleResponse(404, {}, 'Not found', { url, method: 'GET' });
+        }
+        return record;
+      });
     }
 
-    const records = this._getIndex(type)
-      .filter(function(storageKey) {
+    const recordPromise = Promise.all(
+      this._getIndex(type).map((storageKey) => {
         return storage.getItem(storageKey);
       })
-      .map(function(storageKey) {
-        return JSON.parse(storage.getItem(storageKey));
+    ).then((records) => {
+      return records.filter((record) => {
+        return record !== null && record !== undefined;
       });
+    });
 
     if (query && query.filter) {
       const serializer = this.store.serializerFor(singularize(type));
-
-      return records.filter((record) => {
-        return this._queryFilter(record, serializer, query.filter);
+      return recordPromise.then((records) => {
+        return records.filter((record) => {
+          return this._queryFilter(record, serializer, query.filter);
+        });
       });
     }
-
-    return records;
+    return recordPromise;
   },
 
   _handlePOSTRequest(url, record) {
-    console.log("POST");
     const { type, id } = record.data;
     const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
     this._addToIndex(type, storageKey);
-    storage.setItem(storageKey, JSON.stringify(record.data));
-
-    return null;
+    return storage.setItem(storageKey, record.data);
   },
 
   _handlePATCHRequest(url, record) {
-    console.log("PATCH");
     const { type, id } = record.data;
     const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
     this._addToIndex(type, storageKey);
-    storage.setItem(storageKey, JSON.stringify(record.data));
-
-    return null;
+    return storage.setItem(storageKey, record.data);
   },
 
   _handleDELETERequest(url) {
-    console.log("DELETE");
     const { type, id } = this._urlParts(url);
     const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
     this._removeFromIndex(type, storageKey);
-    storage.removeItem(storageKey);
-
-    return null;
+    return storage.removeItem(storageKey);
   },
 
   _queryFilter(data, serializer, query = {}) {

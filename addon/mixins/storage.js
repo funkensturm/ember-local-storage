@@ -29,22 +29,19 @@ export default Mixin.create({
     const storageKey = get(this, '_storageKey');
     const initialContent = get(this, '_initialContent');
 
-    let serialized, content;
-
-    console.log("INIT");
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
     // Merge the serialized version into defaults.
-    content = this._getInitialContentCopy();
+    let content = this._getInitialContentCopy();
 
     // Retrieve the serialized version from storage.
-    serialized = storage.getItem(storageKey);
-    if (serialized) {
-      assign(content, JSON.parse(serialized));
-    }
-
-    // Do not change to set(this, 'content', content)
-    this.set('content', content);
+    storage.getItem(storageKey).then((value) => {
+      if (value !== null && value !== undefined) {
+        assign(content, value);
+      }
+      // Do not change to set(this, 'content', content)
+      this.set('content', content);
+    });
 
     // Keep in sync with other windows
     this._addStorageListener();
@@ -62,14 +59,11 @@ export default Mixin.create({
   },
 
   _addStorageListener() {
-    console.log("ADD LISTENER");
     const storage = this._storage();
     const storageKey = get(this, '_storageKey');
 
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
-        console.log("STORAGE_EVENT");
-        console.log(event);
         if (this.isDestroying) { return; }
 
         if (event.storageArea === storage && event.key === storageKey) {
@@ -83,7 +77,6 @@ export default Mixin.create({
 
           if (event.newValue) {
             // TODO: Why do we use this.set here? I guess it's the loop bug...
-            console.log("EVENT_PARSE")
             this.set('content', JSON.parse(event.newValue));
           } else {
             this.clear();
@@ -102,9 +95,6 @@ export default Mixin.create({
     const initialContentString = get(this, '_initialContentString');
 
     // TODO: Why is it needed?
-    console.log("__SAVE__");
-    console.log(content);
-    console.log(storageKey);
     if (storageKey) {
       let json = JSON.stringify(content);
 
@@ -112,7 +102,7 @@ export default Mixin.create({
         set(this, '_isInitialContent', false);
       }
 
-      storage.setItem(storageKey, json);
+      storage.setItem(storageKey, content);
     }
   },
 
@@ -136,7 +126,6 @@ export default Mixin.create({
   reset() {
     const storage = this._storage();
     const storageKey = get(this, '_storageKey');
-    console.log("__RESET__");
     const content = this._getInitialContentCopy();
 
     // Do not change to set(this, 'content', content)
@@ -150,7 +139,6 @@ export default Mixin.create({
   clear() {
     const storage = this._storage();
     const storageKey = get(this, '_storageKey');
-    console.log("__CLEAR__");
     this._clear();
     storage.removeItem(storageKey);
   }
