@@ -31,13 +31,14 @@ export default Mixin.create({
 
     let serialized, content;
 
+    console.log("INIT");
     set(this, '_initialContentString', JSON.stringify(initialContent));
 
     // Merge the serialized version into defaults.
     content = this._getInitialContentCopy();
 
     // Retrieve the serialized version from storage.
-    serialized = storage[storageKey];
+    serialized = storage.getItem(storageKey);
     if (serialized) {
       assign(content, JSON.parse(serialized));
     }
@@ -61,11 +62,14 @@ export default Mixin.create({
   },
 
   _addStorageListener() {
+    console.log("ADD LISTENER");
     const storage = this._storage();
     const storageKey = get(this, '_storageKey');
 
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
+        console.log("STORAGE_EVENT");
+        console.log(event);
         if (this.isDestroying) { return; }
 
         if (event.storageArea === storage && event.key === storageKey) {
@@ -79,6 +83,7 @@ export default Mixin.create({
 
           if (event.newValue) {
             // TODO: Why do we use this.set here? I guess it's the loop bug...
+            console.log("EVENT_PARSE")
             this.set('content', JSON.parse(event.newValue));
           } else {
             this.clear();
@@ -97,6 +102,9 @@ export default Mixin.create({
     const initialContentString = get(this, '_initialContentString');
 
     // TODO: Why is it needed?
+    console.log("__SAVE__");
+    console.log(content);
+    console.log(storageKey);
     if (storageKey) {
       let json = JSON.stringify(content);
 
@@ -104,7 +112,7 @@ export default Mixin.create({
         set(this, '_isInitialContent', false);
       }
 
-      storage[storageKey] = json;
+      storage.setItem(storageKey, json);
     }
   },
 
@@ -126,17 +134,24 @@ export default Mixin.create({
   // reset the content
   // returns void
   reset() {
+    const storage = this._storage();
+    const storageKey = get(this, '_storageKey');
+    console.log("__RESET__");
     const content = this._getInitialContentCopy();
 
     // Do not change to set(this, 'content', content)
     this.set('content', content);
     set(this, '_isInitialContent', true);
+    storage.setItem(storageKey, content);
   },
 
   // clear the content
   // returns void
   clear() {
+    const storage = this._storage();
+    const storageKey = get(this, '_storageKey');
+    console.log("__CLEAR__");
     this._clear();
-    delete this._storage()[get(this, '_storageKey')];
+    storage.removeItem(storageKey);
   }
 });

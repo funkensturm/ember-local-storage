@@ -39,6 +39,7 @@ function getStorage(name) {
 let storages = {};
 
 function storageFor(key, modelName, options = {}) {
+  console.log("STORAGE__FOR");
   if (arguments.length === 2 && typeof modelName === 'object') {
     options = modelName;
     modelName = null;

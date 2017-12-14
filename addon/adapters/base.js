@@ -160,23 +160,25 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   },
 
   _handleGETRequest(url, query) {
+    console.log("GET");
     const { type, id } = this._urlParts(url);
     const storage = get(this, '_storage'),
       storageKey = this._storageKey(type, id);
 
     if (id) {
-      if (!storage[storageKey]) {
+      const json = storage.getItem(storageKey);
+      if (!json) {
         throw this.handleResponse(404, {}, "Not found", { url, method: 'GET' });
       }
-      return JSON.parse(storage[storageKey]);
+      return JSON.parse(json);
     }
 
     const records = this._getIndex(type)
       .filter(function(storageKey) {
-        return storage[storageKey];
+        return storage.getItem(storageKey);
       })
       .map(function(storageKey) {
-        return JSON.parse(storage[storageKey]);
+        return JSON.parse(storage.getItem(storageKey));
       });
 
     if (query && query.filter) {
@@ -191,31 +193,37 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   },
 
   _handlePOSTRequest(url, record) {
+    console.log("POST");
     const { type, id } = record.data;
+    const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
     this._addToIndex(type, storageKey);
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
+    storage.setItem(storageKey, JSON.stringify(record.data));
 
     return null;
   },
 
   _handlePATCHRequest(url, record) {
+    console.log("PATCH");
     const { type, id } = record.data;
+    const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
     this._addToIndex(type, storageKey);
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
+    storage.setItem(storageKey, JSON.stringify(record.data));
 
     return null;
   },
 
   _handleDELETERequest(url) {
+    console.log("DELETE");
     const { type, id } = this._urlParts(url);
+    const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
     this._removeFromIndex(type, storageKey);
-    delete get(this, '_storage')[storageKey];
+    storage.removeItem(storageKey);
 
     return null;
   },
