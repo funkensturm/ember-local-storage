@@ -149,6 +149,8 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       if (handler) {
         handler.call(this, url, options.data).then((data) => {
           run(null, resolve, {data: data});
+        }).catch((err) => {
+          run(null, reject, err);
         });
       } else {
         run(
@@ -174,7 +176,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       });
     }
 
-    const recordPromise = Promise.all(
+    const recordPromise = RSVP.all(
       this._getIndex(type).map((storageKey) => {
         return storage.getItem(storageKey);
       })
