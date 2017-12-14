@@ -11,6 +11,18 @@ function saveIfChanged(key) {
   }
 }
 
+const forageMarker = '__isLocalForage';
+
+function setLocalForage(storage) {
+  storage[forageMarker] = true;
+}
+
+function isLocalForage(storage) {
+  // if somehow `localStorage.__isLocalForage = true` is set, it
+  // will be retrieved as `"true"` and function will return false
+  return storage[forageMarker] === true;
+}
+
 export {
   save,
   saveIfChanged

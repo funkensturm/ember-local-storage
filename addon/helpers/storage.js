@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { setLocalForage } from './utils';
 
 const {
   assert,
@@ -13,7 +14,7 @@ const assign = Ember.assign || Ember.merge;
 
 const storage = {};
 
-function tryStorage(name) {
+function tryNativeStorage(name) {
   let nativeStorage;
 
   // safari private mode exposes xStorage but fails on setItem
@@ -24,8 +25,30 @@ function tryStorage(name) {
   } catch (e) {
     nativeStorage = undefined;
   }
-
   return nativeStorage;
+}
+
+function tryLocalForage(name) {
+  let forage;
+  try {
+    forage = localforage.createInstance();
+    forage.config({driver: name});
+    forage.setItem('emberlocalstorage.test', 'ok').then(function () {
+      forage.removeItem('emberlocalstorage.test');
+    })
+    setLocalForage(forage);
+  } catch (e) {
+    forage = undefined;
+  }
+  return forage;
+}
+
+function tryStorage(name) {
+  if ([localforage.INDEXEDDB, localforage.WEBSQL].indexOf(name) >= 0) {
+    return tryLocalForage(name);
+  } else {
+    return tryNativeStorage(name);
+  }
 }
 
 function getStorage(name) {

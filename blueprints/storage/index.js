@@ -26,6 +26,11 @@ module.exports = {
     }
   ],
 
+  afterInstall: function () {
+    return this.addBowerPackageToProject('localforage', '~1.3.1');
+    return this.addBowerPackageToProject('localforage-sessionstoragewrapper', '~1.2.0');
+  },
+
   locals: function(options) {
     var storage         = options.storage;
     var type            = options.type;
