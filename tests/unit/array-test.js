@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
@@ -89,7 +90,9 @@ test('reset method restores initialContent', function(assert) {
   assert.deepEqual(get(subject, 'postLikes.content'), []);
 
   // localStorage is in sync
-  storageDeepEqual(assert, window.localStorage['storage:post-likes'], []);
+  wait().then(() => {
+    storageDeepEqual(assert, window.localStorage['localforage/storage:post-likes'], []);
+  });
 });
 
 test('it updates _isInitialContent', function(assert) {
@@ -122,42 +125,54 @@ test('clear method removes the content from localStorage', function(assert) {
   run(function() {
     get(subject, 'postLikes').addObject('martin');
   });
-  storageDeepEqual(
-    assert,
-    window.localStorage['storage:post-likes'],
-    ['martin']
-  );
-
-  run(function() {
-    get(subject, 'postLikes').clear();
+  wait().then(() => {
+    storageDeepEqual(
+      assert,
+      window.localStorage['localforage/storage:post-likes'],
+      ['martin']
+    );
+    run(function() {
+      get(subject, 'postLikes').clear();
+    });
   });
-  assert.equal(window.localStorage['storage:post-likes'], undefined);
+  wait().then(() => {
+    assert.equal(window.localStorage['localforage/storage:post-likes'], undefined);
+  });
 });
 
+test('set() modifies property in storage', function(assert) {
+  assert.expect(1);
+  run(get(subject, 'postLikes'), 'addObject', 'martin');
+  wait().then(() => {
+    storageDeepEqual(
+      assert,
+      window.localStorage['localforage/storage:post-likes'],
+      ['martin']
+    );
+  });
+});
+
+test('clear() empties contents in storage', function(assert) {
+  assert.expect(1);
+  run(get(subject, 'postLikes'), 'addObject', 'martin');
+  run(get(subject, 'postLikes'), 'clear');
+  wait().then(() => {
+    assert.equal(window.localStorage['storage:post-likes'], undefined);
+  });
+})
+
 test('after .clear() the array works as expected', function(assert) {
-  assert.expect(4);
+  assert.expect(2);
 
-  run(function() {
-    get(subject, 'postLikes').addObject('martin');
+  run(get(subject, 'postLikes'), 'addObject', 'martin');
+  run(get(subject, 'postLikes'), 'clear');
+  run(get(subject, 'postLikes'), 'addObject', 'martin');
+  wait().then(() => {
+    storageDeepEqual(
+      assert,
+      window.localStorage['localforage/storage:post-likes'],
+      ['martin']
+    );
+    assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
   });
-  storageDeepEqual(
-    assert,
-    window.localStorage['storage:post-likes'],
-    ['martin']
-  );
-
-  run(function() {
-    get(subject, 'postLikes').clear();
-  });
-  assert.equal(window.localStorage['storage:post-likes'], undefined);
-
-  run(function() {
-    get(subject, 'postLikes').addObject('martin');
-  });
-  storageDeepEqual(
-    assert,
-    window.localStorage['storage:post-likes'],
-    ['martin']
-  );
-  assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
 });

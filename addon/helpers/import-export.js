@@ -3,7 +3,8 @@ import { singularize } from 'ember-inflector';
 
 const {
   get,
-  run
+  run,
+  RSVP
 } = Ember;
 
 const assign = Ember.assign || Ember.merge;
@@ -64,34 +65,38 @@ export function exportData(store, types, options) {
     filename: 'ember-data.json'
   }, options || {});
 
-  let json, data;
-
   // collect data
-  data = types.reduce((records, type) => {
-    const adapter = store.adapterFor(singularize(type));
-    const url = adapter.buildURL(type),
-      exportData = adapter._handleGETRequest(url);
+  const dataPromise = RSVP.all(types.map((type) => {
+      const adapter = store.adapterFor(singularize(type));
+      const url = adapter.buildURL(type);
+      return adapter._handleGETRequest(url);
+  })).then((recordArray) => {
+    return recordArray.reduce((records, data) => {
+      records.data = records.data.concat(data);
+      return records;
+    }, { data: [] });
+  }).then((data) => {
+    let json;
+    if (options.json || options.download) {
+      json = JSON.stringify(data);
+    }
+    if (options.json) {
+      data = json;
+    }
+    if (options.download) {
+      window.saveAs(
+        new Blob([json], { type: 'application/json;charset=utf-8' }),
+        options.filename || 'ember-localStorage'
+      );
+    }
+    return data;
+  });
 
-    records.data = records.data.concat(exportData);
-    return records;
-  }, {data: []});
-
-  if (options.json || options.download) {
-    json = JSON.stringify(data);
-  }
-
-  if (options.json) {
-    data = json;
-  }
-
-  if (options.download) {
-    window.saveAs(
-      new Blob([json], {type: 'application/json;charset=utf-8'}),
-      options.filename
-    );
-  }
-
-  return new Ember.RSVP.Promise((resolve) => {
-    run(null, resolve, data);
+  return new Ember.RSVP.Promise((resolve, reject) => {
+    dataPromise.then((data) => {
+      run(null, resolve, data);
+    }).catch((err) => {
+      run(null, reject, err);
+    })
   }, 'DS: LocalStorageAdapter#exportData');
 }

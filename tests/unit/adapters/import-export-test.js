@@ -84,8 +84,8 @@ test('import to multiple adapter types', function(assert) {
   }).then(function(data) {
     assert.equal(get(data.posts, 'length'), 2);
     assert.equal(get(data.comments, 'length'), 3);
-    assert.equal(JSON.parse(window.localStorage['index-comments']).length, 3);
-    assert.equal(JSON.parse(window.sessionStorage['index-posts']).length, 2);
+    assert.equal(JSON.parse(window.localStorage['localforage/index-comments']).length, 3);
+    assert.equal(JSON.parse(window.sessionStorage['localforage/index-posts']).length, 2);
   });
 });
 

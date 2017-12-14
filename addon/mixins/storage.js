@@ -38,10 +38,12 @@ export default Mixin.create({
     storage.getItem(storageKey).then((value) => {
       if (value !== null && value !== undefined) {
         assign(content, value);
+        this.set('content', content);
       }
-      // Do not change to set(this, 'content', content)
-      this.set('content', content);
     });
+
+    // Do not change to set(this, 'content', content)
+    this.set('content', content);
 
     // Keep in sync with other windows
     this._addStorageListener();

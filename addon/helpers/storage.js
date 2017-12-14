@@ -21,6 +21,10 @@ const drivers = {
   'indexeddb': localforage.INDEXEDDB
 };
 
+const customDrivers = {
+  'session': sessionStorageWrapper
+};
+
 const storage = {};
 
 function tryStorage(name) {
@@ -28,12 +32,21 @@ function tryStorage(name) {
   if (driver === undefined) {
     return undefined;
   }
+  const setDriverAndTest = function (forageInstance, forageDriver) {
+    forageInstance.setDriver(forageDriver);
+    forageInstance.setItem('emberlocalstorage.test', 'ok').then(() => {
+      return forageInstance.removeItem('emberlocalstorage.test');
+    })
+  }
   try {
     const forage = localforage.createInstance();
-    forage.config({driver: driver});
-    forage.setItem('emberlocalstorage.test', 'ok').then(function () {
-      return forage.removeItem('emberlocalstorage.test');
-    });
+    if (customDrivers[name]) {
+      forage.defineDriver(customDrivers[name]).then(() => {
+        setDriverAndTest(forage, driver);
+      })
+    } else {
+      setDriverAndTest(forage, driver);
+    }
     return forage;
   } catch (e) {
     return undefined;

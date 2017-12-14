@@ -1,3 +1,4 @@
+import wait from 'ember-test-helpers/wait';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageEqual,
@@ -17,32 +18,40 @@ test('it persists the index', function(assert) {
   assert.expect(2);
   var adapter = this.subject();
 
-  storageEqual(assert, window.localStorage['index-projects'], undefined);
+  storageEqual(assert, window.localStorage['localforage/index-projects'], undefined);
 
   adapter._addToIndex('projects', '1234');
-  storageDeepEqual(assert, window.localStorage['index-projects'], ['1234']);
+  // Add operations are asynchronous so we have to wait a moment
+  wait().then(() => {
+    storageDeepEqual(assert, window.localStorage['localforage/index-projects'], ['1234']);
+  });
 });
 
 test('it does not persists duplicates to index', function(assert) {
   assert.expect(2);
   var adapter = this.subject();
 
-  storageEqual(assert, window.localStorage['index-projects'], undefined);
+  storageEqual(assert, window.localStorage['localforage/index-projects'], undefined);
 
   adapter._addToIndex('projects', '1234');
   adapter._addToIndex('projects', '1234');
-  storageDeepEqual(assert, window.localStorage['index-projects'], ['1234']);
+  wait().then(() => {
+    storageDeepEqual(assert, window.localStorage['localforage/index-projects'], ['1234']);
+  });
 });
 
 test('it removes ids from index', function(assert) {
   assert.expect(3);
   var adapter = this.subject();
 
-  storageEqual(assert, window.localStorage['index-projects'], undefined);
+  storageEqual(assert, window.localStorage['localforage/index-projects'], undefined);
 
   adapter._addToIndex('projects', '1234');
-  storageDeepEqual(assert, window.localStorage['index-projects'], ['1234']);
-
-  adapter._removeFromIndex('projects', '1234');
-  storageDeepEqual(assert, window.localStorage['index-projects'], []);
+  wait().then(() => {
+    storageDeepEqual(assert, window.localStorage['localforage/index-projects'], ['1234']);
+    adapter._removeFromIndex('projects', '1234');
+  });
+  wait().then(() => {
+    storageDeepEqual(assert, window.localStorage['localforage/index-projects'], []);
+  });
 });
