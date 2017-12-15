@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
@@ -56,11 +57,13 @@ test('it has the correct key', function(assert) {
     'storage:options:post:123'
   );
 
-  storageDeepEqual(assert, window.localStorage['storage:settings:post:123'], {
-    perPage: 10
-  });
+  wait().then(() => {
+    storageDeepEqual(assert, window.localStorage['localforage/storage:settings:post:123'], {
+      perPage: 10
+    });
 
-  storageDeepEqual(assert, window.localStorage['storage:options:post:123'], {
-    perPage: 10
+    storageDeepEqual(assert, window.localStorage['localforage/storage:options:post:123'], {
+      perPage: 10
+    });
   });
 });

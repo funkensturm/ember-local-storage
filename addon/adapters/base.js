@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
+import StorageArray from '../indexeddb/array';
 
 const keys = Object.keys || Ember.keys;
 
@@ -330,9 +331,16 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     return type + '-' + id;
   },
 
-  // Should be overwriten
-  // Signature: _getIndex(type)
-  _getIndex() {
+  _getIndex(type) {
+    const indices = get(this, '_indices');
+
+    if (!indices[type]) {
+      indices[type] = StorageArray
+        .extend({ _storageKey: 'index-' + type })
+        .create();
+    }
+
+    return indices[type];
   },
 
   _indexHasKey(type, id) {

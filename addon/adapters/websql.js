@@ -1,24 +1,6 @@
-import Ember from 'ember';
 import BaseAdapter from './base';
 import { getStorage } from '../helpers/storage';
-import StorageArray from '../websql/array';
-
-const {
-  get
-} = Ember;
 
 export default BaseAdapter.extend({
-  _storage: getStorage('websql'),
-
-  _getIndex(type) {
-    const indices = get(this, '_indices');
-
-    if (!indices[type]) {
-      indices[type] = StorageArray
-        .extend({ _storageKey: 'index-' + type })
-        .create();
-    }
-
-    return indices[type];
-  }
+  _storage: getStorage('websql')
 });

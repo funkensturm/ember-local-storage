@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
@@ -14,11 +15,6 @@ let subject;
 
 moduleFor('router:main', 'legacy - config', {
   beforeEach() {
-    // old serialized content
-    window.localStorage.settings = JSON.stringify({
-      mapStyle: 'dark'
-    });
-
     let mockStorage = StorageObject.extend();
 
     mockStorage.reopenClass({
@@ -52,11 +48,19 @@ test('it has correct defaults', function(assert) {
 });
 
 test('serialized content can be used', function(assert) {
-  assert.expect(2);
-
-  assert.equal(subject.get('settings.mapStyle'), 'dark');
-  storageDeepEqual(assert, window.localStorage.settings, {
-    mapStyle: 'dark',
-    token: 1234
+  assert.expect(3);
+  // old serialized content
+  window.localStorage.clear();
+  window.localStorage['localforage/settings'] = JSON.stringify({
+    mapStyle: 'dark'
   });
+  subject.get('settings.token');
+  wait().then(() => {
+    assert.equal(subject.get('settings.token'), 1234);
+    assert.equal(subject.get('settings.mapStyle'), 'dark');
+    storageDeepEqual(assert, window.localStorage['localforage/settings'], {
+      mapStyle: 'dark',
+      token: 1234
+    });
+  })
 });

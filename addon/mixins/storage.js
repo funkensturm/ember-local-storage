@@ -9,8 +9,6 @@ const {
   isArray
 } = Ember;
 
-const assign = Ember.assign || Ember.merge;
-
 export default Mixin.create({
   _storageKey: null,
   _initialContent: null,
@@ -25,26 +23,6 @@ export default Mixin.create({
   },
 
   init() {
-    const storage = this._storage();
-    const storageKey = get(this, '_storageKey');
-    const initialContent = get(this, '_initialContent');
-
-    set(this, '_initialContentString', JSON.stringify(initialContent));
-
-    // Merge the serialized version into defaults.
-    let content = this._getInitialContentCopy();
-
-    // Retrieve the serialized version from storage.
-    storage.getItem(storageKey).then((value) => {
-      if (value !== null && value !== undefined) {
-        assign(content, value);
-        this.set('content', content);
-      }
-    });
-
-    // Do not change to set(this, 'content', content)
-    this.set('content', content);
-
     // Keep in sync with other windows
     this._addStorageListener();
 

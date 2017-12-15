@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import DS from 'ember-data';
+import StoragePromiseMixin from '../mixins/promise';
 
 const {
   assert,
@@ -6,8 +8,12 @@ const {
   getOwner,
   String: {
     dasherize
-  }
+  },
+  set
 } = Ember;
+
+const ObjectStoragePromise = DS.PromiseObject.extend(StoragePromiseMixin);
+const ArrayStoragePromise = DS.PromiseArray.extend(StoragePromiseMixin);
 
 const localforage = window.localforage;
 const sessionStorageWrapper = window.sessionStorageWrapper;
@@ -91,7 +97,7 @@ function storageFor(key, modelName, options = {}) {
 
     // if the propertyValue is null/undefined we simply return null/undefined
     if (!model || typeof model === 'undefined') {
-      return model;
+      return undefined;
     }
 
     const modelKey = _modelKey(model);
@@ -136,18 +142,37 @@ function createStorage(context, key, modelKey, options) {
   }
 
   if (typeof(StorageFactory.initialState) === 'function') {
-    initialState._initialContent = StorageFactory.initialState.call(context);
+    const initialContent = StorageFactory.initialState.call(context);
+    initialState._initialContent = Ember.isArray(initialContent)
+      ? Ember.A(initialContent)
+      : initialContent;
   } else if (StorageFactory.initialState) {
     throw new TypeError('initialState property must be a function');
   }
 
   assign(initialState, defaultState);
 
-  if (StorageFactory.create) {
-    return StorageFactory.create(initialState);
-  }
+  // Initial content of the object has to be pulled from
+  // storage before object initialization
+  const storageObj = StorageFactory.create
+    ? StorageFactory.create(initialState)
+    : Ember.Object.create(StorageFactory);
 
-  return Ember.Object.create(StorageFactory);
+  const storageType = storageObj._storageType;
+  const storage = getStorage(storageType);
+
+  const storagePromise = storage.getItem(storageKey).then((value) => {
+    let content = storageObj._getInitialContentCopy();
+    assign(content, value);
+
+    set(storageObj, '_initialContentString', JSON.stringify(storageObj._initialContent));
+    set(storageObj, 'content', content);
+    return storageObj;
+  });
+
+  return storageObj._containedType === 'array'
+    ? ArrayStoragePromise.create({ promise: storagePromise })
+    : ObjectStoragePromise.create({ promise: storagePromise });
 }
 
 function _modelKey(model) {
