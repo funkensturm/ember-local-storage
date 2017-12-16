@@ -39,140 +39,143 @@ moduleFor('router:main', 'array - likes', {
 
 test('it has correct defaults', function(assert) {
   assert.expect(3);
-
-  assert.equal(get(subject, 'anonymousLikes._storageType'), 'local');
-  assert.equal(
-    get(subject, 'anonymousLikes._storageKey'),
-    'storage:anonymous-likes'
-  );
-  assert.deepEqual(get(subject, 'anonymousLikes._initialContent'), []);
+  get(subject, 'anonymousLikes').then((storage) => {
+    assert.equal(get(storage, '_storageType'), 'local');
+    assert.equal(get(storage, '_storageKey'), 'storage:anonymous-likes');
+    assert.deepEqual(get(storage, '_initialContent'), []);
+  });
 });
 
 test('it does not share data', function(assert) {
+  const done = assert.async();
   assert.expect(5);
-
-  // ImageLikes
-  assert.deepEqual(get(subject, 'anonymousLikes._initialContent'), []);
-  run(function() {
-    get(subject, 'anonymousLikes').addObject('martin');
+  const storage1 = get(subject, 'anonymousLikes');
+  const storage2 = get(subject, 'postLikes');
+  storage1.then((storage) => {
+    assert.deepEqual(get(storage, '_initialContent'), []);
+    return storage.addObject('martin');
+  }).then((storage) => {
+    assert.deepEqual(get(storage, 'content'), ['martin']);
+    return storage2;
+  }).then((storage) => {
+    assert.deepEqual(get(storage, '_initialContent'), []);
+    return storage.addObject('peter');
+  }).then((storage) => {
+    assert.deepEqual(get(storage, 'content'), ['peter']);
+    return storage1;
+  }).then((storage) => {
+    assert.deepEqual(get(storage, 'content'), ['martin']);
+    done();
   });
-  assert.deepEqual(get(subject, 'anonymousLikes.content'), ['martin']);
-
-  // PostLikes
-  assert.deepEqual(get(subject, 'postLikes._initialContent'), []);
-  run(function() {
-    get(subject, 'postLikes').addObject('peter');
-  });
-  assert.deepEqual(get(subject, 'postLikes.content'), ['peter']);
-
-  // ImageLikes don't change
-  assert.deepEqual(get(subject, 'anonymousLikes.content'), ['martin']);
 });
 
 test('reset method restores initialContent', function(assert) {
+  const done = assert.async();
   assert.expect(4);
-
-  //initialContent is set properly
-  assert.deepEqual(get(subject, 'postLikes.content'), []);
-
-  //add new objects
-  run(function() {
-    get(subject, 'postLikes').addObject('martin');
-  });
-
-  //we expect them to be present
-  assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
-
-  //reset
-  get(subject, 'postLikes').reset();
-
-  //data is back to initial values
-  assert.deepEqual(get(subject, 'postLikes.content'), []);
-
-  // localStorage is in sync
-  wait().then(() => {
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    assert.deepEqual(get(storage, 'content'), []);
+    return storage.addObject('martin');
+  }).then((storage) => {
+    assert.deepEqual(get(storage, 'content'), ['martin']);
+    return storage.reset();
+  }).then((storage) => {
+    assert.deepEqual(get(storage, 'content'), []);
     storageDeepEqual(assert, window.localStorage['localforage/storage:post-likes'], []);
+    done();
   });
 });
 
 test('it updates _isInitialContent', function(assert) {
+  const done = assert.async();
   assert.expect(2);
-
-  assert.equal(get(subject, 'postLikes').isInitialContent(), true);
-  run(function() {
-    get(subject, 'postLikes').addObject('martin');
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    assert.equal(storage.isInitialContent(), true);
+    return storage.addObject('martin');
+  }).then((storage) => {
+    assert.equal(storage.isInitialContent(), false);
+    done();
   });
-  assert.equal(get(subject, 'postLikes').isInitialContent(), false);
 });
 
 test('it updates _isInitialContent on reset', function(assert) {
-  assert.expect(2);
-
-  run(function() {
-    get(subject, 'postLikes').addObject('martin');
+  const done = assert.async();
+  assert.expect(3);
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    assert.equal(storage.isInitialContent(), true);
+    return storage.addObject('martin');
+  }).then((storage) => {
+    assert.equal(storage.isInitialContent(), false);
+    return storage.reset();
+  }).then((storage) => {
+    assert.equal(storage.isInitialContent(), true);
+    done();
   });
-  assert.equal(get(subject, 'postLikes').isInitialContent(), false);
-
-  run(function() {
-    get(subject, 'postLikes').reset();
-  });
-  assert.equal(get(subject, 'postLikes').isInitialContent(), true);
 });
 
 test('clear method removes the content from localStorage', function(assert) {
-  assert.expect(2);
-
-  run(function() {
-    get(subject, 'postLikes').addObject('martin');
-  });
-  wait().then(() => {
-    storageDeepEqual(
-      assert,
-      window.localStorage['localforage/storage:post-likes'],
-      ['martin']
-    );
-    run(function() {
-      get(subject, 'postLikes').clear();
+  const done = assert.async();
+  assert.expect(3);
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    return run(storage, 'addObject', 'martin');
+  }).then((storage) => {
+    assert.deepEqual(get(storage, 'content'), ['martin']);
+    return wait().then(() => {
+      storageDeepEqual(assert, window.localStorage['localforage/storage:post-likes'], ['martin']);
+    }).then(() => {
+      return storage.clear();
     });
-  });
-  wait().then(() => {
+  }).then(() => {
     assert.equal(window.localStorage['localforage/storage:post-likes'], undefined);
+    done();
   });
 });
 
 test('set() modifies property in storage', function(assert) {
+  const done = assert.async();
   assert.expect(1);
-  run(get(subject, 'postLikes'), 'addObject', 'martin');
-  wait().then(() => {
-    storageDeepEqual(
-      assert,
-      window.localStorage['localforage/storage:post-likes'],
-      ['martin']
-    );
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    run(storage, 'addObject', 'martin');
+    wait().then(() => {
+      storageDeepEqual(assert, window.localStorage['localforage/storage:post-likes'], ['martin']);
+      done();
+    });
   });
 });
 
 test('clear() empties contents in storage', function(assert) {
+  const done = assert.async();
   assert.expect(1);
-  run(get(subject, 'postLikes'), 'addObject', 'martin');
-  run(get(subject, 'postLikes'), 'clear');
-  wait().then(() => {
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    return run(storage, 'addObject', 'martin');
+  }).then((storage) => {
+    return run(storage, 'clear');
+  }).then(() => {
     assert.equal(window.localStorage['storage:post-likes'], undefined);
+    done();
   });
-})
+});
 
 test('after .clear() the array works as expected', function(assert) {
+  const done = assert.async();
   assert.expect(2);
-
-  run(get(subject, 'postLikes'), 'addObject', 'martin');
-  run(get(subject, 'postLikes'), 'clear');
-  run(get(subject, 'postLikes'), 'addObject', 'martin');
-  wait().then(() => {
-    storageDeepEqual(
-      assert,
-      window.localStorage['localforage/storage:post-likes'],
-      ['martin']
-    );
-    assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
+  const promise = get(subject, 'postLikes');
+  promise.then((storage) => {
+    return run(storage, 'addObject', 'martin');
+  }).then((storage) => {
+    return run(storage, 'clear');
+  }).then((storage) => {
+    return run(storage, 'addObject', 'bobby');
+  }).then((storage) => {
+    wait().then(() => {
+      storageDeepEqual(assert, window.localStorage['localforage/storage:post-likes'], ['bobby']);
+      assert.deepEqual(get(storage, 'content'), ['bobby']);
+      done();
+    });
   });
 });

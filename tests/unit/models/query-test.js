@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 import { moduleForModel, test } from 'ember-qunit';
 
 const {
@@ -55,36 +56,38 @@ test('attributes (string, regex, boolean, number)', function(assert) {
     }).save();
   });
 
-  // string
-  store.query('post', { filter: { name: 'Super Name' } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
-    });
+  wait().then(() => {
+    // string
+    store.query('post', { filter: { name: 'Super Name' } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 1);
+      });
 
-  // boolean
-  store.query('post', { filter: { isPrivate: false } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 1);
-    });
+    // boolean
+    store.query('post', { filter: { isPrivate: false } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 1);
+      });
 
-  // number
-  store.query('post', { filter: { commentCount: 3 } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
+    // number
+    store.query('post', { filter: { commentCount: 3 } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+      });
 
-  // regex
-  store.query('post', { filter: { name: /^Just(.*)/ } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
+    // regex
+    store.query('post', { filter: { name: /^Just(.*)/ } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+      });
 
-  // camelized key
-  store.query('post', { filter: { commentCount: 3 } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-      done();
-    });
+    // camelized key
+    store.query('post', { filter: { commentCount: 3 } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+        done();
+      });
+  });
 });
 
 
@@ -126,54 +129,56 @@ test('belongsTo relationship', function(assert) {
   const id = get(paul, 'id'),
     regexId = new RegExp('^' + id + '$');
 
-  // get posts from user '123'
-  // string
-  store.query('post', { filter: { user: id } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
+  wait().then(() => {
+    // get posts from user '123'
+    // string
+    store.query('post', { filter: { user: id } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+      });
 
-  // object
-  store.query('post', { filter: { user: { id: id } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
+    // object
+    store.query('post', { filter: { user: { id: id } } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+      });
 
-  // regex
-  store.query('post', { filter: { user: regexId } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
+    // regex
+    store.query('post', { filter: { user: regexId } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+      });
 
-  // object regex
-  store.query('post', { filter: { user: { id: regexId } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-    });
+    // object regex
+    store.query('post', { filter: { user: { id: regexId } } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2);
+      });
 
-  // polymorphic
-  // get posts from editors
-  store.query('post', { filter: { user: { type: 'editor' } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
-    });
-  // regex
-  store.query('post', { filter: { user: { type: /^ed(.*)ors$/ } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
-    });
+    // polymorphic
+    // get posts from editors
+    store.query('post', { filter: { user: { type: 'editor' } } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 3);
+      });
+    // regex
+    store.query('post', { filter: { user: { type: /^ed(.*)ors$/ } } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 3);
+      });
 
-  // get posts from editor '123'
-  store.query('post', { filter: { user: { id: id, type: 'editor' } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2, 'nuu');
-    });
-  // regex
-  store.query('post', { filter: { user: { id: id, type: /^ed(.*)ors$/ } } })
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2, 'ups');
-      done();
-    });
+    // get posts from editor '123'
+    store.query('post', { filter: { user: { id: id, type: 'editor' } } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2, 'nuu');
+      });
+    // regex
+    store.query('post', { filter: { user: { id: id, type: /^ed(.*)ors$/ } } })
+      .then(function(posts) {
+        assert.equal(get(posts, 'length'), 2, 'ups');
+        done();
+      });
+  });
 });
 
 test('hasMany relationship', function(assert) {
@@ -227,62 +232,64 @@ test('hasMany relationship', function(assert) {
   const id = get(project, 'id'),
     regexId = new RegExp('^' + id + '$');
 
-  // get users who've contributed to project.id = 123
-  // string
-  store.query('user', { filter: { projects: id } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-    });
+  wait().then(() => {
+    // get users who've contributed to project.id = 123
+    // string
+    store.query('user', { filter: { projects: id } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+      });
 
-  // object
-  store.query('user', { filter: { projects: { id: id } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-    });
+    // object
+    store.query('user', { filter: { projects: { id: id } } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+      });
 
-  // regex
-  store.query('user', { filter: { projects: regexId } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-    });
+    // regex
+    store.query('user', { filter: { projects: regexId } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+      });
 
-  // object regex
-  store.query('user', { filter: { projects: { id: regexId } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-    });
+    // object regex
+    store.query('user', { filter: { projects: { id: regexId } } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+      });
 
-  // polymorphic
-  // get users with cats
-  store.query('user', { filter: { pets: { type: 'cat' } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-    });
+    // polymorphic
+    // get users with cats
+    store.query('user', { filter: { pets: { type: 'cat' } } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+      });
 
-  // get users with cat '123'
-  store.query('user', { filter: { pets: { id: get(cat, 'id'), type: 'cat' } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-    });
+    // get users with cat '123'
+    store.query('user', { filter: { pets: { id: get(cat, 'id'), type: 'cat' } } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+      });
 
-  // get users with cats AND dogs
-  store.query('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 1);
-    });
+    // get users with cats AND dogs
+    store.query('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 1);
+      });
 
-  // get users with cats OR dogs
-  store.query('user', { filter: { pets: { type: /cats|dogs/ } } })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 3);
-    });
+    // get users with cats OR dogs
+    store.query('user', { filter: { pets: { type: /cats|dogs/ } } })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 3);
+      });
 
-  // get the users with bookPublication '123' (camelcased key)
-  store.query('user', {
-      filter: { bookPublications: get(bookPublication, 'id') }
-    })
-    .then(function(users) {
-      assert.equal(get(users, 'length'), 2);
-      done();
-    });
+    // get the users with bookPublication '123' (camelcased key)
+    store.query('user', {
+        filter: { bookPublications: get(bookPublication, 'id') }
+      })
+      .then(function(users) {
+        assert.equal(get(users, 'length'), 2);
+        done();
+      });
+  });
 });

@@ -2,13 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   clear() {
-    this.then((storage) => {
-      storage.clear();
+    return this.then((storage) => {
+      return storage.clear();
     });
   },
   reset() {
-    this.then((storage) => {
-      storage.reset();
+    return this.then((storage) => {
+      return storage.reset();
     });
   }
 });

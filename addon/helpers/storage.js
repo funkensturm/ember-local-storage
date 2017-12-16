@@ -42,7 +42,7 @@ function tryStorage(name) {
     forageInstance.setDriver(forageDriver);
     forageInstance.setItem('emberlocalstorage.test', 'ok').then(() => {
       return forageInstance.removeItem('emberlocalstorage.test');
-    })
+    });
   }
   try {
     const forage = localforage.createInstance();
@@ -53,6 +53,7 @@ function tryStorage(name) {
     } else {
       setDriverAndTest(forage, driver);
     }
+    forage._storageType = name;
     return forage;
   } catch (e) {
     return undefined;
@@ -116,32 +117,32 @@ function storageFor(key, modelName, options = {}) {
  * Looks up the storage factory on the container and sets initial state
  * on the instance if desired.
  */
-function createStorage(context, key, modelKey, options) {
+function createStorage(context, key, modelKey, options, FactoryType, preferredKey) {
   const owner = getOwner(context);
   const factoryType = 'storage';
   const storageFactory = `${factoryType}:${key}`;
 
-  let storageKey;
-
   owner.registerOptionsForType(factoryType, { instantiate: false });
 
-  if (options.legacyKey) {
-    storageKey = options.legacyKey;
-  } else {
-    storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
+  let storageKey = preferredKey;
+  if (!storageKey) {
+    storageKey = options.legacyKey || (modelKey
+      ? `${storageFactory}:${modelKey}`
+      : storageFactory);
   }
 
   const initialState = {},
     defaultState = {
       _storageKey: storageKey
     },
-    StorageFactory = owner.lookup(storageFactory);
+    StorageFactory = FactoryType || owner.lookup(storageFactory);
 
   if (!StorageFactory) {
     throw new TypeError(`Unknown StorageFactory: ${storageFactory}`);
   }
 
   if (typeof(StorageFactory.initialState) === 'function') {
+    // Wrap normal initial state array if it is an array
     const initialContent = StorageFactory.initialState.call(context);
     initialState._initialContent = Ember.isArray(initialContent)
       ? Ember.A(initialContent)
@@ -167,9 +168,13 @@ function createStorage(context, key, modelKey, options) {
 
     set(storageObj, '_initialContentString', JSON.stringify(storageObj._initialContent));
     set(storageObj, 'content', content);
+    return storage.setItem(storageKey, content);
+  }).then(() => {
     return storageObj;
   });
 
+  // Wrap in the correct promise type with mixing to
+  // allow access to `reset()` and `clear()`
   return storageObj._containedType === 'array'
     ? ArrayStoragePromise.create({ promise: storagePromise })
     : ObjectStoragePromise.create({ promise: storagePromise });
@@ -195,5 +200,6 @@ export {
   tryStorage,
   getStorage,
   storageFor,
+  createStorage,
   _resetStorages
 };

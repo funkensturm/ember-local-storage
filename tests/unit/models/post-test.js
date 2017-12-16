@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import wait from 'ember-test-helpers/wait';
 import { moduleForModel, test } from 'ember-qunit';
 
 const {
@@ -87,24 +88,18 @@ test('find a single record', function(assert) {
   assert.expect(2);
   const done = assert.async();
   const store = this.store();
-
-  let newPost;
-
-  run(function() {
-    newPost = store.createRecord('post', {
-      name: 'Ember.js: 10 most common mistakes'
-    });
-
-    newPost.save();
-  });
-
-  run(function() {
-    store.find('post', get(newPost, 'id'))
-      .then(function(post) {
-        assert.equal(get(post, 'id'), get(newPost, 'id'));
-        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
-        done();
-      });
+  const newPost = run(store, 'createRecord', 'post', { name: 'Ember.js: 10 most common mistakes' });
+  wait().then(() => {
+    return newPost.save();
+  }).then(() => {
+    return run(store, 'find', 'post', get(newPost, 'id'));
+  }).then((post) => {
+    assert.equal(get(post, 'id'), get(newPost, 'id'));
+    assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+    done();
+  }).catch((err) => {
+    assert.ok(false, err);
+    done();
   });
 });
 
@@ -168,16 +163,18 @@ test('queryRecord attributes', function(assert) {
     }).save();
   });
 
-  store.findAll('post')
-    .then(function(posts) {
+  wait().then(() => {
+    store.findAll('post').then((posts) => {
       assert.equal(get(posts, 'length'), 3);
     });
 
-  store.queryRecord('post', { filter: { name: 'Super Name' } })
-    .then(function(post) {
+    store.queryRecord('post', {
+      filter: { name: 'Super Name' }
+    }).then((post) => {
       assert.equal(get(post, 'name'), 'Super Name');
       done();
     });
+  });
 });
 
 test('queryRecord empty store', function(assert) {

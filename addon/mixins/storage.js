@@ -82,7 +82,9 @@ export default Mixin.create({
         set(this, '_isInitialContent', false);
       }
 
-      storage.setItem(storageKey, content);
+      return storage.setItem(storageKey, content).then(() => this);
+    } else {
+      return this;
     }
   },
 
@@ -111,7 +113,7 @@ export default Mixin.create({
     // Do not change to set(this, 'content', content)
     this.set('content', content);
     set(this, '_isInitialContent', true);
-    storage.setItem(storageKey, content);
+    return storage.setItem(storageKey, content).then(() => this);
   },
 
   // clear the content
@@ -120,6 +122,6 @@ export default Mixin.create({
     const storage = this._storage();
     const storageKey = get(this, '_storageKey');
     this._clear();
-    storage.removeItem(storageKey);
+    return storage.removeItem(storageKey).then(() => this);
   }
 });

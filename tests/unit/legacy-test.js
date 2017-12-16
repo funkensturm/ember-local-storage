@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import wait from 'ember-test-helpers/wait';
 import { moduleFor, test } from 'ember-qunit';
 import {
   storageDeepEqual
@@ -11,10 +10,19 @@ import {
   _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
+const {
+  get
+} = Ember;
+
 let subject;
 
 moduleFor('router:main', 'legacy - config', {
   beforeEach() {
+    // old serialized content
+    window.localStorage['localforage/settings'] = JSON.stringify({
+      mapStyle: 'dark'
+    });
+
     let mockStorage = StorageObject.extend();
 
     mockStorage.reopenClass({
@@ -38,29 +46,24 @@ moduleFor('router:main', 'legacy - config', {
 });
 
 test('it has correct defaults', function(assert) {
+  const done = assert.async();
   assert.expect(3);
-
-  assert.equal(subject.get('settings._storageType'), 'local');
-  assert.equal(subject.get('settings._storageKey'), 'settings');
-  assert.deepEqual(subject.get('settings._initialContent'), {
-    token: 1234
+  get(subject, 'settings').then((storage) => {
+    assert.equal(get(storage, '_storageType'), 'local');
+    assert.equal(get(storage, '_storageKey'), 'settings');
+    assert.deepEqual(get(storage, '_initialContent'), { token: 1234 });
+    done();
   });
 });
 
 test('serialized content can be used', function(assert) {
+  const done = assert.async();
+  const storageKey = 'localforage/settings';
   assert.expect(3);
-  // old serialized content
-  window.localStorage.clear();
-  window.localStorage['localforage/settings'] = JSON.stringify({
-    mapStyle: 'dark'
+  get(subject, 'settings').then((storage) => {
+    assert.equal(get(storage, 'token'), 1234);
+    assert.equal(get(storage, 'mapStyle'), 'dark');
+    storageDeepEqual(assert, window.localStorage[storageKey], { mapStyle: 'dark', token: 1234 });
+    done();
   });
-  subject.get('settings.token');
-  wait().then(() => {
-    assert.equal(subject.get('settings.token'), 1234);
-    assert.equal(subject.get('settings.mapStyle'), 'dark');
-    storageDeepEqual(assert, window.localStorage['localforage/settings'], {
-      mapStyle: 'dark',
-      token: 1234
-    });
-  })
 });
