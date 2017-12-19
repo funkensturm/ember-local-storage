@@ -168,7 +168,8 @@ function createStorage(context, key, modelKey, options, FactoryType, preferredKe
 
     set(storageObj, '_initialContentString', JSON.stringify(storageObj._initialContent));
     set(storageObj, 'content', content);
-    return storage.setItem(storageKey, content);
+    // `content` might have non-serializable items
+    return storage.setItem(storageKey, JSON.parse(JSON.stringify(content)));
   }).then(() => {
     return storageObj;
   });
