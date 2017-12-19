@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { getStorage } from '../helpers/storage';
+import { preSerialize } from '../helpers/utils';
 
 const {
   Mixin,
@@ -82,7 +83,7 @@ export default Mixin.create({
         set(this, '_isInitialContent', false);
       }
 
-      return storage.setItem(storageKey, content).then(() => this);
+      return storage.setItem(storageKey, preSerialize(content)).then(() => this);
     } else {
       return this;
     }

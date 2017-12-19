@@ -13,7 +13,14 @@ function saveIfChanged(key) {
   }
 }
 
+function preSerialize(obj) {
+  // Fast way to remove functions and non-serializable attributes
+  // so that IndexedDB and WebSQL are happy
+  return JSON.parse(JSON.stringify(obj));
+}
+
 export {
   save,
-  saveIfChanged
+  saveIfChanged,
+  preSerialize
 };
