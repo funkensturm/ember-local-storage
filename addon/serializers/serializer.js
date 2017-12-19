@@ -9,7 +9,7 @@ export default JSONAPISerializer.extend({
   _shouldSerializeHasMany: function() { return true; },
   shouldSerializeHasMany: function() { return true; },
   // Ensure that returned data is null if undefined
-  normalizeResponse(store, modelClass, payload, id, requestType) {
+  normalizeResponse() {
     const result = this._super(...arguments);
     if (result.data === undefined) {
       result.data = null;

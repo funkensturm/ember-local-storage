@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import StoragePromiseMixin from '../mixins/promise';
+import { preSerialize } from './utils';
 
 const {
   assert,
@@ -61,6 +62,11 @@ function tryStorage(name) {
 }
 
 function getStorage(name) {
+  // Attempt to fall back to localStorage if the provided
+  // type is not supported, ignoring custom drivers
+  if (!localforage.supports(drivers[name]) && !customDrivers[name]) {
+    name = 'local';
+  }
   if (storage[name]) {
     return storage[name];
   } else {
@@ -169,7 +175,7 @@ function createStorage(context, key, modelKey, options, FactoryType, preferredKe
     set(storageObj, '_initialContentString', JSON.stringify(storageObj._initialContent));
     set(storageObj, 'content', content);
     // `content` might have non-serializable items
-    return storage.setItem(storageKey, JSON.parse(JSON.stringify(content)));
+    return storage.setItem(storageKey, preSerialize(content));
   }).then(() => {
     return storageObj;
   });
