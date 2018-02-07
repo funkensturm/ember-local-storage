@@ -109,6 +109,8 @@ function createStorage(context, key, modelKey, options) {
     storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
   }
 
+  storageKey = _buildKey(context, storageKey);
+
   const initialState = {},
     defaultState = {
       _storageKey: storageKey
@@ -143,6 +145,29 @@ function _modelKey(model) {
   }
 
   return `${modelName}:${id}`;
+}
+
+// TODO: v2.0 - Make modulePrefix the default
+function _getNamespace(appConfig, addonConfig) {
+  // For backward compatibility this is a opt-in feature
+  let namespace = addonConfig.namespace;
+
+  // Shortcut for modulePrefix
+  if (namespace === true) {
+    namespace = appConfig.modulePrefix
+  }
+
+  return namespace;
+}
+
+// TODO: Add migration helper
+function _buildKey(context, key) {
+  let appConfig = getOwner(context).resolveRegistration('config:environment');
+  let addonConfig = appConfig && appConfig['ember-local-storage'] || {};
+  let namespace = _getNamespace(appConfig, addonConfig);
+  let delimiter = addonConfig.keyDelimiter || ':';
+
+  return namespace ? `${namespace}${delimiter}${key}` : key;
 }
 
 // Testing helper
