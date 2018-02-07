@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
+import { _buildKey } from '../helpers/storage';
 
 const keys = Object.keys || Ember.keys;
 
@@ -323,7 +324,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
   },
 
   _storageKey(type, id) {
-    return type + '-' + id;
+    return _buildKey(this, type + '-' + id);
   },
 
   // Should be overwriten

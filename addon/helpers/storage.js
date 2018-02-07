@@ -179,5 +179,6 @@ export {
   tryStorage,
   getStorage,
   storageFor,
-  _resetStorages
+  _resetStorages,
+  _buildKey
 };

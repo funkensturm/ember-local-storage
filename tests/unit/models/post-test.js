@@ -1,6 +1,10 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import { moduleForModel, test } from 'ember-qunit';
+import {
+  registerConfigEnvironment,
+  setConfigEnvironment
+} from '../../helpers/storage';
 
 const {
   get,
@@ -19,6 +23,8 @@ moduleForModel('post', 'Unit | Model | post', {
     'model:book-publication'
   ],
   beforeEach: function() {
+    registerConfigEnvironment(this);
+
     window.localStorage.clear();
     window.sessionStorage.clear();
   }
@@ -201,4 +207,124 @@ test('queryRecord empty store', function(assert) {
       assert.ok(false, 'queryRecord on empty store throws error: ' + error.message);
       done();
     });
+});
+
+test('create a record (namespace: true)', function(assert) {
+  assert.expect(1);
+
+  setConfigEnvironment(this, 'namespace', true);
+
+  const done = assert.async();
+  const store = this.store();
+
+  run(function() {
+    store.createRecord('post', { name: 'Just a Name' }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 1);
+      done();
+    });
+});
+
+test('create a record (namespace: "custom")', function(assert) {
+  assert.expect(1);
+
+  setConfigEnvironment(this, 'namespace', 'custom');
+
+  const done = assert.async();
+  const store = this.store();
+
+  run(function() {
+    store.createRecord('post', { name: 'Just a Name' }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 1);
+      done();
+    });
+});
+
+test('create a record (keyDelimiter: "/")', function(assert) {
+  assert.expect(1);
+
+  setConfigEnvironment(this, 'namespace', 'custom');
+  setConfigEnvironment(this, 'keyDelimiter', '/');
+
+  const done = assert.async();
+  const store = this.store();
+
+  run(function() {
+    store.createRecord('post', { name: 'Just a Name' }).save();
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 1);
+      done();
+    });
+});
+
+test('push a record (namespace: true)', function(assert) {
+  assert.expect(2);
+
+  setConfigEnvironment(this, 'namespace', true);
+
+  const done = assert.async();
+  const store = this.store();
+
+  let posts = store.findAll('post');
+
+  assert.equal(get(posts, 'length'), 0);
+
+  run(function() {
+    store.push({data: [
+      {
+        id: '1',
+        type: 'post',
+        attributes: {name: 'Super Name'}
+      },
+      {
+        id: '2',
+        type: 'post',
+        attributes: {name: 'Totally rad'}
+      }
+    ]});
+  });
+
+  store.findAll('post')
+    .then(function(posts) {
+      assert.equal(get(posts, 'length'), 2);
+      done();
+    });
+});
+
+test('find a single record (namespace: true)', function(assert) {
+  assert.expect(2);
+
+  setConfigEnvironment(this, 'namespace', true);
+
+  const done = assert.async();
+  const store = this.store();
+
+  let newPost;
+
+  run(function() {
+    newPost = store.createRecord('post', {
+      name: 'Ember.js: 10 most common mistakes'
+    });
+
+    newPost.save();
+  });
+
+  run(function() {
+    store.find('post', get(newPost, 'id'))
+      .then(function(post) {
+        assert.equal(get(post, 'id'), get(newPost, 'id'));
+        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        done();
+      });
+  });
 });
