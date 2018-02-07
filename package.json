@@ -40,7 +40,7 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
     "ember-ajax": "^3.0.0",
-    "ember-cli": "~2.17.0",
+    "ember-cli": "~2.17.2",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.2.1",
     "ember-cli-github-pages": "^0.1.2",
@@ -50,7 +50,7 @@
     "ember-cli-inuitcss": "^1.0.1",
     "ember-cli-qunit": "^4.1.1",
     "ember-cli-release": "^1.0.0-beta.2",
-    "ember-cli-sass": "^7.1.1",
+    "ember-cli-sass": "7.1.1",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^2.0.0",
