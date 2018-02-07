@@ -6,7 +6,8 @@ const {
   getOwner,
   String: {
     dasherize
-  }
+  },
+  deprecate
 } = Ember;
 
 const assign = Ember.assign || Ember.merge;
@@ -38,6 +39,7 @@ function getStorage(name) {
 
 let storages = {};
 
+// TODO: v2.0 - Remove options
 function storageFor(key, modelName, options = {}) {
   if (arguments.length === 2 && typeof modelName === 'object') {
     options = modelName;
@@ -85,6 +87,7 @@ function storageFor(key, modelName, options = {}) {
  * Looks up the storage factory on the container and sets initial state
  * on the instance if desired.
  */
+// TODO: v2.0 - Remove options and legacyKey
 function createStorage(context, key, modelKey, options) {
   const owner = getOwner(context);
   const factoryType = 'storage';
@@ -95,6 +98,12 @@ function createStorage(context, key, modelKey, options) {
   owner.registerOptionsForType(factoryType, { instantiate: false });
 
   if (options.legacyKey) {
+    deprecate('Using legacyKey has been deprecated and will be removed in version 2.0.0', false, {
+      id: 'ember-local-storage.storageFor.options.legacyKey',
+      until: '2.0.0',
+      url: 'https://github.com/funkensturm/ember-local-storage#deprecations'
+    });
+
     storageKey = options.legacyKey;
   } else {
     storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
