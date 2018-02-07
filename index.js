@@ -1,4 +1,3 @@
-/* eslint-env node */
 'use strict';
 
 const stew = require('broccoli-stew');
@@ -19,7 +18,7 @@ module.exports = {
     } else if (this.ui) {
       this.ui.writeLine(warning);
     } else {
-      console.log(warning);
+      console.log(warning); // eslint-disable-line no-console
     }
   },
 
