@@ -1,8 +1,6 @@
 {
   "name": "ember-local-storage",
   "dependencies": {
-    "localforage": "1.5.x",
-    "localforage-sessionstoragewrapper": "1.2.x",
     "highlightjs": "~9.1.0",
     "inuitcss": "6.0.0-beta.4"
   }

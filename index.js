@@ -83,8 +83,9 @@ module.exports = {
       app.import('vendor/save-as.js');
       app.import('vendor/Blob.js');
     }
-    app.import(app.bowerDirectory + '/localforage/dist/localforage.min.js');
-    app.import(app.bowerDirectory + '/localforage-sessionstoragewrapper/src/localforage-sessionstoragewrapper.js')
+
+    app.import('node_modules/localforage/dist/localforage.min.js');
+    app.import('node_modules/localforage-sessionstoragewrapper/src/localforage-sessionstoragewrapper.js');
 
     this._super.included.apply(this, arguments);
   },
