@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { getStorage } from '../helpers/storage';
+import { preSerialize } from '../helpers/utils';
 
 const {
   Mixin,
@@ -8,8 +9,6 @@ const {
   copy,
   isArray
 } = Ember;
-
-const assign = Ember.assign || Ember.merge;
 
 export default Mixin.create({
   _storageKey: null,
@@ -25,26 +24,6 @@ export default Mixin.create({
   },
 
   init() {
-    const storage = this._storage();
-    const storageKey = get(this, '_storageKey');
-    const initialContent = get(this, '_initialContent');
-
-    let serialized, content;
-
-    set(this, '_initialContentString', JSON.stringify(initialContent));
-
-    // Merge the serialized version into defaults.
-    content = this._getInitialContentCopy();
-
-    // Retrieve the serialized version from storage.
-    serialized = storage[storageKey];
-    if (serialized) {
-      assign(content, JSON.parse(serialized));
-    }
-
-    // Do not change to set(this, 'content', content)
-    this.set('content', content);
-
     // Keep in sync with other windows
     this._addStorageListener();
 
@@ -104,7 +83,9 @@ export default Mixin.create({
         set(this, '_isInitialContent', false);
       }
 
-      storage[storageKey] = json;
+      return storage.setItem(storageKey, preSerialize(content)).then(() => this);
+    } else {
+      return this;
     }
   },
 
@@ -126,17 +107,22 @@ export default Mixin.create({
   // reset the content
   // returns void
   reset() {
+    const storage = this._storage();
+    const storageKey = get(this, '_storageKey');
     const content = this._getInitialContentCopy();
 
     // Do not change to set(this, 'content', content)
     this.set('content', content);
     set(this, '_isInitialContent', true);
+    return storage.setItem(storageKey, content).then(() => this);
   },
 
   // clear the content
   // returns void
   clear() {
+    const storage = this._storage();
+    const storageKey = get(this, '_storageKey');
     this._clear();
-    delete this._storage()[get(this, '_storageKey')];
+    return storage.removeItem(storageKey).then(() => this);
   }
 });

@@ -11,17 +11,21 @@ module.exports = {
       type: ['object', 'array'],
       default: 'object',
       aliases:[
-        { 'a': 'array'},
-        { 'array': 'array'}
+        { 'a': 'array' },
+        { 'array': 'array' }
       ]
     },
     {
       name: 'storage',
-      type: ['local', 'session'],
+      type: ['local', 'session', 'indexeddb', 'websql'],
       default: 'local',
       aliases:[
-        { 's': 'session'},
-        { 'session': 'session'}
+        { 's': 'session' },
+        { 'session': 'session' },
+        { 'i': 'indexeddb' },
+        { 'indexeddb': 'indexeddb' },
+        { 'w': 'websql' },
+        { 'websql': 'websql' }
       ]
     }
   ],

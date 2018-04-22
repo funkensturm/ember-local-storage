@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
+import ArrayProxyMixin from '../mixins/array';
+import { createStorage } from '../helpers/storage';
 
 const keys = Object.keys || Ember.keys;
 
@@ -147,8 +149,11 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     return new RSVP.Promise((resolve, reject) => {
       const handler = this[`_handle${type}Request`];
       if (handler) {
-        const data = handler.call(this, url, options.data);
-        run(null, resolve, {data: data});
+        handler.call(this, url, options.data).then((data) => {
+          run(null, resolve, {data: data});
+        }).catch((err) => {
+          run(null, reject, err);
+        });
       } else {
         run(
           null,
@@ -165,59 +170,65 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       storageKey = this._storageKey(type, id);
 
     if (id) {
-      if (!storage[storageKey]) {
-        throw this.handleResponse(404, {}, "Not found", { url, method: 'GET' });
-      }
-      return JSON.parse(storage[storageKey]);
+      return storage.getItem(storageKey).then((record) => {
+        if (record === null || record === undefined) {
+          throw this.handleResponse(404, {}, 'Not found', { url, method: 'GET' });
+        }
+        return record;
+      });
     }
 
-    const records = this._getIndex(type)
-      .filter(function(storageKey) {
-        return storage[storageKey];
-      })
-      .map(function(storageKey) {
-        return JSON.parse(storage[storageKey]);
+    const recordPromise = this._getIndex(type).then((index) => {
+      return index.map((storageKey) => {
+        return storage.getItem(storageKey);
       });
+    }).then((promises) => {
+      return RSVP.all(promises);
+    }).then((records) => {
+      return records.filter((record) => {
+        return record !== null && record !== undefined;
+      });
+    });
 
     if (query && query.filter) {
       const serializer = this.store.serializerFor(singularize(type));
-
-      return records.filter((record) => {
-        return this._queryFilter(record, serializer, query.filter);
+      return recordPromise.then((records) => {
+        return records.filter((record) => {
+          return this._queryFilter(record, serializer, query.filter);
+        });
       });
     }
-
-    return records;
+    return recordPromise;
   },
 
   _handlePOSTRequest(url, record) {
     const { type, id } = record.data;
+    const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
-    this._addToIndex(type, storageKey);
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
-
-    return null;
+    return this._addToIndex(type, storageKey).then(() => {
+      return storage.setItem(storageKey, record.data);
+    });
   },
 
   _handlePATCHRequest(url, record) {
     const { type, id } = record.data;
+    const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
-    this._addToIndex(type, storageKey);
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
-
-    return null;
+    return this._addToIndex(type, storageKey).then(() => {
+      return storage.setItem(storageKey, record.data);
+    });
   },
 
   _handleDELETERequest(url) {
     const { type, id } = this._urlParts(url);
+    const storage = get(this, '_storage');
     const storageKey = this._storageKey(type, id);
 
-    this._removeFromIndex(type, storageKey);
-    delete get(this, '_storage')[storageKey];
-
-    return null;
+    return this._removeFromIndex(type, storageKey).then(() => {
+      return storage.removeItem(storageKey);
+    });
   },
 
   _queryFilter(data, serializer, query = {}) {
@@ -322,26 +333,50 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     };
   },
 
-  _storageKey(type, id) {
-    return type + '-' + id;
+  _createIndex(type) {
+    // Inherit index storage type from storage type
+    // i.e. this._storage._storageType
+    const storage = get(this, '_storage');
+    const storageType = storage._storageType;
+    const IndexArrayType = Ember.ArrayProxy.extend(ArrayProxyMixin, {
+      _storageType: storageType
+    });
+    return createStorage(this, null, null, {}, IndexArrayType, `index-${type}`);
   },
 
-  // Should be overwriten
-  // Signature: _getIndex(type)
-  _getIndex() {
+  _storageKey(type, id) {
+    return `${type}-${id}`;
+  },
+
+  _getIndex(type) {
+    const indices = get(this, '_indices');
+
+    if (!indices[type]) {
+      indices[type] = this._createIndex(type);
+    }
+
+    return indices[type];
   },
 
   _indexHasKey(type, id) {
-    return this._getIndex(type).indexOf(id) !== -1;
+    return this._getIndex(type).then((index) => {
+      return index.indexOf(id) >= 0;
+    });
   },
 
   _addToIndex(type, id) {
-    if (!this._indexHasKey(type, id)) {
-      this._getIndex(type).addObject(id);
-    }
+    return this._indexHasKey(type, id).then((hasKey) => {
+      if (!hasKey) {
+        this._getIndex(type).then((index) => {
+          index.addObject(id);
+        })
+      }
+    });
   },
 
   _removeFromIndex(type, id) {
-    this._getIndex(type).removeObject(id);
+    return this._getIndex(type).then((index) => {
+      return index.removeObject(id);
+    })
   }
 });

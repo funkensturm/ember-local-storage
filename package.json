@@ -1,7 +1,7 @@
 {
   "name": "ember-local-storage",
   "version": "1.4.1",
-  "description": "The addon provides an ember-data adapter and a storageFor computed property that persists the changes to localStorage or sessionStorage.",
+  "description": "The addon provides an ember-data adapter and a storageFor computed property that persists the changes to localforage",
   "keywords": [
     "ember-addon",
     "localStorage",
@@ -36,7 +36,9 @@
     "chalk": "^2.3.0",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-string-utils": "^1.1.0",
-    "ember-cli-version-checker": "^2.1.0"
+    "ember-cli-version-checker": "^2.1.0",
+    "localforage": "~1.7.1",
+    "localforage-sessionstoragewrapper": "~1.2.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
@@ -64,7 +66,8 @@
     "ember-source": "~2.18.0",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",
-    "loader.js": "^4.4.0"
+    "loader.js": "^4.4.0",
+    "test": "^0.6.0"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"

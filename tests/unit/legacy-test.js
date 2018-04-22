@@ -10,12 +10,16 @@ import {
   _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
+const {
+  get
+} = Ember;
+
 let subject;
 
 moduleFor('router:main', 'legacy - config', {
   beforeEach() {
     // old serialized content
-    window.localStorage.settings = JSON.stringify({
+    window.localStorage['localforage/settings'] = JSON.stringify({
       mapStyle: 'dark'
     });
 
@@ -42,21 +46,24 @@ moduleFor('router:main', 'legacy - config', {
 });
 
 test('it has correct defaults', function(assert) {
+  const done = assert.async();
   assert.expect(3);
-
-  assert.equal(subject.get('settings._storageType'), 'local');
-  assert.equal(subject.get('settings._storageKey'), 'settings');
-  assert.deepEqual(subject.get('settings._initialContent'), {
-    token: 1234
+  get(subject, 'settings').then((storage) => {
+    assert.equal(get(storage, '_storageType'), 'local');
+    assert.equal(get(storage, '_storageKey'), 'settings');
+    assert.deepEqual(get(storage, '_initialContent'), { token: 1234 });
+    done();
   });
 });
 
 test('serialized content can be used', function(assert) {
-  assert.expect(2);
-
-  assert.equal(subject.get('settings.mapStyle'), 'dark');
-  storageDeepEqual(assert, window.localStorage.settings, {
-    mapStyle: 'dark',
-    token: 1234
+  const done = assert.async();
+  const storageKey = 'localforage/settings';
+  assert.expect(3);
+  get(subject, 'settings').then((storage) => {
+    assert.equal(get(storage, 'token'), 1234);
+    assert.equal(get(storage, 'mapStyle'), 'dark');
+    storageDeepEqual(assert, window.localStorage[storageKey], { mapStyle: 'dark', token: 1234 });
+    done();
   });
 });

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 import { moduleForModel, test } from 'ember-qunit';
 
 const {
@@ -74,27 +75,23 @@ test('push a namespaced record', function(assert) {
 });
 
 test('find a single namespaced record', function(assert) {
-  assert.expect(2);
   const done = assert.async();
   const store = this.store();
-
-  let newPost;
-
-  run(function() {
-    newPost = store.createRecord('blog/post', {
-      name: 'Ember.js: 10 most common mistakes'
-    });
-
-    newPost.save();
+  assert.expect(2);
+  const newPost = run(store, 'createRecord', 'blog/post', {
+    name: 'Ember.js: 10 most common mistakes'
   });
-
-  run(function() {
-    store.find('blog/post', get(newPost, 'id'))
-      .then(function(post) {
-        assert.equal(get(post, 'id'), get(newPost, 'id'));
-        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
-        done();
-      });
+  wait().then(() => {
+    return run(newPost, 'save');
+  }).then(() => {
+    store.find('blog/post', get(newPost, 'id')).then((post) => {
+      assert.equal(get(post, 'id'), get(newPost, 'id'));
+      assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+      done();
+    }).catch((err) => {
+      assert.ok(false, err);
+      done();
+    });
   });
 });
 
@@ -102,58 +99,44 @@ test('namespaced get all', function(assert) {
   assert.expect(2);
   const done = assert.async();
   const store = this.store();
-  let posts = store.findAll('blog/post');
-
-  assert.equal(get(posts, 'length'), 0);
-
-
-  run(function() {
-    store.createRecord('blog/post', {
+  store.findAll('blog/post').then((posts) => {
+    assert.equal(get(posts, 'length'), 0);
+    return run(store, 'createRecord', 'blog/post', {
       name: 'Ember.js: 10 most common mistakes'
-    }).save();
-
-    store.createRecord('blog/post', {
-      name: 'Ember.js: Ember-CPM'
-    }).save();
-  });
-
-  store.findAll('blog/post')
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 2);
-      done();
     });
+  }).then(() => {
+    return run(store, 'createRecord', 'blog/post', {
+      name: 'Ember.js: Ember-CPM'
+    });
+  }).then(() => {
+    return store.findAll('blog/post');
+  }).then((posts) => {
+    assert.equal(get(posts, 'length'), 2);
+    done();
+  });
 });
 
 test('namespaced queryRecord attributes', function(assert) {
   assert.expect(3);
   const done = assert.async();
   const store = this.store();
-  let posts = store.findAll('blog/post');
-
-  assert.equal(get(posts, 'length'), 0);
-
-  run(function() {
-    store.createRecord('blog/post', {
-      name: 'Super Name'
-    }).save();
-
-    store.createRecord('blog/post', {
-      name: 'Just a Name'
-    }).save();
-
-    store.createRecord('blog/post', {
-      name: 'Just a Name'
-    }).save();
+  store.findAll('blog/post').then((posts) => {
+    assert.equal(get(posts, 'length'), 0);
+    return run(store, 'createRecord', 'blog/post', { name: 'Super Name' }).save();
+  }).then(() => {
+    return run(store, 'createRecord', 'blog/post', { name: 'Just a Name' }).save();
+  }).then(() => {
+    return run(store, 'createRecord', 'blog/post', { name: 'Just a Name' }).save();
+  }).then(() => {
+    return store.findAll('blog/post');
+  }).then((posts) => {
+    assert.equal(get(posts, 'length'), 3);
+    return store.queryRecord('blog/post', { filter: { name: 'Super Name' } });
+  }).then((post) => {
+    assert.equal(get(post, 'name'), 'Super Name');
+    done();
+  }).catch((err) => {
+    assert.ok(false, err);
+    done();
   });
-
-  store.findAll('blog/post')
-    .then(function(posts) {
-      assert.equal(get(posts, 'length'), 3);
-    });
-
-  store.queryRecord('blog/post', { filter: { name: 'Super Name' } })
-    .then(function(post) {
-      assert.equal(get(post, 'name'), 'Super Name');
-      done();
-    });
 });

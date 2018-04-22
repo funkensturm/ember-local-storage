@@ -9,6 +9,7 @@ const {
 } = Ember;
 
 export default Mixin.create(StorageProxyMixin, {
+  _containedType: 'array',
   _initialContent: A(),
   _clear() { set(this, 'content', Ember.A()); },
 
