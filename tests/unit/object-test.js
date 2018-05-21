@@ -142,7 +142,7 @@ test('it updates when change events fire', function(assert) {
   assert.expect(3);
 
   // setup testing
-  get(subject, 'settings').set('_testing', true);// = true;
+  get(subject, 'settings')._testing = true;
 
   assert.equal(get(subject, 'settings.changeFired'), undefined);
   window.dispatchEvent(new window.StorageEvent('storage', {
