@@ -72,7 +72,7 @@ export default Mixin.create({
           if (
             ('hidden' in document && !document.hidden && !this._testing) ||
             event.newValue === event.oldValue ||
-            event.newValue === JSON.stringify(this.get('content'))
+            event.newValue === JSON.stringify(this.content)
           ) {
             return;
           }

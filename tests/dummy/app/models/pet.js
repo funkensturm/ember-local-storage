@@ -9,5 +9,5 @@ const {
 export default Model.extend({
   name: attr('string'),
 
-  users: hasMany('user', { async: true })
+  users: hasMany('user', { async: true, inverse: 'pets' })
 });

@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import {
   storageDeepEqual
 } from '../helpers/storage';
@@ -12,8 +13,10 @@ import {
 
 let subject;
 
-moduleFor('router:main', 'legacy - config', {
-  beforeEach() {
+module('legacy - config', function(hooks) {
+  setupTest(hooks);
+
+  hooks.beforeEach(function() {
     // old serialized content
     window.localStorage.settings = JSON.stringify({
       mapStyle: 'dark'
@@ -29,34 +32,35 @@ moduleFor('router:main', 'legacy - config', {
       }
     });
 
-    this.register('storage:config', mockStorage);
-    this.register('object:test', Ember.Object.extend({
+    this.owner.register('storage:config', mockStorage);
+    this.owner.register('object:test', Ember.Object.extend({
       settings: storageFor('config', { legacyKey: 'settings' })
     }));
-    subject = this.container.lookup('object:test');
-  },
-  afterEach() {
+    subject = this.owner.lookup('object:test');
+  });
+
+  hooks.afterEach(function() {
     window.localStorage.clear();
     _resetStorages();
-  }
-});
-
-test('it has correct defaults', function(assert) {
-  assert.expect(3);
-
-  assert.equal(subject.get('settings._storageType'), 'local');
-  assert.equal(subject.get('settings._storageKey'), 'settings');
-  assert.deepEqual(subject.get('settings._initialContent'), {
-    token: 1234
   });
-});
 
-test('serialized content can be used', function(assert) {
-  assert.expect(2);
+  test('it has correct defaults', function(assert) {
+    assert.expect(3);
 
-  assert.equal(subject.get('settings.mapStyle'), 'dark');
-  storageDeepEqual(assert, window.localStorage.settings, {
-    mapStyle: 'dark',
-    token: 1234
+    assert.equal(subject.get('settings._storageType'), 'local');
+    assert.equal(subject.get('settings._storageKey'), 'settings');
+    assert.deepEqual(subject.get('settings._initialContent'), {
+      token: 1234
+    });
+  });
+
+  test('serialized content can be used', function(assert) {
+    assert.expect(2);
+
+    assert.equal(subject.get('settings.mapStyle'), 'dark');
+    storageDeepEqual(assert, window.localStorage.settings, {
+      mapStyle: 'dark',
+      token: 1234
+    });
   });
 });
