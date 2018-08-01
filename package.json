@@ -30,6 +30,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+	"@ember/ordered-set": "^1.0.0",
     "blob-polyfill": "^3.0.20180112",
     "broccoli-funnel": "^2.0.1",
     "broccoli-merge-trees": "^3.0.0",
