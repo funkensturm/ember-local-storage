@@ -13,10 +13,8 @@ module('Unit | Model | queryRecord', function(hooks) {
   hooks.beforeEach(function() {
     window.localStorage.clear();
     window.sessionStorage.clear();
-  const store = this.store();
   });
 
-  store.queryRecord('post', { filter: { name: 'Super Name' } })
   test('attributes (string, regex, boolean, number)', function(assert) {
     assert.expect(5);
     const done = assert.async();
