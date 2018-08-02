@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import { getStorage } from '../helpers/storage';
+import {copy} from 'ember-copy'
 
 const {
   Mixin,
   get,
   set,
-  copy,
   isArray
 } = Ember;
 
@@ -72,7 +72,7 @@ export default Mixin.create({
           if (
             ('hidden' in document && !document.hidden && !this._testing) ||
             event.newValue === event.oldValue ||
-            event.newValue === JSON.stringify(this.get('content'))
+            event.newValue === JSON.stringify(this.content)
           ) {
             return;
           }
