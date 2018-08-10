@@ -57,6 +57,42 @@ module.exports = {
       }
     },
     {
+      name: 'ember-lts-2.18',
+      npm: {
+        devDependencies: {
+          'ember-data': '~2.18.0',
+          'ember-source': '~2.18.0'
+        }
+      }
+    },
+    {
+      name: 'ember-3',
+      npm: {
+        devDependencies: {
+          'ember-data': '~3.0.0',
+          'ember-source': '~3.0.0'
+        }
+      }
+    },
+    {
+      name: 'ember-3.1',
+      npm: {
+        devDependencies: {
+          'ember-data': '~3.1.0',
+          'ember-source': '~3.1.0'
+        }
+      }
+    },
+    {
+      name: 'ember-3.2',
+      npm: {
+        devDependencies: {
+          'ember-data': '~3.2.0',
+          'ember-source': '~3.2.0'
+        }
+      }
+    },
+    {
       name: 'ember-release',
       bower: {
         dependencies: {
