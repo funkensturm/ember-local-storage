@@ -14,7 +14,8 @@ moduleForModel('post', 'Unit | Adapter | import/export', {
   needs: [
     'adapter:application',
     'serializer:application',
-    'model:comment'
+    'model:comment',
+    'model:user',
   ],
   beforeEach: function() {
     initialize();
