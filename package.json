@@ -36,7 +36,8 @@
     "chalk": "^2.3.0",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-string-utils": "^1.1.0",
-    "ember-cli-version-checker": "^2.1.0"
+    "ember-cli-version-checker": "^2.1.0",
+    "ember-copy": "^1.0.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
