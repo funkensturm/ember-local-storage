@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { getStorage } from '../helpers/storage';
-import {copy} from 'ember-copy'
+import { copy } from 'ember-copy'
 
 const {
   Mixin,
