@@ -19,10 +19,6 @@ The `storageFor` API was inspired by [Ember State Services](https://github.com/s
 
 ## Changelog
 
-See the [CHANGELOG](CHANGELOG.md)
-
-## Usage
-
 The documentation is for versions `>= 1.0.0` if you are looking for older versions look [here](https://github.com/funkensturm/ember-local-storage/tree/v0.1.5#readme).
 
 If you upgrade from a version `<= 0.1.5` you need to set a `legacyKey` on the computed `storageFor`:
@@ -31,15 +27,20 @@ export default Ember.Component.extend({
   settings: storageFor('settings', { legacyKey: 'your-old-key' })
 });
 ```
+
+See the [CHANGELOG](CHANGELOG.md)
+
+## Usage
+
 * [Object & Array](#object--array)
- * [Object](#object)
- * [Array](#array)
- * [storageFor](#storagefor-options)
- * [Methods](#methods)
+  * [Object](#object)
+  * [Array](#array)
+  * [storageFor](#storagefor-options)
+  * [Methods](#methods)
 * [Adapter & Serializer](#adapter--serializer)
- * [Model](#model)
- * [.query() & .queryRecord()](#query--queryrecord)
- * [Import & Export of localStorage records](#export--import)
+  * [Model](#model)
+  * [.query() & .queryRecord()](#query--queryrecord)
+  * [Import & Export of localStorage records](#export--import)
 
 ### Object & Array
 
