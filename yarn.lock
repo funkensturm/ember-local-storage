@@ -2564,7 +2564,7 @@ ember-cli@~2.18.2:
 
 ember-copy@^1.0.0:
   version "1.0.0"
-  resolved "https://artifactory.global.standardchartered.com/artifactory/api/npm/npm-release/ember-copy/-/ember-copy-1.0.0.tgz#426554ba6cf65920f31d24d0a3ca2cb1be16e4aa"
+  resolved "https://registry.yarnpkg.com/ember-copy/-/ember-copy-1.0.0.tgz#426554ba6cf65920f31d24d0a3ca2cb1be16e4aa"
   dependencies:
     ember-cli-babel "^6.6.0"
 
