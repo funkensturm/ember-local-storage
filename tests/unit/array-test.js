@@ -7,7 +7,7 @@ import {
 import StorageArray from 'ember-local-storage/local/array';
 import {
   storageFor,
-  _resetStorages
+  resetStorages
 } from 'ember-local-storage/helpers/storage';
 
 let subject;
@@ -32,7 +32,7 @@ moduleFor('router:main', 'array - likes', {
   },
   afterEach() {
     window.localStorage.clear();
-    _resetStorages();
+    resetStorages();
   }
 });
 
