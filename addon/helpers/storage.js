@@ -137,7 +137,7 @@ function _modelKey(model) {
 }
 
 // Testing helper
-function resetStorages() {
+function _resetStorages() {
   storages = {};
 }
 
@@ -145,5 +145,5 @@ export {
   tryStorage,
   getStorage,
   storageFor,
-  resetStorages
+  _resetStorages
 };

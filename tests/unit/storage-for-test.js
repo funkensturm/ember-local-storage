@@ -7,7 +7,7 @@ import {
 import StorageObject from 'ember-local-storage/local/object';
 import {
   storageFor,
-  resetStorages
+  _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
 moduleFor('router:main', 'legacy - config', {
@@ -27,7 +27,7 @@ moduleFor('router:main', 'legacy - config', {
   },
   afterEach() {
     window.localStorage.clear();
-    resetStorages();
+    _resetStorages();
   }
 });
 

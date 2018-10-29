@@ -8,7 +8,7 @@ import StorageObject from 'ember-local-storage/local/object';
 import SessionStorageObject from 'ember-local-storage/session/object';
 import {
   storageFor,
-  resetStorages
+  _resetStorages
 } from 'ember-local-storage/helpers/storage';
 
 let subject;
@@ -61,7 +61,7 @@ moduleFor('router:main', 'object - settings', {
   afterEach() {
     window.localStorage.clear();
     window.sessionStorage.clear();
-    resetStorages();
+    _resetStorages();
   }
 });
 
