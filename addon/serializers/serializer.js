@@ -4,6 +4,8 @@ const {
   JSONAPISerializer
 } = DS;
 
+const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|3\.0/);
+
 export default JSONAPISerializer.extend({
   // Serialization behavior
   // Can be removed (_shouldSerializeHasMany) removed in ember data 3.0.0
@@ -12,18 +14,18 @@ export default JSONAPISerializer.extend({
   shouldSerializeHasMany: function() { return true; },
 
   serializeBelongsTo(snapshot, json, relationship) {
-    if (DS.VERSION.match(/^3\.[1-5]\./)) {
-      this._fixSerializeBelongsTo(snapshot, json, relationship);
-    } else {
+    if (emberDataVersionOlderThan3Point1) {
       this._super.apply(this, arguments);
+    } else {
+      this._fixSerializeBelongsTo(snapshot, json, relationship);
     }
   },
 
   serializeHasMany(snapshot, json, relationship) {
-    if (DS.VERSION.match(/^3\.[1-5]\./)) {
-      this._fixSerializeHasMany(snapshot, json, relationship);
-    } else {
+    if (emberDataVersionOlderThan3Point1) {
       this._super.apply(this, arguments);
+    } else {
+      this._fixSerializeHasMany(snapshot, json, relationship);
     }
   },
 
