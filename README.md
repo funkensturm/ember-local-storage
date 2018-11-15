@@ -392,6 +392,70 @@ export default Route.extend({
 - `download` Boolean (default `false`)
 - `filename` String (default ember-data.json)
 
+## Test Helpers
+
+`ember-local-storage` provides a helper to reset the storage while testing. This could be very useful when part of the
+logic you are testing depends on the information in the storage.
+
+
+Take a look at the following acceptance tests.
+
+```javascript
+
+// ember-mocha
+
+import { describe, afterEach } from 'mocha';
+import { setupApplicationTest } from 'ember-mocha';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import resetStorages from 'ember-local-storage/test-support/reset-storages';
+
+describe('Acceptance | login page', function() {
+  let hooks = setupApplicationTest();
+  setupMirage(hooks);
+
+  afterEach(function() {
+    if (window.localStorage) {
+      window.localStorage.clear();
+    }
+    if (window.sessionStorage) {
+      window.sessionStorage.clear();
+    }
+    resetStorages();
+  });
+
+  it('visiting a place', async function() {
+    // your test goes here.
+  });
+});
+
+// ember-qunit
+
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit, currentURL } from '@ember/test-helpers';
+import resetStorages from 'ember-local-storage/test-support/reset-storages';
+
+module('basic acceptance test', function(hooks) {
+  let hooks = setupApplicationTest(hooks);
+
+  hooks.afterEach(function() {
+    if (window.localStorage) {
+      window.localStorage.clear();
+    }
+    if (window.sessionStorage) {
+      window.sessionStorage.clear();
+    }
+    resetStorages();
+  });
+
+  test('can visit /', async function(assert) {
+    await visit('/');
+    assert.equal(currentURL(), '/');
+  });
+});
+
+```
+
 ## Running
 
 * `ember serve`
