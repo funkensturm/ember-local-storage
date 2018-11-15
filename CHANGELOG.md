@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0
+* [ENHANCEMENT] Provide `resetStorages` test helper. Thanks to [@dmuneras](https://github.com/dmuneras) for the PR.
+* [FIX] Fix test coverage. Thanks to [@CvX](https://github.com/CvX) for the PR.
+
 ## 1.4.2
 * [FIX] Remove copy deprecation warnings. Thanks to [@selvaa89](https://github.com/selvaa89) for the PR.
 * [FIX] Fix broken `autoSave` option for ember-data versions > 3.0.X.
