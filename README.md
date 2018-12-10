@@ -407,7 +407,7 @@ Take a look at the following acceptance tests.
 import { describe, afterEach } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import resetStorages from 'ember-local-storage/test-support/reset-storages';
+import resetStorages from 'ember-local-storage/test-support/reset-storage';
 
 describe('Acceptance | login page', function() {
   let hooks = setupApplicationTest();
@@ -433,7 +433,7 @@ describe('Acceptance | login page', function() {
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import resetStorages from 'ember-local-storage/test-support/reset-storages';
+import resetStorages from 'ember-local-storage/test-support/reset-storage';
 
 module('basic acceptance test', function(hooks) {
   let hooks = setupApplicationTest(hooks);
