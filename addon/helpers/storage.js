@@ -6,7 +6,8 @@ const {
   getOwner,
   String: {
     dasherize
-  }
+  },
+  deprecate
 } = Ember;
 
 const assign = Ember.assign || Ember.merge;
@@ -38,6 +39,7 @@ function getStorage(name) {
 
 let storages = {};
 
+// TODO: v2.0 - Remove options
 function storageFor(key, modelName, options = {}) {
   if (arguments.length === 2 && typeof modelName === 'object') {
     options = modelName;
@@ -85,6 +87,7 @@ function storageFor(key, modelName, options = {}) {
  * Looks up the storage factory on the container and sets initial state
  * on the instance if desired.
  */
+// TODO: v2.0 - Remove options and legacyKey
 function createStorage(context, key, modelKey, options) {
   const owner = getOwner(context);
   const factoryType = 'storage';
@@ -95,10 +98,18 @@ function createStorage(context, key, modelKey, options) {
   owner.registerOptionsForType(factoryType, { instantiate: false });
 
   if (options.legacyKey) {
+    deprecate('Using legacyKey has been deprecated and will be removed in version 2.0.0', false, {
+      id: 'ember-local-storage.storageFor.options.legacyKey',
+      until: '2.0.0',
+      url: 'https://github.com/funkensturm/ember-local-storage#deprecations'
+    });
+
     storageKey = options.legacyKey;
   } else {
     storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
   }
+
+  storageKey = _buildKey(context, storageKey);
 
   const initialState = {},
     defaultState = {
@@ -136,6 +147,29 @@ function _modelKey(model) {
   return `${modelName}:${id}`;
 }
 
+// TODO: v2.0 - Make modulePrefix the default
+function _getNamespace(appConfig, addonConfig) {
+  // For backward compatibility this is a opt-in feature
+  let namespace = addonConfig.namespace;
+
+  // Shortcut for modulePrefix
+  if (namespace === true) {
+    namespace = appConfig.modulePrefix
+  }
+
+  return namespace;
+}
+
+// TODO: Add migration helper
+function _buildKey(context, key) {
+  let appConfig = getOwner(context).resolveRegistration('config:environment');
+  let addonConfig = appConfig && appConfig['ember-local-storage'] || {};
+  let namespace = _getNamespace(appConfig, addonConfig);
+  let delimiter = addonConfig.keyDelimiter || ':';
+
+  return namespace ? `${namespace}${delimiter}${key}` : key;
+}
+
 // Testing helper
 function _resetStorages() {
   storages = {};
@@ -145,5 +179,6 @@ export {
   tryStorage,
   getStorage,
   storageFor,
-  _resetStorages
+  _resetStorages,
+  _buildKey
 };

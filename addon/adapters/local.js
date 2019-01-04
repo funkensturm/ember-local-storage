@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import BaseAdapter from './base';
-import { getStorage } from '../helpers/storage';
+import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../local/array';
 
 const {
@@ -14,8 +14,10 @@ export default BaseAdapter.extend({
     const indices = get(this, '_indices');
 
     if (!indices[type]) {
+      let storageKey = _buildKey(this, 'index-' + type);
+
       indices[type] = StorageArray
-        .extend({ _storageKey: 'index-' + type })
+        .extend({ _storageKey: storageKey })
         .create();
     }
 
