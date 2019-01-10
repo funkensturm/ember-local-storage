@@ -45,9 +45,22 @@ See the [CHANGELOG](CHANGELOG.md)
 
 ### Configuration
 
+Global configuration can be set in your app's `config/environment.js`. E.g.
+
+```js
+// config/environment.js
+module.exports = function() {
+  var ENV = {
+    'ember-local-storage': {
+      // Config options belong here
+    }
+  }
+};
+```
+
 #### Namespace & keyDelimiter
 
-In you apps `config/environment.js` you can set a `namespace` and a `keyDelimiter`. For backward compatibility this is a opt-in feature.
+You can set `namespace` and `keyDelimiter` options. For backward compatibility this is a opt-in feature.
 
 **Important:** Don't turn this feature on for existing apps. You will lose access to existing keys.
 
@@ -95,6 +108,10 @@ NOTE: However, there are environments where the detection fails and the support 
     }
   },
 ```
+
+#### Window Sync
+
+You can set the `syncWindows` option to `false` to disable immediate syncing across windows or tabs. The default is `true`.
 
 ### Object & Array
 
