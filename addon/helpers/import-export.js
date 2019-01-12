@@ -1,12 +1,10 @@
-import Ember from 'ember';
+import { all, Promise } from 'rsvp';
+import { assign, merge } from '@ember/polyfills';
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 
-const {
-  get,
-  run
-} = Ember;
-
-const assign = Ember.assign || Ember.merge;
+const assign = assign || merge;
 
 export function importData(store, content, options) {
   // merge defaults
@@ -46,7 +44,7 @@ export function importData(store, content, options) {
     });
   });
 
-  return Ember.RSVP.all(promises)
+  return all(promises)
     .then(function() {
       // reload from store
       reloadTypes.forEach(function(type) {
@@ -90,7 +88,7 @@ export function exportData(store, types, options) {
     );
   }
 
-  return new Ember.RSVP.Promise((resolve) => {
+  return new Promise((resolve) => {
     run(null, resolve, data);
   }, 'DS: LocalStorageAdapter#exportData');
 }

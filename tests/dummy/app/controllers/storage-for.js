@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import { storageFor } from 'ember-local-storage';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   settings: storageFor('settings'),
 
   actions: {

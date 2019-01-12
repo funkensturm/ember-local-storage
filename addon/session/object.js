@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import ObjectProxy from '@ember/object/proxy';
 import ObjectProxyMixin from '../mixins/object';
 
-export default Ember.ObjectProxy.extend(ObjectProxyMixin, {
+export default ObjectProxy.extend(ObjectProxyMixin, {
   _storageType: 'session'
 });

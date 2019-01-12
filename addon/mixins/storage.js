@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import { assign, merge } from '@ember/polyfills';
+import Mixin from '@ember/object/mixin';
+import { set, get } from '@ember/object';
+import { isArray, A } from '@ember/array';
 import { getStorage } from '../helpers/storage';
 import { copy } from 'ember-copy'
 
-const {
-  Mixin,
-  get,
-  set,
-  isArray
-} = Ember;
-
-const assign = Ember.assign || Ember.merge;
+const assign = assign || merge;
 
 export default Mixin.create({
   _storageKey: null,
@@ -57,7 +53,7 @@ export default Mixin.create({
 
     // copy returns a normal array when prototype extensions are off
     // This ensures that we wrap it in an Ember Array.
-    return isArray(content) ? Ember.A(content) : content;
+    return isArray(content) ? A(content) : content;
   },
 
   _addStorageListener() {

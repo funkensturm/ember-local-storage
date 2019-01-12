@@ -1,22 +1,17 @@
-import Ember from 'ember';
+import { keys } from '@ember/polyfills';
+import RSVP from 'rsvp';
+import { run } from '@ember/runloop';
+import { isEmpty, typeOf } from '@ember/utils';
+import { computed, get } from '@ember/object';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
 import { _buildKey } from '../helpers/storage';
 
-const keys = Object.keys || Ember.keys;
+const keys = Object.keys || keys;
 
 const {
   JSONAPIAdapter
 } = DS;
-
-const {
-  get,
-  RSVP,
-  run,
-  typeOf,
-  isEmpty,
-  computed
-} = Ember;
 
 // Ember data ships with ember-inflector
 import { singularize, pluralize } from 'ember-inflector';
