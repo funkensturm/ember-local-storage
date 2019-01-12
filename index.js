@@ -7,7 +7,7 @@ const Funnel = require('broccoli-funnel');
 const mergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
-  name: 'ember-local-storage',
+  name: require('./package').name,
 
   _warn(message) {
     let chalk = require('chalk');
