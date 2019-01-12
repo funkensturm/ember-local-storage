@@ -7,7 +7,7 @@ import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
 import { _buildKey } from '../helpers/storage';
 
-const keys = Object.keys || keys;
+const getKeys = Object.keys || keys;
 
 const {
   JSONAPIAdapter
@@ -213,7 +213,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       dataType = typeOf(data);
 
     if (queryType === 'object' && dataType === 'object') {
-      return keys(query).every((key) => {
+      return getKeys(query).every((key) => {
         let queryValue = query[key],
           recordValue;
 
@@ -252,7 +252,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       // belongsTo
       if (dataType === 'object') {
         const queryMessage = query.map(function(item) {
-          return keys(item).map(function(key) {
+          return getKeys(item).map(function(key) {
             return key + ': ' + item[key];
           });
         }).join(', ');

@@ -5,7 +5,7 @@ import { isArray, A } from '@ember/array';
 import { getStorage } from '../helpers/storage';
 import { copy } from 'ember-copy'
 
-const assign = assign || merge;
+const assignIt = assign || merge;
 
 export default Mixin.create({
   _storageKey: null,
@@ -35,7 +35,7 @@ export default Mixin.create({
     // Retrieve the serialized version from storage.
     serialized = storage[storageKey];
     if (serialized) {
-      assign(content, JSON.parse(serialized));
+      assignIt(content, JSON.parse(serialized));
     }
 
     // Do not change to set(this, 'content', content)

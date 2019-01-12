@@ -1,8 +1,8 @@
 <h3>Generator</h3>
-
+{{! template-lint-disable block-indentation}}
 Run <code>ember g storage -h</code> for all options.<br><br>
 
-{{#highlight-js land='bash'}}
+{{#highlight-js land="bash"}}
 ember g storage stats // will generate a localStorage object
 ember g storage stats -s // will generate a sessionStorage object
 
@@ -17,6 +17,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 <h4>Welcome message</h4>
 
 <div class="example">
+  {{! template-lint-disable simple-unless}}
   {{#unless settings.welcomeMessageSeen}}
     You will see this message until you click
     <button {{action "toggleWelcomeMessage"}}>X</button>
@@ -27,7 +28,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 
 <br><br>
 
-{{#highlight-js lang='js'}}
+{{#highlight-js lang="js"}}
 // app/storages/settings.js
 import StorageObject from 'ember-local-storage/local/object';
 
@@ -44,7 +45,7 @@ Storage.reopenClass({
 export default Storage;
 {{/highlight-js}}
 
-{{#highlight-js lang='js'}}
+{{#highlight-js lang="js"}}
 // app/controllers/application.js
 import Ember from 'ember';
 import { storageFor } from 'ember-local-storage';
