@@ -1,7 +1,7 @@
 Open the developer tools and go to <code>Resources</code> -> <code>Local Storage</code> or reload to see the effect.<br><br>
 
-{{file-input importData='importData'}}
-<a {{action 'exportData'}}>Export</a>
+{{file-input importData="importData"}}
+<a {{action "exportData"}} role="button">Export</a>
 
 <br>
 <br>
@@ -12,7 +12,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
   update=(action (mut name))
   onenter=(action "createProject")
 }}
-<a {{action 'createProject' name}}>Create project</a>
+<a {{action "createProject" name}} role="button">Create project</a>
 
 <br>
 <br>
@@ -22,12 +22,12 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
     <strong>Projects:</strong><br>
 
     {{#each model as |project|}}
-      {{#link-to 'projects.project' project}}{{project.name}}{{/link-to}} -
-      <a {{action 'deleteProject' project}}>Delete</a>
+      {{#link-to "projects.project" project}}{{project.name}}{{/link-to}} -
+      <a {{action "deleteProject" project}} role="button">Delete</a>
       <br>
     {{/each}}
-  </div><!--
-  --><div class="projects__project layout__item u-3/4">
+  </div>
+  <div class="projects__project layout__item u-3/4">
     {{outlet}}
   </div>
 </div>

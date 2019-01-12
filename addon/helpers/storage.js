@@ -5,7 +5,7 @@ import { getOwner } from '@ember/application';
 import { dasherize } from '@ember/string';
 import { deprecate } from '@ember/application/deprecations';
 
-const assign = assign || merge;
+const assignIt = assign || merge;
 
 const storage = {};
 
@@ -122,7 +122,7 @@ function createStorage(context, key, modelKey, options) {
     throw new TypeError('initialState property must be a function');
   }
 
-  assign(initialState, defaultState);
+  assignIt(initialState, defaultState);
 
   if (StorageFactory.create) {
     return StorageFactory.create(initialState);

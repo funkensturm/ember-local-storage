@@ -4,11 +4,11 @@ import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 
-const assign = assign || merge;
+const assignIt = assign || merge;
 
 export function importData(store, content, options) {
   // merge defaults
-  options = assign({
+  options = assignIt({
     json: true,
     truncate: true
   }, options || {});
@@ -55,7 +55,7 @@ export function importData(store, content, options) {
 
 export function exportData(store, types, options) {
   // merge defaults
-  options = assign({
+  options = assignIt({
     json: true,
     download: false,
     filename: 'ember-data.json'

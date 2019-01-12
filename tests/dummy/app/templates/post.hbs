@@ -10,8 +10,8 @@
 <br>
 {{#each model.comments as |comment|}}
   {{comment.name}} -
-  <a {{action 'deleteComment' comment}}>Delete</a>
+  <a {{action "deleteComment" comment}} role="button">Delete</a>
   <br>
 {{/each}}
 <br>
-<a {{action 'createComment' model}}>Create comment</a>
+<a {{action "createComment" model}} role="button">Create comment</a>
