@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import ArrayProxy from '@ember/array/proxy';
 import ArrayProxyMixin from '../mixins/array';
 
-export default Ember.ArrayProxy.extend(ArrayProxyMixin, {
+export default ArrayProxy.extend(ArrayProxyMixin, {
   _storageType: 'local'
 });

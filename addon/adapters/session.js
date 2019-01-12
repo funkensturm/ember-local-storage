@@ -1,11 +1,7 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import BaseAdapter from './base';
 import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../session/array';
-
-const {
-  get
-} = Ember;
 
 export default BaseAdapter.extend({
   _storage: getStorage('session'),

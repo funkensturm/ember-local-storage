@@ -1,11 +1,5 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  run: {
-    bind
-  }
-} = Ember;
+import Component from '@ember/component';
+import { bind } from '@ember/runloop';
 
 export default Component.extend({
   tagName: 'input',

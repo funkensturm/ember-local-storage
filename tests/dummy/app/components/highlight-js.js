@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import hljs from 'highlightjs';
 import { highlightBlock } from 'highlightjs';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'pre',
   lang: 'js',
 

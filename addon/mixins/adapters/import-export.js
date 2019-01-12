@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 import { importData, exportData } from 'ember-local-storage/helpers/import-export';
-
-const {
-  Mixin,
-} = Ember;
 
 export default Mixin.create({
   importData(store, content, options) {

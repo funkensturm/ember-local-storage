@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { Promise } from 'rsvp';
 import { storageFor } from 'ember-local-storage';
 
 function readFile(file) {
   const reader = new FileReader();
 
-  return new Ember.RSVP.Promise((resolve) => {
+  return new Promise((resolve) => {
     reader.onload = function(event) {
       resolve({
         file: file.name,
@@ -18,7 +19,7 @@ function readFile(file) {
   });
 }
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   settings: storageFor('settings'),
 
   actions: {
