@@ -13,7 +13,6 @@ The idea was taken from Tom Dale's gist [Ember Array that writes every change to
 The `storageFor` API was inspired by [Ember State Services](https://github.com/stefanpenner/ember-state-services).
 
 
-## Installation
 
 * `ember install ember-local-storage`
 
@@ -519,20 +518,12 @@ id: ember-local-storage.storageFor.options.legacyKey
 
 Using `legacyKey` has been deprecated and will be removed in version 2.0.0. You should migrate your key to the new format. For `storageFor('settings')` that would be `storage:settings`.
 
-## Running
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+## Ember support
 
-## Running Tests
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
 
-* `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
 
 ## Publishing
 
