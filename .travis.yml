@@ -35,10 +35,16 @@ jobs:
 
     - stage: "Tests"
       name: "Tests"
+      install:
+        - yarn install --non-interactive
       script:
-        - npm run lint:hbs
-        - npm run lint:js
-        - npm test
+        - yarn lint:hbs
+        - yarn lint:js
+        - yarn test
+
+    - name: "Floating Dependencies"
+      script:
+        - yarn test
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
