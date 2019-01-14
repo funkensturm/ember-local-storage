@@ -80,6 +80,6 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://www.funkensturm.com/ember-local-storage/"
+    "demoURL": "https://www.funkensturm.com/ember-local-storage/"
   }
 }
