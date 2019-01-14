@@ -12,7 +12,7 @@ It ships with an ember-data adapter that works almost the same as the JSONAPIAda
 The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 The `storageFor` API was inspired by [Ember State Services](https://github.com/stefanpenner/ember-state-services).
 
-
+## Installation
 
 * `ember install ember-local-storage`
 
