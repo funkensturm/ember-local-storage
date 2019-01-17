@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0
+* [ENHANCEMENT] Add configuration option to add a namespace for localStorage keys.
+* [ENHANCEMENT] Add configuration option to force ember-data support. Thanks to [@sukima](https://github.com/sukima) for the PR.
+
 ## 1.5.0
 * [ENHANCEMENT] Provide `resetStorages` test helper. Thanks to [@dmuneras](https://github.com/dmuneras) for the PR.
 * [FIX] Fix test coverage. Thanks to [@CvX](https://github.com/CvX) for the PR.
