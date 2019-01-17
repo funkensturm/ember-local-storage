@@ -56,6 +56,10 @@ module.exports = {
     if (projectConfig) {
       options = projectConfig['ember-local-storage'] || {};
 
+      if (options.includeEmberDataSupport === true) {
+        this.hasEmberData = true;
+      }
+
       if (options.fileExport && this.hasEmberData) {
         this.needsFileExport = true;
       }
