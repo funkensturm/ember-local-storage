@@ -90,7 +90,7 @@ NOTE: A common place you might run into this is on https://ember-twiddle.com for
 
 ```json
   "ENV": {
-    "ember-cli-local-storage": {
+    "ember-local-storage": {
       "includeEmberDataSupport": true
     }
   },
