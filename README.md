@@ -70,9 +70,9 @@ module.exports = function() {
 };
 ```
 
-#### Force ember-data support
+#### ember-data support
 
-This addon autodetects if you use ember-data and will include the support for ember-data adapters and serializes by default. However, in some cases the detection fails and the support is disabled when you really do want it. To force including support for ember-data you can use the `includeEmberDataSupport` option:
+This addon autodetects if you use ember-data and will include the support for ember-data adapters and serializes by default. You can opt out of this behavior by setting the `includeEmberDataSupport` option to `false`:
 
 ```js
 // config/environment.js
@@ -80,13 +80,13 @@ module.exports = function() {
   var ENV = {
     modulePrefix: 'my-app',
     'ember-local-storage': {
-      includeEmberDataSupport: true
+      includeEmberDataSupport: false
     }
   }
 };
 ```
 
-NOTE: A common place you might run into this is on https://ember-twiddle.com for that case you can turn this option on by editing the `twiddle.json` to include the following:
+NOTE: However, there are environments where the detection fails and the support is disabled when you really do want it. A common place you might run into this is on https://ember-twiddle.com. For that case you can force including support for ember-data by turn this option on. Edit the `twiddle.json` to include the following:
 
 ```json
   "ENV": {
