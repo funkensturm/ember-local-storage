@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.0
+* [ENHANCEMENT] Change `includeEmberDataSupport` configuration option behavior to opt out OR force ember-data support. Thanks to [@jasonmit](https://github.com/jasonmit) for the PR.
+
 ## 1.6.0
 * [ENHANCEMENT] Add configuration option to add a namespace for localStorage keys.
 * [ENHANCEMENT] Add configuration option to force ember-data support. Thanks to [@sukima](https://github.com/sukima) for the PR.
