@@ -138,6 +138,7 @@ test('it does not share data', function(assert) {
 });
 
 test('it updates when change events fire', function(assert) {
+  const done = assert.async();
   assert.expect(3);
 
   // setup testing
@@ -150,8 +151,12 @@ test('it updates when change events fire', function(assert) {
     oldValue: '{"welcomeMessageSeen":false}',
     storageArea: get(subject, 'settings')._storage()
   }));
-  assert.equal(get(subject, 'settings.welcomeMessageSeen'), false);
-  assert.equal(get(subject, 'settings.changeFired'), true);
+
+  Ember.run.later(() => {
+    assert.equal(get(subject, 'settings.welcomeMessageSeen'), false);
+    assert.equal(get(subject, 'settings.changeFired'), true);   
+    done(); 
+  }, 200);
 });
 
 test('nested values get persisted', function(assert) {

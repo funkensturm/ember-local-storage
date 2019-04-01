@@ -66,6 +66,7 @@ export default Mixin.create({
 
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
+        event = this._lastStorageEvent || event;
         if (this.isDestroying) { return; }
 
         if (event.storageArea === storage && event.key === storageKey) {
@@ -86,7 +87,12 @@ export default Mixin.create({
         }
       };
 
-      window.addEventListener('storage', this._storageEventHandler, false);
+      this._debouncedStorageEventHandler = (event) => {
+        this._lastStorageEvent = event;
+        Ember.run.debounce(this, this._storageEventHandler, 0);
+      };
+
+      window.addEventListener('storage', this._debouncedStorageEventHandler, false);
     }
   },
 
@@ -110,7 +116,7 @@ export default Mixin.create({
 
   willDestroy() {
     if (this._storageEventHandler) {
-      window.removeEventHandler('storage', this._storageEventHandler, false);
+      window.removeEventListener('storage', this._storageEventHandler, false);
     }
 
     this._super(...arguments);
