@@ -14,11 +14,11 @@ function registerConfigEnvironment(context) {
     'ember-local-storage': {}
   };
 
-  context.register('config:environment', environment, { instantiate: false });
+  context.owner.register('config:environment', environment, { instantiate: false });
 }
 
 function setConfigEnvironment(context, key, value) {
-  let appConfig = context.container.lookup('config:environment');
+  let appConfig = context.owner.lookup('config:environment');
   let addonConfig = appConfig['ember-local-storage'] || {};
   addonConfig[key] = value;
 }

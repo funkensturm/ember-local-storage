@@ -12,7 +12,6 @@ It ships with an ember-data adapter that works almost the same as the JSONAPIAda
 The idea was taken from Tom Dale's gist [Ember Array that writes every change to localStorage](https://gist.github.com/tomdale/11360257) and extended to objects.
 The `storageFor` API was inspired by [Ember State Services](https://github.com/stefanpenner/ember-state-services).
 
-
 ## Installation
 
 * `ember install ember-local-storage`
@@ -519,20 +518,17 @@ id: ember-local-storage.storageFor.options.legacyKey
 
 Using `legacyKey` has been deprecated and will be removed in version 2.0.0. You should migrate your key to the new format. For `storageFor('settings')` that would be `storage:settings`.
 
-## Running
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+## Contributing
 
-## Running Tests
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
-* `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
 
-## Building
+## Ember support
 
-* `ember build`
+* Ember.js v2.12 or above
+* Ember CLI v2.13 or above
+
 
 ## Publishing
 

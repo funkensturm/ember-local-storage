@@ -1,16 +1,11 @@
-import Ember from 'ember';
+import { assign, merge } from '@ember/polyfills';
+import { assert } from '@ember/debug';
+import EmberObject, { computed } from '@ember/object';
+import { getOwner } from '@ember/application';
+import { dasherize } from '@ember/string';
+import { deprecate } from '@ember/application/deprecations';
 
-const {
-  assert,
-  computed,
-  getOwner,
-  String: {
-    dasherize
-  },
-  deprecate
-} = Ember;
-
-const assign = Ember.assign || Ember.merge;
+const assignIt = assign || merge;
 
 const storage = {};
 
@@ -127,13 +122,13 @@ function createStorage(context, key, modelKey, options) {
     throw new TypeError('initialState property must be a function');
   }
 
-  assign(initialState, defaultState);
+  assignIt(initialState, defaultState);
 
   if (StorageFactory.create) {
     return StorageFactory.create(initialState);
   }
 
-  return Ember.Object.create(StorageFactory);
+  return EmberObject.create(StorageFactory);
 }
 
 function _modelKey(model) {

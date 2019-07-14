@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import { assign, merge } from '@ember/polyfills';
+import Mixin from '@ember/object/mixin';
+import { set, get } from '@ember/object';
+import { isArray, A } from '@ember/array';
 import { getStorage } from '../helpers/storage';
 import { copy } from 'ember-copy'
 
-const {
-  Mixin,
-  get,
-  set,
-  isArray
-} = Ember;
-
-const assign = Ember.assign || Ember.merge;
+const assignIt = assign || merge;
 
 export default Mixin.create({
   _storageKey: null,
@@ -39,7 +35,7 @@ export default Mixin.create({
     // Retrieve the serialized version from storage.
     serialized = storage[storageKey];
     if (serialized) {
-      assign(content, JSON.parse(serialized));
+      assignIt(content, JSON.parse(serialized));
     }
 
     // Do not change to set(this, 'content', content)
@@ -48,7 +44,7 @@ export default Mixin.create({
     // Keep in sync with other windows
     this._addStorageListener();
 
-    return this._super.apply(this, arguments);
+    return this._super(...arguments);
   },
 
   _getInitialContentCopy() {
@@ -57,7 +53,7 @@ export default Mixin.create({
 
     // copy returns a normal array when prototype extensions are off
     // This ensures that we wrap it in an Ember Array.
-    return isArray(content) ? Ember.A(content) : content;
+    return isArray(content) ? A(content) : content;
   },
 
   _addStorageListener() {

@@ -1,11 +1,5 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  run: {
-    bind
-  }
-} = Ember;
+import Component from '@ember/component';
+import { bind } from '@ember/runloop';
 
 export default Component.extend({
   tagName: 'input',
@@ -13,10 +7,6 @@ export default Component.extend({
   type: 'file',
 
   didInsertElement() {
-    this.$().on('change', bind(this, 'filesSelected'));
-  },
-
-  filesSelected(event) {
-    this.sendAction('importData', event);
+    this.$().on('change', bind(this, 'importData'));
   }
 });

@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import { storageFor } from 'ember-local-storage/helpers/storage';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   stats: storageFor('stats'),
 
   actions: {

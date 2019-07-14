@@ -1,35 +1,32 @@
-import Ember from 'ember';
+import Application from '@ember/application';
+import { run } from '@ember/runloop';
 import DS from 'ember-data';
 import { initialize } from '../../../initializers/local-storage-adapter';
 import { module, test } from 'qunit';
 
-const {
-  run
-} = Ember;
-
 let application;
 
-module('Unit | Initializer | local storage adapter', {
-  beforeEach: function() {
+module('Unit | Initializer | local storage adapter', function(hooks) {
+  hooks.beforeEach(function() {
     run(function() {
-      application = Ember.Application.create();
+      application = Application.create();
       application.deferReadiness();
     });
-  }
-});
+  });
 
-test('it adds importData to DS.Store', function(assert) {
-  initialize();
+  test('it adds importData to DS.Store', function(assert) {
+    initialize();
 
-  const store = DS.Store.create();
+    const store = DS.Store.create();
 
-  assert.ok(typeof store.importData === 'function');
-});
+    assert.ok(typeof store.importData === 'function');
+  });
 
-test('it adds exportData to DS.Store', function(assert) {
-  initialize();
+  test('it adds exportData to DS.Store', function(assert) {
+    initialize();
 
-  const store = DS.Store.create();
+    const store = DS.Store.create();
 
-  assert.ok(typeof store.exportData === 'function');
+    assert.ok(typeof store.exportData === 'function');
+  });
 });
