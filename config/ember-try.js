@@ -15,15 +15,23 @@ module.exports = function() {
           name: 'ember-lts-2.12',
           npm: {
             devDependencies: {
+              '@ember/jquery': '^0.5.1',
+              'ember-cli-shims': '1.1.0',
               'ember-data': '~2.12.0',
               'ember-source': '~2.12.0'
             }
           }
         },
-                {
+        {
           name: 'ember-lts-2.16',
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({
+              'jquery-integration': true
+            })
+          },
           npm: {
             devDependencies: {
+              '@ember/jquery': '^0.5.1',
               'ember-data': '~2.16.0',
               'ember-source': '~2.16.0'
             }
@@ -32,13 +40,15 @@ module.exports = function() {
         {
           name: 'ember-lts-2.18',
           env: {
-            EMBER_OPTIONAL_FEATURES: JSON.stringify({ 'jquery-integration': true })
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({
+              'jquery-integration': true
+            })
           },
           npm: {
             devDependencies: {
               '@ember/jquery': '^0.5.1',
-              'ember-source': '~2.18.0',
-              'ember-data': '~2.18.0'
+              'ember-data': '~2.18.0',
+              'ember-source': '~2.18.0'
             }
           }
         },
@@ -46,8 +56,17 @@ module.exports = function() {
           name: 'ember-lts-3.4',
           npm: {
             devDependencies: {
-              'ember-source': '~3.4.0',
-              'ember-data': '~3.4.0'
+              'ember-data': '~3.4.0',
+              'ember-source': '~3.4.0'
+            }
+          }
+        },
+        {
+          name: 'ember-lts-3.8',
+          npm: {
+            devDependencies: {
+              'ember-data': '~3.8.0',
+              'ember-source': '~3.8.0'
             }
           }
         },
@@ -55,6 +74,7 @@ module.exports = function() {
           name: 'ember-release',
           npm: {
             devDependencies: {
+              'ember-data': 'latest',
               'ember-source': urls[0]
             }
           }
@@ -63,6 +83,7 @@ module.exports = function() {
           name: 'ember-beta',
           npm: {
             devDependencies: {
+              'ember-data': 'beta',
               'ember-source': urls[1]
             }
           }
@@ -71,6 +92,7 @@ module.exports = function() {
           name: 'ember-canary',
           npm: {
             devDependencies: {
+              'ember-data': 'canary',
               'ember-source': urls[2]
             }
           }
