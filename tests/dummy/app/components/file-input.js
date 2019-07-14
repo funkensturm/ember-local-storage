@@ -7,10 +7,6 @@ export default Component.extend({
   type: 'file',
 
   didInsertElement() {
-    this.$().on('change', bind(this, 'filesSelected'));
-  },
-
-  filesSelected(event) {
-    this.sendAction('importData', event);
+    this.$().on('change', bind(this, 'importData'));
   }
 });

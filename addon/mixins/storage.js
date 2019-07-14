@@ -44,7 +44,7 @@ export default Mixin.create({
     // Keep in sync with other windows
     this._addStorageListener();
 
-    return this._super.apply(this, arguments);
+    return this._super(...arguments);
   },
 
   _getInitialContentCopy() {

@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
     sourceType: 'module'
   },
   plugins: [
@@ -15,9 +15,6 @@ module.exports = {
     browser: true
   },
   rules: {
-    'ember/new-module-imports': 0,
-    'ember/require-super-in-init': 0,
-    'ember/closure-actions': 0
   },
   overrides: [
     // node files

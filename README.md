@@ -519,9 +519,14 @@ id: ember-local-storage.storageFor.options.legacyKey
 Using `legacyKey` has been deprecated and will be removed in version 2.0.0. You should migrate your key to the new format. For `storageFor('settings')` that would be `storage:settings`.
 
 
+## Contributing
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+
 ## Ember support
 
-* Ember.js v2.18 or above
+* Ember.js v2.12 or above
 * Ember CLI v2.13 or above
 
 
