@@ -108,7 +108,8 @@ function createStorage(context, key, modelKey, options) {
 
   const initialState = {},
     defaultState = {
-      _storageKey: storageKey
+      _storageKey: storageKey,
+      _syncWindows: _addonConfig(context).syncWindows !== false
     },
     StorageFactory = owner.lookup(storageFactory);
 
@@ -143,13 +144,14 @@ function _modelKey(model) {
 }
 
 // TODO: v2.0 - Make modulePrefix the default
-function _getNamespace(appConfig, addonConfig) {
+function _getNamespace(context) {
   // For backward compatibility this is a opt-in feature
-  let namespace = addonConfig.namespace;
+  let namespace = _addonConfig(context).namespace;
 
   // Shortcut for modulePrefix
   if (namespace === true) {
-    namespace = appConfig.modulePrefix
+    let appConfig = getOwner(context).resolveRegistration('config:environment');
+    namespace = appConfig.modulePrefix;
   }
 
   return namespace;
@@ -157,12 +159,17 @@ function _getNamespace(appConfig, addonConfig) {
 
 // TODO: Add migration helper
 function _buildKey(context, key) {
-  let appConfig = getOwner(context).resolveRegistration('config:environment');
-  let addonConfig = appConfig && appConfig['ember-local-storage'] || {};
-  let namespace = _getNamespace(appConfig, addonConfig);
+  let namespace = _getNamespace(context);
   let delimiter = addonConfig.keyDelimiter || ':';
 
   return namespace ? `${namespace}${delimiter}${key}` : key;
+}
+
+function _addonConfig(context) {
+  let appConfig = getOwner(context).resolveRegistration('config:environment');
+  let addonConfig = appConfig && appConfig['ember-local-storage'] || {};
+
+  return addonConfig;
 }
 
 // Testing helper

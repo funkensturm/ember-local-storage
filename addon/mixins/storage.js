@@ -24,6 +24,7 @@ export default Mixin.create({
     const storage = this._storage();
     const storageKey = get(this, '_storageKey');
     const initialContent = get(this, '_initialContent');
+    const syncWindows = get(this, '_syncWindows')
 
     let serialized, content;
 
@@ -42,7 +43,9 @@ export default Mixin.create({
     this.set('content', content);
 
     // Keep in sync with other windows
-    this._addStorageListener();
+    if (syncWindows) {
+      this._addStorageListener();
+    }
 
     return this._super(...arguments);
   },
