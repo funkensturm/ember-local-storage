@@ -106,7 +106,7 @@ export default Mixin.create({
 
   willDestroy() {
     if (this._storageEventHandler) {
-      window.removeEventHandler('storage', this._storageEventHandler, false);
+      window.removeEventListener('storage', this._storageEventHandler, false);
     }
 
     this._super(...arguments);
