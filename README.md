@@ -536,7 +536,7 @@ See the [Contributing](CONTRIBUTING.md) guide for details.
 ember github-pages:commit --message "New gh-pages release"
 
 ember release
-npm publish
+npm publish --tag latest
 ```
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).

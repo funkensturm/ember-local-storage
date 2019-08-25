@@ -1,11 +1,9 @@
-import { assign, merge } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import EmberObject, { computed } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { dasherize } from '@ember/string';
 import { deprecate } from '@ember/application/deprecations';
 
-const assignIt = assign || merge;
 
 const storage = {};
 
@@ -90,8 +88,6 @@ function createStorage(context, key, modelKey, options) {
 
   let storageKey;
 
-  owner.registerOptionsForType(factoryType, { instantiate: false });
-
   if (options.legacyKey) {
     deprecate('Using legacyKey has been deprecated and will be removed in version 2.0.0', false, {
       id: 'ember-local-storage.storageFor.options.legacyKey',
@@ -106,33 +102,34 @@ function createStorage(context, key, modelKey, options) {
 
   storageKey = _buildKey(context, storageKey);
 
-  const initialState = {},
-    defaultState = {
-      _storageKey: storageKey
-    },
-    StorageFactory = owner.lookup(storageFactory);
+  const defaultState = {
+    _storageKey: storageKey
+  };
+  const StorageFactory = owner.factoryFor(storageFactory);
 
   if (!StorageFactory) {
     throw new TypeError(`Unknown StorageFactory: ${storageFactory}`);
   }
 
-  if (typeof(StorageFactory.initialState) === 'function') {
-    initialState._initialContent = StorageFactory.initialState.call(context);
-  } else if (StorageFactory.initialState) {
+  const StorageFactoryClass = StorageFactory.class;
+
+  if (typeof(StorageFactoryClass.initialState) === 'function') {
+    defaultState._initialContent = StorageFactoryClass.initialState.call(
+      StorageFactoryClass,
+      context
+    );
+  } else if (StorageFactoryClass.initialState) {
     throw new TypeError('initialState property must be a function');
   }
 
-  assignIt(initialState, defaultState);
-
-  if (StorageFactory.create) {
-    if (owner.factoryFor) {
-      return owner.factoryFor(storageFactory).create(initialState);
-    }
-
-    return StorageFactory.create(initialState);
+  if (EmberObject.detect(StorageFactoryClass)) {
+    return StorageFactoryClass.create(
+      owner.ownerInjection(),
+      defaultState
+    );
   }
 
-  return EmberObject.create(StorageFactory);
+  return EmberObject.create(owner.ownerInjection(), StorageFactoryClass);
 }
 
 function _modelKey(model) {

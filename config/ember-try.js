@@ -13,12 +13,33 @@ module.exports = function() {
       scenarios: [
         {
           name: 'ember-lts-2.12',
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({
+              'jquery-integration': true
+            })
+          },
           npm: {
             devDependencies: {
               '@ember/jquery': '^0.5.1',
               'ember-cli-shims': '1.1.0',
               'ember-data': '~2.12.0',
               'ember-source': '~2.12.0'
+            }
+          }
+        },
+        {
+          name: 'ember-lts-2.13',
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({
+              'jquery-integration': true
+            })
+          },
+          npm: {
+            devDependencies: {
+              '@ember/jquery': '^0.5.1',
+              'ember-cli-shims': '1.1.0',
+              'ember-data': '~2.13.0',
+              'ember-source': '~2.13.0'
             }
           }
         },
