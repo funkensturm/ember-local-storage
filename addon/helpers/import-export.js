@@ -3,6 +3,7 @@ import { assign, merge } from '@ember/polyfills';
 import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
+import { A } from '@ember/array';
 
 const assignIt = assign || merge;
 
@@ -13,7 +14,7 @@ export function importData(store, content, options) {
     truncate: true
   }, options || {});
 
-  let reloadTypes = [];
+  let truncateTypes = A(), reloadTypes = A();
 
   content = options.json ? JSON.parse(content) : content;
 
@@ -28,8 +29,11 @@ export function importData(store, content, options) {
 
       adapter._getIndex(type).reset();
 
-      // unload from store
-      store.unloadAll(singularize(type));
+      truncateTypes.addObject(singularize(type));
+    });
+    // unload from store
+    truncateTypes.forEach((type) => {
+      store.unloadAll(type);
     });
   }
 
@@ -37,7 +41,7 @@ export function importData(store, content, options) {
     const adapter = store.adapterFor(singularize(record.type));
 
     // collect types to reload
-    reloadTypes.push(singularize(record.type));
+    reloadTypes.addObject(singularize(record.type));
 
     return adapter._handleStorageRequest(null, 'POST', {
       data: {data: record}
