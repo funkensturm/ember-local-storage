@@ -20,8 +20,12 @@ export function importData(store, content, options) {
 
   if (options.truncate) {
     content.data.forEach((record) => {
-      const type = record.type;
-      const adapter = store.adapterFor(singularize(type));
+      truncateTypes.addObject(record.type);
+    });
+
+    truncateTypes.forEach((type) => {
+      const singularType = singularize(type);
+      const adapter = store.adapterFor(singularType);
 
       adapter._getIndex(type).forEach((storageKey) => {
         delete get(adapter, '_storage')[storageKey];
@@ -29,11 +33,8 @@ export function importData(store, content, options) {
 
       adapter._getIndex(type).reset();
 
-      truncateTypes.addObject(singularize(type));
-    });
-    // unload from store
-    truncateTypes.forEach((type) => {
-      store.unloadAll(type);
+      // unload from store
+      store.unloadAll(singularType);
     });
   }
 
