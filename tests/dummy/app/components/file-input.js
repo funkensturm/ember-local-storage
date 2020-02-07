@@ -7,6 +7,6 @@ export default Component.extend({
   type: 'file',
 
   didInsertElement() {
-    this.$().on('change', bind(this, 'importData'));
+    this.element.addEventListener('change', bind(this, 'importData'));
   }
 });

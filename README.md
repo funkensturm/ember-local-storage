@@ -528,6 +528,7 @@ See the [Contributing](CONTRIBUTING.md) guide for details.
 
 * Ember.js v2.12 or above
 * Ember CLI v2.13 or above
+* Node.js v8 or above
 
 
 ## Publishing
@@ -539,4 +540,6 @@ ember release
 npm publish --tag latest
 ```
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).
