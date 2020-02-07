@@ -1,31 +1,28 @@
-import Application from '@ember/application';
-import { run } from '@ember/runloop';
-import DS from 'ember-data';
-import { initialize } from '../../../initializers/local-storage-adapter';
 import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { initialize } from '../../../initializers/local-storage-adapter';
 
-let application;
+let store;
 
 module('Unit | Initializer | local storage adapter', function(hooks) {
+  setupApplicationTest(hooks);
+
   hooks.beforeEach(function() {
-    run(function() {
-      application = Application.create();
-      application.deferReadiness();
-    });
+    store = this.owner.lookup('service:store');
+  });
+
+  hooks.afterEach(function() {
+    store = null;
   });
 
   test('it adds importData to DS.Store', function(assert) {
     initialize();
-
-    const store = DS.Store.create();
 
     assert.ok(typeof store.importData === 'function');
   });
 
   test('it adds exportData to DS.Store', function(assert) {
     initialize();
-
-    const store = DS.Store.create();
 
     assert.ok(typeof store.exportData === 'function');
   });
