@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.2
+* [FIX] Fix performance issue in `importData()` with `truncate` option. Thanks to [@koopa](https://github.com/koopa) for the PR.
+
 ## 1.7.1
 * [FIX] Fix dependency injections in storages. Thanks to [@svenpl](https://github.com/svenpl) for the PR.
 * [FIX] Fix replace removeEventHandler by removeEventListener. Thanks to [@cibernox](https://github.com/cibernox) for the PR.
