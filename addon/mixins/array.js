@@ -6,8 +6,10 @@ import { save } from '../helpers/utils';
 
 export default Mixin.create(StorageProxyMixin, {
   _initialContent: A(),
-  _clear() { set(this, 'content', A()); },
+  _clear() {
+    set(this, 'content', A());
+  },
 
   replaceContent: save,
-  reset: save
+  reset: save,
 });

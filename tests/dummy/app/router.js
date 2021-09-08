@@ -3,14 +3,14 @@ import config from './config/environment';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
 });
 
-Router.map(function() {
-  this.route('adapter', function() {
-    this.route('projects', { resetNamespace: true }, function() {
-      this.route('project', { path: ':project_id' }, function() {
-        this.route('tasks', { resetNamespace: true }, function() {
+Router.map(function () {
+  this.route('adapter', function () {
+    this.route('projects', { resetNamespace: true }, function () {
+      this.route('project', { path: ':project_id' }, function () {
+        this.route('tasks', { resetNamespace: true }, function () {
           this.route('task', { path: ':task_id' });
         });
       });

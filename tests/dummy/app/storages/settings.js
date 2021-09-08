@@ -6,9 +6,9 @@ Storage.reopenClass({
   initialState() {
     return {
       welcomeMessageSeen: false,
-      userId: null
+      userId: null,
     };
-  }
+  },
 });
 
 export default Storage;

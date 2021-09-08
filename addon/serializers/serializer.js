@@ -1,8 +1,6 @@
 import DS from 'ember-data';
 
-const {
-  JSONAPISerializer
-} = DS;
+const { JSONAPISerializer } = DS;
 
 const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|3\.0/);
 
@@ -10,8 +8,12 @@ export default JSONAPISerializer.extend({
   // Serialization behavior
   // Can be removed (_shouldSerializeHasMany) removed in ember data 3.0.0
   // https://github.com/emberjs/data/pull/5290
-  _shouldSerializeHasMany: function() { return true; },
-  shouldSerializeHasMany: function() { return true; },
+  _shouldSerializeHasMany: function () {
+    return true;
+  },
+  shouldSerializeHasMany: function () {
+    return true;
+  },
 
   serializeBelongsTo(snapshot, json, relationship) {
     if (emberDataVersionOlderThan3Point1) {
@@ -73,7 +75,7 @@ export default JSONAPISerializer.extend({
         }
 
         // only serialize has many relationships that are not new
-        let nonNewHasMany = hasMany.filter(item => item.record && item.record.get('id'));
+        let nonNewHasMany = hasMany.filter((item) => item.record && item.record.get('id'));
         let data = new Array(nonNewHasMany.length);
 
         for (let i = 0; i < nonNewHasMany.length; i++) {

@@ -9,7 +9,7 @@ export default Controller.extend({
       this.incrementProperty('stats.counter');
     },
     resetCounter() {
-      this.get('stats').reset();
-    }
-  }
+      this.stats.reset();
+    },
+  },
 });

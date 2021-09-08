@@ -1,11 +1,6 @@
 import DS from 'ember-data';
 
-const {
-  Model,
-  attr,
-  belongsTo,
-  hasMany
-} = DS;
+const { Model, attr, belongsTo, hasMany } = DS;
 
 export default Model.extend({
   name: attr('string'),
@@ -13,18 +8,18 @@ export default Model.extend({
 
   project: belongsTo('project', {
     async: true,
-    autoSave: true
+    autoSave: true,
   }),
 
   parent: belongsTo('task', {
     async: true,
     autoSave: true,
-    inverse: 'children'
+    inverse: 'children',
   }),
 
   children: hasMany('task', {
     async: true,
     dependent: 'destroy',
-    inverse: 'parent'
-  })
+    inverse: 'parent',
+  }),
 });

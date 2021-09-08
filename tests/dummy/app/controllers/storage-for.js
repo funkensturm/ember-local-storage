@@ -7,6 +7,6 @@ export default Controller.extend({
   actions: {
     toggleWelcomeMessage() {
       this.toggleProperty('settings.welcomeMessageSeen');
-    }
-  }
+    },
+  },
 });

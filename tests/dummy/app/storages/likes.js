@@ -6,7 +6,7 @@ const Storage = StorageArray.extend();
 Storage.reopenClass({
   initialState() {
     return A(['1234']);
-  }
+  },
 });
 
 export default Storage;

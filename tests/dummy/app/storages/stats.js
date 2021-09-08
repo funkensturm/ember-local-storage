@@ -5,9 +5,9 @@ const Storage = StorageObject.extend();
 Storage.reopenClass({
   initialState() {
     return {
-      counter: 0
+      counter: 0,
     };
-  }
+  },
 });
 
 export default Storage;

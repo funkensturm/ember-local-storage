@@ -8,5 +8,5 @@ export default Mixin.create({
 
   exportData(store, types, options) {
     return exportData(store, types, options);
-  }
+  },
 });

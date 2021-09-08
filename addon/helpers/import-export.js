@@ -9,12 +9,16 @@ const assignIt = assign || merge;
 
 export function importData(store, content, options) {
   // merge defaults
-  options = assignIt({
-    json: true,
-    truncate: true
-  }, options || {});
+  options = assignIt(
+    {
+      json: true,
+      truncate: true,
+    },
+    options || {}
+  );
 
-  let truncateTypes = A(), reloadTypes = A();
+  let truncateTypes = A(),
+    reloadTypes = A();
 
   content = options.json ? JSON.parse(content) : content;
 
@@ -28,7 +32,7 @@ export function importData(store, content, options) {
       const adapter = store.adapterFor(singularType);
 
       adapter._getIndex(type).forEach((storageKey) => {
-        delete get(adapter, '_storage')[storageKey];
+        delete adapter._storage[storageKey];
       });
 
       adapter._getIndex(type).reset();
@@ -45,38 +49,43 @@ export function importData(store, content, options) {
     reloadTypes.addObject(singularize(record.type));
 
     return adapter._handleStorageRequest(null, 'POST', {
-      data: {data: record}
+      data: { data: record },
     });
   });
 
-  return all(promises)
-    .then(function() {
-      // reload from store
-      reloadTypes.forEach(function(type) {
-        store.findAll(type);
-      });
+  return all(promises).then(function () {
+    // reload from store
+    reloadTypes.forEach(function (type) {
+      store.findAll(type);
     });
+  });
 }
 
 export function exportData(store, types, options) {
   // merge defaults
-  options = assignIt({
-    json: true,
-    download: false,
-    filename: 'ember-data.json'
-  }, options || {});
+  options = assignIt(
+    {
+      json: true,
+      download: false,
+      filename: 'ember-data.json',
+    },
+    options || {}
+  );
 
   let json, data;
 
   // collect data
-  data = types.reduce((records, type) => {
-    const adapter = store.adapterFor(singularize(type));
-    const url = adapter.buildURL(type),
-      exportData = adapter._handleGETRequest(url);
+  data = types.reduce(
+    (records, type) => {
+      const adapter = store.adapterFor(singularize(type));
+      const url = adapter.buildURL(type),
+        exportData = adapter._handleGETRequest(url);
 
-    records.data = records.data.concat(exportData);
-    return records;
-  }, {data: []});
+      records.data = records.data.concat(exportData);
+      return records;
+    },
+    { data: [] }
+  );
 
   if (options.json || options.download) {
     json = JSON.stringify(data);
@@ -87,10 +96,7 @@ export function exportData(store, types, options) {
   }
 
   if (options.download) {
-    window.saveAs(
-      new Blob([json], {type: 'application/json;charset=utf-8'}),
-      options.filename
-    );
+    window.saveAs(new Blob([json], { type: 'application/json;charset=utf-8' }), options.filename);
   }
 
   return new Promise((resolve) => {

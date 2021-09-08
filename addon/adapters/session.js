@@ -7,16 +7,14 @@ export default BaseAdapter.extend({
   _storage: getStorage('session'),
 
   _getIndex(type) {
-    const indices = get(this, '_indices');
+    const indices = this._indices;
 
     if (!indices[type]) {
       let storageKey = _buildKey(this, 'index-' + type);
 
-      indices[type] = StorageArray
-        .extend({ _storageKey: storageKey })
-        .create();
+      indices[type] = StorageArray.extend({ _storageKey: storageKey }).create();
     }
 
     return indices[type];
-  }
+  },
 });

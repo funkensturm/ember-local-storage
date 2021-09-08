@@ -2,23 +2,18 @@ import { run } from '@ember/runloop';
 import EmberObject, { get } from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import {
-  storageDeepEqual
-} from '../helpers/storage';
+import { storageDeepEqual } from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
 import SessionStorageObject from 'ember-local-storage/session/object';
-import {
-  storageFor,
-  _resetStorages
-} from 'ember-local-storage/helpers/storage';
+import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage';
 
 let subject;
 
-module('object - settings', function(hooks) {
+module('object - settings', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     let mockStorage = StorageObject.extend();
     let mockStorageB = StorageObject.extend();
     let mockStorageC = SessionStorageObject.extend();
@@ -27,9 +22,9 @@ module('object - settings', function(hooks) {
     mockStorage.reopenClass({
       initialState() {
         return {
-          welcomeMessageSeen: false
+          welcomeMessageSeen: false,
         };
-      }
+      },
     });
 
     mockStorageB.reopenClass({
@@ -38,10 +33,10 @@ module('object - settings', function(hooks) {
           address: {
             first: null,
             second: null,
-            anotherProp: null
-          }
+            anotherProp: null,
+          },
         };
-      }
+      },
     });
 
     this.owner.register('storage:settings', mockStorage);
@@ -49,239 +44,244 @@ module('object - settings', function(hooks) {
     this.owner.register('storage:cache', mockStorageC);
     this.owner.register('storage:local-cache', mockStorageD);
 
-    this.owner.register('object:test', EmberObject.extend({
-      settings: storageFor('settings'),
-      nestedObjects: storageFor('nested-objects'),
-      cache: storageFor('cache'),
-      localCache: storageFor('local-cache')
-    }));
+    this.owner.register(
+      'object:test',
+      EmberObject.extend({
+        settings: storageFor('settings'),
+        nestedObjects: storageFor('nested-objects'),
+        cache: storageFor('cache'),
+        localCache: storageFor('local-cache'),
+      })
+    );
     subject = this.owner.lookup('object:test');
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     window.localStorage.clear();
     window.sessionStorage.clear();
     _resetStorages();
   });
 
-  test('it has correct defaults', function(assert) {
+  test('it has correct defaults', function (assert) {
     assert.expect(6);
 
-    assert.equal(get(subject, 'settings._storageType'), 'local');
-    assert.equal(get(subject, 'settings._storageKey'), 'storage:settings');
-    assert.deepEqual(get(subject, 'settings._initialContent'), {
-      welcomeMessageSeen: false
+    assert.equal(subject.settings._storageType, 'local');
+    assert.equal(subject.settings._storageKey, 'storage:settings');
+    assert.deepEqual(subject.settings._initialContent, {
+      welcomeMessageSeen: false,
     });
 
-    assert.equal(get(subject, 'cache._storageType'), 'session');
-    assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
-    assert.deepEqual(get(subject, 'cache._initialContent'), {});
+    assert.equal(subject.cache._storageType, 'session');
+    assert.equal(subject.cache._storageKey, 'storage:cache');
+    assert.deepEqual(subject.cache._initialContent, {});
   });
 
-  test('it saves changes to sessionStorage', function(assert) {
+  test('it saves changes to sessionStorage', function (assert) {
     assert.expect(3);
 
     assert.ok(window.sessionStorage);
     storageDeepEqual(assert, window.sessionStorage['storage:cache'], undefined);
 
-    run(function() {
+    run(function () {
       subject.set('cache.image1', 'image1png');
     });
 
     storageDeepEqual(assert, window.sessionStorage['storage:cache'], {
-      image1: 'image1png'
+      image1: 'image1png',
     });
   });
 
-  test('it saves changes to localStorage', function(assert) {
+  test('it saves changes to localStorage', function (assert) {
     assert.expect(3);
 
     assert.ok(window.localStorage);
     storageDeepEqual(assert, window.localStorage['storage:settings'], undefined);
 
-    run(function() {
+    run(function () {
       subject.set('settings.welcomeMessageSeen', true);
     });
 
     storageDeepEqual(assert, window.localStorage['storage:settings'], {
-      welcomeMessageSeen: true
+      welcomeMessageSeen: true,
     });
   });
 
-  test('it does not share data', function(assert) {
+  test('it does not share data', function (assert) {
     assert.expect(10);
 
-    assert.equal(get(subject, 'cache._storageType'), 'session');
-    assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
-    assert.deepEqual(get(subject, 'cache._initialContent'), {});
+    assert.equal(subject.cache._storageType, 'session');
+    assert.equal(subject.cache._storageKey, 'storage:cache');
+    assert.deepEqual(subject.cache._initialContent, {});
 
-    run(function() {
+    run(function () {
       subject.set('cache.key1', '123456');
     });
 
-    assert.deepEqual(get(subject, 'cache.key1'), '123456');
+    assert.deepEqual(subject.cache.key1, '123456');
 
-    assert.equal(get(subject, 'localCache._storageType'), 'local');
-    assert.equal(get(subject, 'localCache._storageKey'), 'storage:local-cache');
-    assert.deepEqual(get(subject, 'localCache._initialContent'), {});
+    assert.equal(subject.localCache._storageType, 'local');
+    assert.equal(subject.localCache._storageKey, 'storage:local-cache');
+    assert.deepEqual(subject.localCache._initialContent, {});
 
-    assert.deepEqual(get(subject, 'cache.key1'), '123456');
+    assert.deepEqual(subject.cache.key1, '123456');
 
-    run(function() {
+    run(function () {
       subject.set('localCache.key1', 'abcde');
     });
 
-    assert.deepEqual(get(subject, 'localCache.key1'), 'abcde');
+    assert.deepEqual(subject.localCache.key1, 'abcde');
 
-    assert.deepEqual(get(subject, 'cache.key1'), '123456');
+    assert.deepEqual(subject.cache.key1, '123456');
   });
 
-  test('it updates when change events fire', function(assert) {
+  test('it updates when change events fire', function (assert) {
     assert.expect(3);
 
     // setup testing
-    get(subject, 'settings')._testing = true;
+    subject.settings._testing = true;
 
-    assert.equal(get(subject, 'settings.changeFired'), undefined);
-    window.dispatchEvent(new window.StorageEvent('storage', {
-      key: 'storage:settings',
-      newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
-      oldValue: '{"welcomeMessageSeen":false}',
-      storageArea: get(subject, 'settings')._storage()
-    }));
-    assert.equal(get(subject, 'settings.welcomeMessageSeen'), false);
-    assert.equal(get(subject, 'settings.changeFired'), true);
+    assert.equal(subject.settings.changeFired, undefined);
+    window.dispatchEvent(
+      new window.StorageEvent('storage', {
+        key: 'storage:settings',
+        newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
+        oldValue: '{"welcomeMessageSeen":false}',
+        storageArea: subject.settings._storage(),
+      })
+    );
+    assert.false(subject.settings.welcomeMessageSeen);
+    assert.true(subject.settings.changeFired);
   });
 
-  test('nested values get persisted', function(assert) {
+  test('nested values get persisted', function (assert) {
     assert.expect(4);
 
     storageDeepEqual(assert, window.localStorage['storage:nested-objects'], undefined);
 
-    assert.equal(get(subject, 'nestedObjects.address.first'), null);
+    assert.equal(subject.nestedObjects.address.first, null);
 
-    run(function() {
-      get(subject, 'nestedObjects').set('address.first', {
+    run(function () {
+      subject.nestedObjects.set('address.first', {
         street: 'Somestreet 1',
-        city: 'A City'
+        city: 'A City',
       });
     });
 
     assert.deepEqual(get(subject, 'nestedObjects.address.first'), {
       street: 'Somestreet 1',
-      city: 'A City'
+      city: 'A City',
     });
 
     storageDeepEqual(assert, window.localStorage['storage:nested-objects'], {
       address: {
         first: {
           street: 'Somestreet 1',
-          city: 'A City'
+          city: 'A City',
         },
         second: null,
-        anotherProp: null
-      }
+        anotherProp: null,
+      },
     });
   });
 
-  test('reset method restores initialContent', function(assert) {
+  test('reset method restores initialContent', function (assert) {
     assert.expect(5);
 
     //initialContent is set properly
-    assert.deepEqual(get(subject, 'settings.content'), {
-      welcomeMessageSeen: false
+    assert.deepEqual(subject.settings.content, {
+      welcomeMessageSeen: false,
     });
 
     //set new properties and overwrite others
-    run(function() {
+    run(function () {
       subject.set('settings.newProp', 'some-value');
       subject.set('settings.welcomeMessageSeen', true);
     });
 
     //we expect them to be present
-    assert.equal(get(subject, 'settings.newProp'), 'some-value');
-    assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
+    assert.equal(subject.settings.newProp, 'some-value');
+    assert.true(subject.settings.welcomeMessageSeen);
 
     //reset
-    get(subject, 'settings').reset();
+    subject.settings.reset();
 
     //data is back to initial values
-    assert.deepEqual(get(subject, 'settings.content'), {
-      welcomeMessageSeen: false
+    assert.deepEqual(subject.settings.content, {
+      welcomeMessageSeen: false,
     });
-    assert.strictEqual(get(subject, 'settings.newProp'), undefined);
+    assert.strictEqual(subject.settings.newProp, undefined);
   });
 
-  test('it updates _isInitialContent', function(assert) {
+  test('it updates _isInitialContent', function (assert) {
     assert.expect(2);
 
-    assert.equal(get(subject, 'settings').isInitialContent(), true);
+    assert.true(subject.settings.isInitialContent());
 
-    run(function() {
+    run(function () {
       subject.set('settings.welcomeMessageSeen', true);
     });
 
-    assert.equal(get(subject, 'settings').isInitialContent(), false);
+    assert.false(subject.settings.isInitialContent());
   });
 
-  test('it updates _isInitialContent on reset', function(assert) {
+  test('it updates _isInitialContent on reset', function (assert) {
     assert.expect(2);
 
-    run(function() {
+    run(function () {
       subject.set('settings.welcomeMessageSeen', true);
     });
 
-    assert.equal(get(subject, 'settings').isInitialContent(), false);
+    assert.false(subject.settings.isInitialContent());
 
-    run(function() {
-      get(subject, 'settings').reset();
+    run(function () {
+      subject.settings.reset();
     });
 
-    assert.equal(get(subject, 'settings').isInitialContent(), true);
+    assert.true(subject.settings.isInitialContent());
   });
 
-  test('clear method removes the content from localStorage', function(assert) {
+  test('clear method removes the content from localStorage', function (assert) {
     assert.expect(2);
 
-    run(function() {
-      subject.set('settings.welcomeMessageSeen', true);
+    run(function () {
+      subject.settings.welcomeMessageSeen = true;
     });
 
     storageDeepEqual(assert, window.localStorage['storage:settings'], {
-      welcomeMessageSeen: true
+      welcomeMessageSeen: true,
     });
 
-    run(function() {
-      get(subject, 'settings').clear();
+    run(function () {
+      subject.settings.clear();
     });
 
     assert.equal(window.localStorage['storage:settings'], undefined);
   });
 
-  test('after .clear() the object works as expected', function(assert) {
+  test('after .clear() the object works as expected', function (assert) {
     assert.expect(4);
 
-    run(function() {
+    run(function () {
       subject.set('settings.welcomeMessageSeen', true);
     });
 
     storageDeepEqual(assert, window.localStorage['storage:settings'], {
-      welcomeMessageSeen: true
+      welcomeMessageSeen: true,
     });
 
-    run(function() {
-      get(subject, 'settings').clear();
+    run(function () {
+      subject.settings.clear();
     });
 
     assert.equal(window.localStorage['storage:settings'], undefined);
 
-    run(function() {
-      subject.set('settings.welcomeMessageSeen', true);
+    run(function () {
+      subject.settings.welcomeMessageSeen = true;
     });
 
     storageDeepEqual(assert, window.localStorage['storage:settings'], {
-      welcomeMessageSeen: true
+      welcomeMessageSeen: true,
     });
-    assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
+    assert.true(subject.settings.welcomeMessageSeen);
   });
 });
