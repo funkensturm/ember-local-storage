@@ -130,7 +130,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       const handler = this[`_handle${type}Request`];
       if (handler) {
         const data = handler.call(this, url, options.data);
-        run(null, resolve, { data: data });
+        run(null, resolve, { data });
       } else {
         run(null, reject, `There is nothing to handle _handle${type}Request`);
       }
@@ -150,12 +150,8 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     }
 
     const records = this._getIndex(type)
-      .filter(function (storageKey) {
-        return storage[storageKey];
-      })
-      .map(function (storageKey) {
-        return JSON.parse(storage[storageKey]);
-      });
+      .filter((storageKey) => storage[storageKey])
+      .map((storageKey) => JSON.parse(storage[storageKey]));
 
     if (query && query.filter) {
       const serializer = this.store.serializerFor(singularize(type));
@@ -238,8 +234,8 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       // belongsTo
       if (dataType === 'object') {
         const queryMessage = query
-          .map(function (item) {
-            return getKeys(item).map(function (key) {
+          .map((item) => {
+            return getKeys(item).map((key) => {
               return key + ': ' + item[key];
             });
           })

@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class extends Controller {
   @action createTask(name) {
-    let task = this.store.createRecord('task', { name: name });
+    let task = this.store.createRecord('task', { name });
 
     // The project
     let project = this.model;

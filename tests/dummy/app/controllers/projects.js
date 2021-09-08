@@ -24,7 +24,7 @@ export default class extends Controller {
   @storageFor('settings') settings;
 
   @action createProject(name) {
-    let project = this.store.createRecord('project', { name: name });
+    let project = this.store.createRecord('project', { name });
 
     this.store.findRecord('user', this.settings.userId).then((user) => {
       user.projects.addObject(project);
