@@ -2,7 +2,7 @@
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
     // Add options here
   });
@@ -17,13 +17,8 @@ module.exports = function(defaults) {
   app.import('node_modules/highlight.js/lib/highlight.js');
   app.import('vendor/highlightjs-shim.js', {
     exports: {
-      'highlightjs': [
-        'default',
-        'highlight',
-        'highlightAuto',
-        'highlightBlock'
-      ]
-    }
+      highlightjs: ['default', 'highlight', 'highlightAuto', 'highlightBlock'],
+    },
   });
 
   return app.toTree();
