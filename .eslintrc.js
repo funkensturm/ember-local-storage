@@ -16,8 +16,15 @@ module.exports = {
     browser: true,
   },
   rules: {
+    'ember/avoid-leaking-state-in-ember-objects': 0,
     'ember/no-classic-classes': 0,
+    'ember/no-classic-components': 0,
+    'ember/no-component-lifecycle-hooks': 0,
     'ember/no-jquery': 0,
+    'ember/no-mixins': 0,
+    'ember/no-new-mixins': 0,
+    'ember/no-string-prototype-extensions': 0,
+    'ember/require-tagless-components': 0,
     'ember/use-ember-data-rfc-395-imports': 0,
   },
   overrides: [

@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import BaseAdapter from './base';
 import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../session/array';

@@ -1,6 +1,6 @@
 import { assign, merge } from '@ember/polyfills';
 import Mixin from '@ember/object/mixin';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import { getStorage } from '../helpers/storage';
 import { copy } from 'ember-copy';

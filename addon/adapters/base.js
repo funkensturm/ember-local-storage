@@ -2,7 +2,7 @@ import { keys } from '@ember/polyfills';
 import RSVP from 'rsvp';
 import { run } from '@ember/runloop';
 import { isEmpty, typeOf } from '@ember/utils';
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
 import { _buildKey } from '../helpers/storage';

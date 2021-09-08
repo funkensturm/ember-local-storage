@@ -1,17 +1,17 @@
 <br>
-{{model.id}}<br>
-{{model.name}}<br>
-{{model.comments.length}}<br>
+{{this.model.id}}<br>
+{{this.model.name}}<br>
+{{this.model.comments.length}}<br>
 
-<button type="button" {{action "countUp"}}>Post Visits: {{postStats.counter}}</button>
+<button type="button" {{on "click" this.countUp}}>Post Visits: {{this.postStats.counter}}</button>
 
-<button type="button" {{action "resetCounter"}}>X</button>
+<button type="button" {{on "click" this.resetCounter}}>X</button>
 
 <br>
-{{#each model.comments as |comment|}}
+{{#each this.model.comments as |comment|}}
   {{comment.name}} -
-  <a {{action "deleteComment" comment}} role="button">Delete</a>
+  <a {{on "click" (fn this.deleteComment comment)}} href="#" role="button">Delete</a>
   <br>
 {{/each}}
 <br>
-<a {{action "createComment" model}} role="button">Create comment</a>
+<a {{on "click" (fn this.createComment this.model)}} href="#" role="button">Create comment</a>

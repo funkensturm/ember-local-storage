@@ -1,6 +1,5 @@
 import { all, Promise } from 'rsvp';
 import { assign, merge } from '@ember/polyfills';
-import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 import { A } from '@ember/array';
