@@ -47,28 +47,27 @@ export default Storage;
 
 <HighlightJs @lang="js">
 // app/controllers/application.js
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import { storageFor } from 'ember-local-storage';
+import { action } from '@ember/object';
 
-export default Ember.Controller.extend({
-  settings: storageFor('settings'),
+export default class ApplicationController extends Controller {
+  @storageFor('settings') settings;
 
-  actions: {
-    toggleWelcomeMessage() {
-      this.toggleProperty('settings.welcomeMessageSeen');
-    }
+  @action toggleWelcomeMessage() {
+    this.settings.welcomeMessageSeen = !this.settings.welcomeMessageSeen;
   }
-});
+}
 </HighlightJs>
 
 <HighlightJs @lang="hbs">
-{{! app/templates/application.hbs }}
-{{#if this.settings.welcomeMessageSeen}}
-  &lt;button {{on "click" this.toggleWelcomeMessage}}>Undo&lt;/button>
-{{else}}
+\{{! app/templates/application.hbs }}
+\{{#if this.settings.welcomeMessageSeen}}
+  &lt;button \{{on "click" this.toggleWelcomeMessage}}>Undo&lt;/button>
+\{{else}}
   You will see this message until you click
-  &lt;button {{on "click" this.toggleWelcomeMessage}}>X&lt;/button>
-{{/if}}
+  &lt;button \{{on "click" this.toggleWelcomeMessage}}>X&lt;/button>
+\{{/if}}
 </HighlightJs>
 
 {{outlet}}

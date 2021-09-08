@@ -1,15 +1,15 @@
 import Route from '@ember/routing/route';
 import { storageFor } from 'ember-local-storage';
 
-export default Route.extend({
-  stats: storageFor('stats'),
-  settings: storageFor('settings'),
+export default class extends Route {
+  @storageFor('stats') stats;
+  @storageFor('settings') settings;
 
   activate() {
-    this.incrementProperty('stats.counter');
+    this.stats.counter = this.stats.get('counter') + 1;
 
     // setup a user
-    if (!this.settings.userId) {
+    if (!this.settings.get('userId')) {
       this.store
         .createRecord('user', { name: 'Me' })
         .save()
@@ -17,5 +17,5 @@ export default Route.extend({
           this.set('settings.userId', user.get('id'));
         });
     }
-  },
-});
+  }
+}

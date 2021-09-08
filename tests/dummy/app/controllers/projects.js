@@ -26,7 +26,7 @@ export default class extends Controller {
   @action createProject(name) {
     let project = this.store.createRecord('project', { name });
 
-    this.store.findRecord('user', this.settings.userId).then((user) => {
+    this.store.findRecord('user', this.settings.get('userId')).then((user) => {
       user.projects.addObject(project);
       user.save();
 

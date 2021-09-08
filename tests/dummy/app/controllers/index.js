@@ -6,10 +6,10 @@ export default class extends Controller {
   @storageFor('stats') stats;
 
   @action countUp() {
-    this.stats.counter = this.stats.counter + 1;
+    this.stats.set('counter', this.stats.get('counter') + 1);
   }
 
   @action resetCounter() {
-    this.stats.reset();
+    this.get('stats').reset();
   }
 }
