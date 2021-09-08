@@ -1,15 +1,15 @@
 import Controller from '@ember/controller';
 import { storageFor } from 'ember-local-storage/helpers/storage';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  stats: storageFor('stats'),
+export default class extends Controller {
+  @storageFor('stats') stats;
 
-  actions: {
-    countUp() {
-      this.incrementProperty('stats.counter');
-    },
-    resetCounter() {
-      this.stats.reset();
-    },
-  },
-});
+  @action countUp() {
+    this.stats.counter = this.stats.counter + 1;
+  }
+
+  @action resetCounter() {
+    this.stats.reset();
+  }
+}

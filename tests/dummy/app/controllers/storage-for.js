@@ -1,12 +1,11 @@
 import Controller from '@ember/controller';
 import { storageFor } from 'ember-local-storage';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  settings: storageFor('settings'),
+export default class extends Controller {
+  @storageFor('settings') settings;
 
-  actions: {
-    toggleWelcomeMessage() {
-      this.toggleProperty('settings.welcomeMessageSeen');
-    },
-  },
-});
+  @action toggleWelcomeMessage() {
+    this.settings.welcomeMessageSeen = !this.settings.welcomeMessageSeen;
+  }
+}

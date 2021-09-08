@@ -15,7 +15,11 @@ module.exports = {
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    'ember/no-classic-classes': 0,
+    'ember/no-jquery': 0,
+    'ember/use-ember-data-rfc-395-imports': 0,
+  },
   overrides: [
     // node files
     {
@@ -34,6 +38,10 @@ module.exports = {
       // Test files:
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
+      rules: {
+        'ember/no-get': 0,
+        'qunit/no-conditional-assertions': 0,
+      },
     },
   ],
 };

@@ -1,25 +1,26 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-const { Model, attr, belongsTo, hasMany } = DS;
+export default class extends Model {
+  @attr('string') name;
+  @attr('number') position;
 
-export default Model.extend({
-  name: attr('string'),
-  position: attr('number'),
-
-  project: belongsTo('project', {
+  @belongsTo('project', {
     async: true,
     autoSave: true,
-  }),
+  })
+  project;
 
-  parent: belongsTo('task', {
+  @belongsTo('task', {
     async: true,
     autoSave: true,
     inverse: 'children',
-  }),
+  })
+  parent;
 
-  children: hasMany('task', {
+  @hasMany('task', {
     async: true,
     dependent: 'destroy',
     inverse: 'parent',
-  }),
-});
+  })
+  children;
+}

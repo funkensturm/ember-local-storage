@@ -1,10 +1,8 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-const { Model, attr, hasMany } = DS;
+export default class extends Model {
+  @attr('string') name;
 
-export default Model.extend({
-  name: attr('string'),
-
-  tasks: hasMany('task', { async: true }),
-  users: hasMany('user', { async: true }),
-});
+  @hasMany('task', { async: true }) tasks;
+  @hasMany('user', { async: true }) users;
+}

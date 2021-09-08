@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import DS from 'ember-data';
 import { module, test } from 'qunit';

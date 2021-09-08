@@ -1,22 +1,21 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  actions: {
-    createTask(name) {
-      let task = this.store.createRecord('task', { name: name });
+export default class extends Controller {
+  @action createTask(name) {
+    let task = this.store.createRecord('task', { name: name });
 
-      // The project
-      let project = this.model;
-      project.get('tasks').addObject(task);
+    // The project
+    let project = this.model;
+    project.tasks.addObject(task);
 
-      task.set('project', project);
-      task.save().then(() => {
-        this.set('name', null);
-      });
-    },
+    task.project = project;
+    task.save().then(() => {
+      this.name = null;
+    });
+  }
 
-    deleteTask(task) {
-      task.destroyRecord();
-    },
-  },
-});
+  @action deleteTask(task) {
+    task.destroyRecord();
+  }
+}

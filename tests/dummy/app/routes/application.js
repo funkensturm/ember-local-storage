@@ -9,7 +9,7 @@ export default Route.extend({
     this.incrementProperty('stats.counter');
 
     // setup a user
-    if (!this.get('settings.userId')) {
+    if (!this.settings.userId) {
       this.store
         .createRecord('user', { name: 'Me' })
         .save()

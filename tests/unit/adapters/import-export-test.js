@@ -1,5 +1,4 @@
 import { hash } from 'rsvp';
-import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';

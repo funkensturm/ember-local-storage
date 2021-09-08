@@ -1,5 +1,5 @@
 import { run } from '@ember/runloop';
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { storageDeepEqual } from '../helpers/storage';
@@ -167,7 +167,7 @@ module('object - settings', function (hooks) {
       });
     });
 
-    assert.deepEqual(get(subject, 'nestedObjects.address.first'), {
+    assert.deepEqual(subject.nestedObjects.address.first, {
       street: 'Somestreet 1',
       city: 'A City',
     });

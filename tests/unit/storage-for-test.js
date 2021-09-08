@@ -27,14 +27,14 @@ module('storageFor', function (hooks) {
     this.owner.register('storage:settings', mockStorage);
     this.owner.register('storage:options', mockStorage);
 
-    // eslint-disable-next-line
     let post = EmberObject.extend({
       modelName: 'post',
       id: '123',
     }).create();
 
-    // eslint-disable-next-line
-    this.owner.register('object:test', EmberObject.extend({
+    this.owner.register(
+      'object:test',
+      EmberObject.extend({
         post: post,
         settings: storageFor('settings', 'post'),
         options: storageFor('options', 'post'),

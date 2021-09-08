@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { Promise } from 'rsvp';
 import { storageFor } from 'ember-local-storage';
+import { action } from '@ember/object';
 
 function readFile(file) {
   const reader = new FileReader();
@@ -19,40 +20,38 @@ function readFile(file) {
   });
 }
 
-export default Controller.extend({
-  settings: storageFor('settings'),
+export default class extends Controller {
+  @storageFor('settings') settings;
 
-  actions: {
-    createProject(name) {
-      let project = this.store.createRecord('project', { name: name });
+  @action createProject(name) {
+    let project = this.store.createRecord('project', { name: name });
 
-      this.store.findRecord('user', this.get('settings.userId')).then((user) => {
-        user.get('projects').addObject(project);
-        user.save();
+    this.store.findRecord('user', this.settings.userId).then((user) => {
+      user.projects.addObject(project);
+      user.save();
 
-        project.get('users').addObject(user);
-        project.save().then(() => {
-          this.set('name', null);
-        });
+      project.users.addObject(user);
+      project.save().then(() => {
+        this.name = null;
       });
-    },
+    });
+  }
 
-    deleteProject(project) {
-      project.destroyRecord();
-    },
+  @action deleteProject(project) {
+    project.destroyRecord();
+  }
 
-    importData(event) {
-      readFile(event.target.files[0]).then((file) => {
-        this.store.importData(file.data).then(function () {
-          // show a flash message or transitionTo somewehere
-        });
-      });
-    },
-
-    exportData() {
-      this.store.exportData(['projects', 'tasks'], { download: true, filename: 'my-data.json' }).then(function () {
+  @action importData(event) {
+    readFile(event.target.files[0]).then((file) => {
+      this.store.importData(file.data).then(function () {
         // show a flash message or transitionTo somewehere
       });
-    },
-  },
-});
+    });
+  }
+
+  @action exportData() {
+    this.store.exportData(['projects', 'tasks'], { download: true, filename: 'my-data.json' }).then(function () {
+      // show a flash message or transitionTo somewehere
+    });
+  }
+}

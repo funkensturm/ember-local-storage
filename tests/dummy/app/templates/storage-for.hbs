@@ -18,11 +18,11 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 
 <div class="example">
   {{! template-lint-disable simple-unless}}
-  {{#unless settings.welcomeMessageSeen}}
+  {{#unless this.settings.welcomeMessageSeen}}
     You will see this message until you click
-    <button type="button" {{action "toggleWelcomeMessage"}}>X</button>
+    <button type="button" {{on "click" this.toggleWelcomeMessage}}>X</button>
   {{else}}
-    <button type="button" {{action "toggleWelcomeMessage"}}>Undo</button>
+    <button type="button" {{on "click" this.toggleWelcomeMessage}}>Undo</button>
   {{/unless}}
 </div>
 
@@ -63,12 +63,12 @@ export default Ember.Controller.extend({
 
 <HighlightJs @lang="hbs">
 {{! app/templates/application.hbs }}
-{{#unless settings.welcomeMessageSeen}}
-  You will see this message until you click
-  &lt;button {{action "toggleWelcomeMessage"}}>X&lt;/button>
+{{#if this.settings.welcomeMessageSeen}}
+  &lt;button {{on "click" this.toggleWelcomeMessage}}>Undo&lt;/button>
 {{else}}
-  &lt;button {{action "toggleWelcomeMessage"}}>Undo&lt;/button>
-{{/unless}}
+  You will see this message until you click
+  &lt;button {{on "click" this.toggleWelcomeMessage}}>X&lt;/button>
+{{/if}}
 </HighlightJs>
 
 {{outlet}}

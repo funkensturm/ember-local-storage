@@ -1,3 +1,3 @@
 import Pet from './pet';
 
-export default Pet.extend();
+export default class extends Pet {}
