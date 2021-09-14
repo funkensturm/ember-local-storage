@@ -5,11 +5,9 @@ import { save, saveIfChanged } from '../helpers/utils';
 
 export default Mixin.create(StorageProxyMixin, {
   _initialContent: {},
-  _clear() {
-    set(this, 'content', {});
-  },
+  _clear() { set(this, 'content', {}); },
 
   setUnknownProperty: saveIfChanged,
   set: saveIfChanged,
-  setProperties: save,
+  setProperties: save
 });

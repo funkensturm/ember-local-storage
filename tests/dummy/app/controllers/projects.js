@@ -7,12 +7,12 @@ function readFile(file) {
   const reader = new FileReader();
 
   return new Promise((resolve) => {
-    reader.onload = function (event) {
+    reader.onload = function(event) {
       resolve({
         file: file.name,
         type: file.type,
         data: event.target.result,
-        size: file.size,
+        size: file.size
       });
     };
 
@@ -31,9 +31,10 @@ export default class extends Controller {
       user.save();
 
       project.users.addObject(user);
-      project.save().then(() => {
-        this.name = null;
-      });
+      project.save()
+        .then(() => {
+          this.name = null;
+        });
     });
   }
 

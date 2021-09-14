@@ -10,25 +10,35 @@ module.exports = {
       name: 'type',
       type: ['object', 'array'],
       default: 'object',
-      aliases: [{ a: 'array' }, { array: 'array' }],
+      aliases:[
+        { 'a': 'array'},
+        { 'array': 'array'}
+      ]
     },
     {
       name: 'storage',
       type: ['local', 'session'],
       default: 'local',
-      aliases: [{ s: 'session' }, { session: 'session' }],
+      aliases:[
+        { 's': 'session'},
+        { 'session': 'session'}
+      ]
     },
   ],
 
   locals: function (options) {
-    var storage = options.storage;
-    var type = options.type;
-    var path = [storage, type].join('/');
+    var storage         = options.storage;
+    var type            = options.type;
+    var path            = [storage, type].join('/');
 
-    var baseClass = stringUtils.classify('storage-' + type);
-    var initialState = type === 'object' ? '{}' : '[]';
+    var baseClass       = stringUtils.classify('storage-' + type);
+    var initialState    = type === 'object' ? '{}' : '[]';
 
-    var importStatement = ['import ' + baseClass, ' from ' + "'ember-local-storage/" + path + "'", ';'].join('');
+    var importStatement = [
+      'import ' + baseClass,
+      ' from ' + '\'ember-local-storage/' + path +'\'',
+      ';'
+    ].join('');
 
     return {
       importStatement: importStatement,

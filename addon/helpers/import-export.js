@@ -8,13 +8,10 @@ const assignIt = assign || merge;
 
 export function importData(store, content, options) {
   // merge defaults
-  options = assignIt(
-    {
-      json: true,
-      truncate: true,
-    },
-    options || {}
-  );
+  options = assignIt({
+    json: true,
+    truncate: true
+  }, options || {});
 
   let truncateTypes = A(),
     reloadTypes = A();
@@ -62,29 +59,23 @@ export function importData(store, content, options) {
 
 export function exportData(store, types, options) {
   // merge defaults
-  options = assignIt(
-    {
-      json: true,
-      download: false,
-      filename: 'ember-data.json',
-    },
-    options || {}
-  );
+  options = assignIt({
+    json: true,
+    download: false,
+    filename: 'ember-data.json'
+  }, options || {});
 
   let json, data;
 
   // collect data
-  data = types.reduce(
-    (records, type) => {
-      const adapter = store.adapterFor(singularize(type));
-      const url = adapter.buildURL(type),
-        exportData = adapter._handleGETRequest(url);
+  data = types.reduce((records, type) => {
+    const adapter = store.adapterFor(singularize(type));
+    const url = adapter.buildURL(type),
+      exportData = adapter._handleGETRequest(url);
 
-      records.data = records.data.concat(exportData);
-      return records;
-    },
-    { data: [] }
-  );
+    records.data = records.data.concat(exportData);
+    return records;
+  }, {data: []});
 
   if (options.json || options.download) {
     json = JSON.stringify(data);
@@ -95,7 +86,10 @@ export function exportData(store, types, options) {
   }
 
   if (options.download) {
-    window.saveAs(new Blob([json], { type: 'application/json;charset=utf-8' }), options.filename);
+    window.saveAs(
+      new Blob([json], {type: 'application/json;charset=utf-8'}),
+      options.filename
+    );
   }
 
   return new Promise((resolve) => {

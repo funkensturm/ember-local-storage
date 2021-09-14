@@ -4,6 +4,7 @@ import { getOwner } from '@ember/application';
 import { dasherize } from '@ember/string';
 import { deprecate } from '@ember/application/deprecations';
 
+
 const storage = {};
 
 function tryStorage(name) {
@@ -25,7 +26,7 @@ function getStorage(name) {
   if (storage[name]) {
     return storage[name];
   } else {
-    return (storage[name] = tryStorage(name) || {});
+    return storage[name] = tryStorage(name) || {};
   }
 }
 
@@ -44,7 +45,7 @@ function storageFor(key, modelName, options = {}) {
   key = dasherize(key);
 
   if (!modelName) {
-    return computed(function () {
+    return computed(function() {
       if (!storages[key]) {
         storages[key] = createStorage(this, key, null, options);
       }
@@ -55,7 +56,7 @@ function storageFor(key, modelName, options = {}) {
 
   assert('The second argument must be a string', typeof modelName === 'string');
 
-  return computed(modelName, function () {
+  return computed(modelName, function() {
     const model = this.get(modelName);
 
     // if the propertyValue is null/undefined we simply return null/undefined
@@ -91,7 +92,7 @@ function createStorage(context, key, modelKey, options) {
     deprecate('Using legacyKey has been deprecated and will be removed in version 2.0.0', false, {
       id: 'ember-local-storage.storageFor.options.legacyKey',
       until: '2.0.0',
-      url: 'https://github.com/funkensturm/ember-local-storage#deprecations',
+      url: 'https://github.com/funkensturm/ember-local-storage#deprecations'
     });
 
     storageKey = options.legacyKey;
@@ -102,7 +103,7 @@ function createStorage(context, key, modelKey, options) {
   storageKey = _buildKey(context, storageKey);
 
   const defaultState = {
-    _storageKey: storageKey,
+    _storageKey: storageKey
   };
   const StorageFactory = owner.factoryFor(storageFactory);
 
@@ -113,13 +114,19 @@ function createStorage(context, key, modelKey, options) {
   const StorageFactoryClass = StorageFactory.class;
 
   if (typeof StorageFactoryClass.initialState === 'function') {
-    defaultState._initialContent = StorageFactoryClass.initialState.call(StorageFactoryClass, context);
+    defaultState._initialContent = StorageFactoryClass.initialState.call(
+      StorageFactoryClass,
+      context
+    );
   } else if (StorageFactoryClass.initialState) {
     throw new TypeError('initialState property must be a function');
   }
 
   if (EmberObject.detect(StorageFactoryClass)) {
-    return StorageFactoryClass.create(owner.ownerInjection(), defaultState);
+    return StorageFactoryClass.create(
+      owner.ownerInjection(),
+      defaultState
+    );
   }
 
   return EmberObject.create(owner.ownerInjection(), StorageFactoryClass);
@@ -143,7 +150,7 @@ function _getNamespace(appConfig, addonConfig) {
 
   // Shortcut for modulePrefix
   if (namespace === true) {
-    namespace = appConfig.modulePrefix;
+    namespace = appConfig.modulePrefix
   }
 
   return namespace;
@@ -152,7 +159,7 @@ function _getNamespace(appConfig, addonConfig) {
 // TODO: Add migration helper
 function _buildKey(context, key) {
   let appConfig = getOwner(context).resolveRegistration('config:environment');
-  let addonConfig = (appConfig && appConfig['ember-local-storage']) || {};
+  let addonConfig = appConfig && appConfig['ember-local-storage'] || {};
   let namespace = _getNamespace(appConfig, addonConfig);
   let delimiter = addonConfig.keyDelimiter || ':';
 
@@ -164,4 +171,10 @@ function _resetStorages() {
   storages = {};
 }
 
-export { tryStorage, getStorage, storageFor, _resetStorages, _buildKey };
+export {
+  tryStorage,
+  getStorage,
+  storageFor,
+  _resetStorages,
+  _buildKey
+};

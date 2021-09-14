@@ -30,7 +30,22 @@ module.exports = {
     let bowerDep = checker.for('ember-data', 'bower');
     let npmDep = checker.for('ember-data', 'npm');
 
-    if ((bowerDep.version && (bowerDep.satisfies('>= 1.13.0') || bowerDep.satisfies('>= 2.0.0') || bowerDep.gt('2.0.0'))) || (npmDep.version && (npmDep.satisfies('>= 1.13.0') || npmDep.satisfies('>= 2.0.0') || npmDep.gt('2.0.0')))) {
+    if (
+      (
+        bowerDep.version && (
+          bowerDep.satisfies('>= 1.13.0') ||
+          bowerDep.satisfies('>= 2.0.0') ||
+          bowerDep.gt('2.0.0')
+        )
+      ) ||
+      (
+        npmDep.version  && (
+          npmDep.satisfies('>= 1.13.0') ||
+          npmDep.satisfies('>= 2.0.0') ||
+          npmDep.gt('2.0.0')
+        )
+      )
+    ) {
       this.hasEmberData = true;
     }
 
@@ -55,14 +70,13 @@ module.exports = {
       let bowerDeps = this.project.bowerDependencies();
 
       if (bowerDeps['blob-polyfill']) {
-        this._warn(
-          'Please remove `blob-polyfill` from `bower.json`. As of ' +
-            'Ember localStorage 1.4.0 the `blob-polyfill` NPM ' +
-            'package is a dependency. If other code depends on the ' +
-            'bower package add `ignoreBlobWarning: true` to ' +
-            '`ember-local-storage` config in `environment.js` to ' +
-            'ignore this warning.'
-        );
+        this._warn('Please remove `blob-polyfill` from `bower.json`. As of ' +
+                   'Ember localStorage 1.4.0 the `blob-polyfill` NPM ' +
+                   'package is a dependency. If other code depends on the ' +
+                   'bower package add `ignoreBlobWarning: true` to ' +
+                   '`ember-local-storage` config in `environment.js` to ' +
+                   'ignore this warning.'
+                  );
       }
     }
   },
@@ -76,9 +90,11 @@ module.exports = {
     this._super.included.apply(this, arguments);
   },
 
-  treeForApp: function (tree) {
+  treeForApp: function(tree) {
     if (!this.hasEmberData) {
-      ['initializers/local-storage-adapter.js'].forEach(function (file) {
+      [
+        'initializers/local-storage-adapter.js'
+      ].forEach(function(file) {
         tree = stew.rm(tree, file);
       });
     }
@@ -86,9 +102,17 @@ module.exports = {
     return tree;
   },
 
-  treeForAddon: function (tree) {
+  treeForAddon: function(tree) {
     if (!this.hasEmberData) {
-      ['adapters/adapter.js', 'adapters/base.js', 'adapters/local.js', 'adapters/session.js', 'initializers/local-storage-adapter.js', 'mixins/adapters/import-export.js', 'serializers/serializer.js'].forEach(function (file) {
+      [
+        'adapters/adapter.js',
+        'adapters/base.js',
+        'adapters/local.js',
+        'adapters/session.js',
+        'initializers/local-storage-adapter.js',
+        'mixins/adapters/import-export.js',
+        'serializers/serializer.js'
+      ].forEach(function(file) {
         tree = stew.rm(tree, file);
       });
     }
@@ -98,9 +122,9 @@ module.exports = {
 
   treeForVendor(vendorTree) {
     let blobTree = new Funnel(path.dirname(require.resolve('blob-polyfill')), {
-      files: ['Blob.js'],
+      files: ['Blob.js']
     });
 
     return mergeTrees([vendorTree, blobTree]);
-  },
+  }
 };

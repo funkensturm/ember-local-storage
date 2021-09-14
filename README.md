@@ -64,7 +64,7 @@ module.exports = function (environment) {
     'ember-local-storage': {
       namespace: true, // will use the modulePrefix e.g. 'my-app'
       namespace: 'customNamespace', // will use 'customNamespace'
-      keyDelimiter: '/', // will use / as a delimiter - the default is :
+      keyDelimiter: '/' // will use / as a delimiter - the default is :
     }
   }
 };
@@ -81,8 +81,8 @@ module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'my-app',
     'ember-local-storage': {
-      includeEmberDataSupport: false,
-    },
+      includeEmberDataSupport: false
+    }
   }
 };
 ```
