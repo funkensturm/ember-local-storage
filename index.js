@@ -27,17 +27,17 @@ module.exports = {
 
     // determine if ember-data is present
     let checker = new VersionChecker(this);
-    let bowerDep = checker.for('ember-data', 'bower');
+    // let bowerDep = checker.for('ember-data', 'bower');
     let npmDep = checker.for('ember-data', 'npm');
 
     if (
-      (
+      /*(
         bowerDep.version && (
           bowerDep.satisfies('>= 1.13.0') ||
           bowerDep.satisfies('>= 2.0.0') ||
           bowerDep.gt('2.0.0')
         )
-      ) ||
+      ) ||*/
       (
         npmDep.version  && (
           npmDep.satisfies('>= 1.13.0') ||
@@ -66,19 +66,19 @@ module.exports = {
     }
 
     // Inform the user about the transition to npm dependencies
-    if (this.needsFileExport && !options.ignoreBlobWarning) {
-      let bowerDeps = this.project.bowerDependencies();
+    // if (this.needsFileExport && !options.ignoreBlobWarning) {
+    //   let bowerDeps = this.project.bowerDependencies();
 
-      if (bowerDeps['blob-polyfill']) {
-        this._warn('Please remove `blob-polyfill` from `bower.json`. As of ' +
-                   'Ember localStorage 1.4.0 the `blob-polyfill` NPM ' +
-                   'package is a dependency. If other code depends on the ' +
-                   'bower package add `ignoreBlobWarning: true` to ' +
-                   '`ember-local-storage` config in `environment.js` to ' +
-                   'ignore this warning.'
-                  );
-      }
-    }
+    //   if (bowerDeps['blob-polyfill']) {
+    //     this._warn('Please remove `blob-polyfill` from `bower.json`. As of ' +
+    //                'Ember localStorage 1.4.0 the `blob-polyfill` NPM ' +
+    //                'package is a dependency. If other code depends on the ' +
+    //                'bower package add `ignoreBlobWarning: true` to ' +
+    //                '`ember-local-storage` config in `environment.js` to ' +
+    //                'ignore this warning.'
+    //               );
+    //   }
+    // }
   },
 
   included: function included(app) {
