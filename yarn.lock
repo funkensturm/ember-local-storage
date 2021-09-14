@@ -5488,6 +5488,7 @@
     "semver" "^5.5.0"
 
 "ember-cli-babel@^6.0.0":
+  "integrity" "sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA=="
   "version" "6.18.0"
   dependencies:
     "amd-name-resolver" "1.2.0"
@@ -5524,6 +5525,7 @@
     "semver" "^5.5.0"
 
 "ember-cli-babel@^6.9.0":
+  "integrity" "sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA=="
   "version" "6.18.0"
   dependencies:
     "amd-name-resolver" "1.2.0"
@@ -5598,6 +5600,7 @@
     "rsvp" "^4.7.0"
 
 "ember-cli-htmlbars@^2.0.1":
+  "integrity" "sha512-3f3PAxdnQ/fhQa8XP/3z4RLRgLHxV8j4Ln75aHbRdemOCjBa048KxL9l+acRLhCulbGQCMnLiIUIC89PAzLrcA=="
   "version" "2.0.5"
   dependencies:
     "broccoli-persistent-filter" "^1.4.3"
@@ -6026,6 +6029,7 @@
     "ember-cli-babel" "^7.26.5"
 
 "ember-invoke-action@^1.5.0":
+  "integrity" "sha512-co6Yg9r5qtK4LvZTZHk+u02YLPbnM2c5ZkXvundxEj3V7qdZg7RULfjU09LmohD+rxW5ADZlwgBi/32XIEWTlw=="
   "version" "1.5.1"
   dependencies:
     "ember-cli-babel" "^6.6.0"
@@ -6049,6 +6053,7 @@
     "regenerator-runtime" "^0.9.5"
 
 "ember-one-way-controls@^3.1.0":
+  "integrity" "sha512-SH/BcT7WWUWBuabOZ6TEPLrpG/FxL7MEIcXWjSzA6E0gCsIrB87jJL5uM12cwBjF9o3hEDUN/y5zNu1D8Wfomw=="
   "version" "3.1.0"
   dependencies:
     "ember-cli-babel" "^6.0.0"
@@ -6105,6 +6110,7 @@
     "recast" "^0.18.1"
 
 "ember-runtime-enumerable-includes-polyfill@^2.0.0":
+  "integrity" "sha512-au18iI8VbEDYn3jLFZzETnKN5ciPgCUxMRucEP3jkq7qZ6sE0FVKpWMPY/h9tTND3VOBJt6fgPpEBJoJVCUudg=="
   "version" "2.1.0"
   dependencies:
     "ember-cli-babel" "^6.9.0"
