@@ -1,7 +1,11 @@
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { storageDeepEqual, registerConfigEnvironment, setConfigEnvironment } from '../helpers/storage';
+import {
+  storageDeepEqual,
+  registerConfigEnvironment,
+  setConfigEnvironment
+} from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
 import {
@@ -22,9 +26,9 @@ module('storageFor', function(hooks) {
     mockStorage.reopenClass({
       initialState() {
         return {
-          perPage: 10,
+          perPage: 10
         };
-      },
+      }
     });
 
     this.owner.register('storage:settings', mockStorage);
@@ -32,17 +36,14 @@ module('storageFor', function(hooks) {
 
     let post = EmberObject.extend({
       modelName: 'post',
-      id: '123',
+      id: '123'
     }).create();
 
-    this.owner.register(
-      'object:test',
-      EmberObject.extend({
-        post: post,
-        settings: storageFor('settings', 'post'),
-        options: storageFor('options', 'post'),
-      })
-    );
+    this.owner.register('object:test', EmberObject.extend({
+      post: post,
+      settings: storageFor('settings', 'post'),
+      options: storageFor('options', 'post')
+    }));
     subject = this.owner.lookup('object:test');
   });
 
@@ -54,16 +55,22 @@ module('storageFor', function(hooks) {
   test('it has the correct key (namespace not set)', function(assert) {
     assert.expect(4);
 
-    assert.equal(subject.get('settings._storageKey'), 'storage:settings:post:123');
+    assert.equal(
+      subject.get('settings._storageKey'),
+      'storage:settings:post:123'
+    );
 
-    assert.equal(subject.get('options._storageKey'), 'storage:options:post:123');
+    assert.equal(
+      subject.get('options._storageKey'),
+      'storage:options:post:123'
+    );
 
     storageDeepEqual(assert, window.localStorage['storage:settings:post:123'], {
-      perPage: 10,
+      perPage: 10
     });
 
     storageDeepEqual(assert, window.localStorage['storage:options:post:123'], {
-      perPage: 10,
+      perPage: 10
     });
   });
 
@@ -72,17 +79,29 @@ module('storageFor', function(hooks) {
 
     setConfigEnvironment(this, 'namespace', true);
 
-    assert.equal(subject.get('settings._storageKey'), 'my-app:storage:settings:post:123');
+    assert.equal(
+      subject.get('settings._storageKey'),
+      'my-app:storage:settings:post:123'
+    );
 
-    assert.equal(subject.get('options._storageKey'), 'my-app:storage:options:post:123');
+    assert.equal(
+      subject.get('options._storageKey'),
+      'my-app:storage:options:post:123'
+    );
 
-    storageDeepEqual(assert, window.localStorage['my-app:storage:settings:post:123'], {
-      perPage: 10,
-    });
+    storageDeepEqual(assert,
+      window.localStorage['my-app:storage:settings:post:123'],
+      {
+        perPage: 10
+      }
+    );
 
-    storageDeepEqual(assert, window.localStorage['my-app:storage:options:post:123'], {
-      perPage: 10,
-    });
+    storageDeepEqual(assert,
+      window.localStorage['my-app:storage:options:post:123'],
+      {
+        perPage: 10
+      }
+    );
   });
 
   test('it has the correct key (namespace: "custom")', function(assert) {
@@ -90,17 +109,29 @@ module('storageFor', function(hooks) {
 
     setConfigEnvironment(this, 'namespace', 'custom');
 
-    assert.equal(subject.get('settings._storageKey'), 'custom:storage:settings:post:123');
+    assert.equal(
+      subject.get('settings._storageKey'),
+      'custom:storage:settings:post:123'
+    );
 
-    assert.equal(subject.get('options._storageKey'), 'custom:storage:options:post:123');
+    assert.equal(
+      subject.get('options._storageKey'),
+      'custom:storage:options:post:123'
+    );
 
-    storageDeepEqual(assert, window.localStorage['custom:storage:settings:post:123'], {
-      perPage: 10,
-    });
+    storageDeepEqual(assert,
+      window.localStorage['custom:storage:settings:post:123'],
+      {
+        perPage: 10
+      }
+    );
 
-    storageDeepEqual(assert, window.localStorage['custom:storage:options:post:123'], {
-      perPage: 10,
-    });
+    storageDeepEqual(assert,
+      window.localStorage['custom:storage:options:post:123'],
+      {
+        perPage: 10
+      }
+    );
   });
 
   test('it has the correct key (keyDelimiter: "/")', function(assert) {
@@ -109,16 +140,28 @@ module('storageFor', function(hooks) {
     setConfigEnvironment(this, 'namespace', true);
     setConfigEnvironment(this, 'keyDelimiter', '/');
 
-    assert.equal(subject.get('settings._storageKey'), 'my-app/storage:settings:post:123');
+    assert.equal(
+      subject.get('settings._storageKey'),
+      'my-app/storage:settings:post:123'
+    );
 
-    assert.equal(subject.get('options._storageKey'), 'my-app/storage:options:post:123');
+    assert.equal(
+      subject.get('options._storageKey'),
+      'my-app/storage:options:post:123'
+    );
 
-    storageDeepEqual(assert, window.localStorage['my-app/storage:settings:post:123'], {
-      perPage: 10,
-    });
+    storageDeepEqual(assert,
+      window.localStorage['my-app/storage:settings:post:123'],
+      {
+        perPage: 10
+      }
+    );
 
-    storageDeepEqual(assert, window.localStorage['my-app/storage:options:post:123'], {
-      perPage: 10,
-    });
+    storageDeepEqual(assert,
+      window.localStorage['my-app/storage:options:post:123'],
+      {
+        perPage: 10
+      }
+    );
   });
 });

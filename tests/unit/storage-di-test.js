@@ -29,9 +29,9 @@ module('storageFor - DI', function(hooks) {
     mockStorage.reopenClass({
       initialState() {
         return {
-          perPage: 10,
+          perPage: 10
         };
-      },
+      }
     });
 
     this.owner.register('storage:settings', mockStorage);
@@ -53,6 +53,9 @@ module('storageFor - DI', function(hooks) {
   test('DI is working in a storage', function(assert) {
     assert.expect(1);
 
-    assert.equal(subject.get('settings.backend.name'), 'Backend Name');
+    assert.equal(
+      subject.get('settings.backend.name'),
+      'Backend Name'
+    );
   });
 });

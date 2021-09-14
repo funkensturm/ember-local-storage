@@ -29,7 +29,7 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store.createRecord('post', { name: 'Super Name' }).save();
       store.createRecord('post', { name: 'Just awesome' }).save();
       store.createRecord('post', { name: 'Just a Name' }).save();
@@ -50,7 +50,7 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store.push({
         data: [
           {
@@ -80,7 +80,7 @@ module('Unit | Model | post', function(hooks) {
 
     let newPost;
 
-    run(function () {
+    run(function() {
       newPost = store.createRecord('post', {
         name: 'Ember.js: 10 most common mistakes',
       });
@@ -88,7 +88,7 @@ module('Unit | Model | post', function(hooks) {
       newPost.save();
     });
 
-    run(function () {
+    run(function() {
       store.find('post', newPost.id).then(function (post) {
         assert.equal(post.id, newPost.id);
         assert.equal(post.name, 'Ember.js: 10 most common mistakes');
@@ -105,7 +105,7 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store
         .createRecord('post', {
           name: 'Ember.js: 10 most common mistakes',
@@ -135,14 +135,14 @@ module('Unit | Model | post', function(hooks) {
 
     let paul;
 
-    run(function () {
+    run(function() {
       paul = store.createRecord('user', {
         name: 'Paul',
       });
       paul.save();
     });
 
-    run(function () {
+    run(function() {
       store
         .createRecord('post', {
           name: 'Super Name',
@@ -208,7 +208,7 @@ module('Unit | Model | post', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function () {
+    run(function() {
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
@@ -226,7 +226,7 @@ module('Unit | Model | post', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function () {
+    run(function() {
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
@@ -245,7 +245,7 @@ module('Unit | Model | post', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function () {
+    run(function() {
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
@@ -267,7 +267,7 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store.push({
         data: [
           {
@@ -300,7 +300,7 @@ module('Unit | Model | post', function(hooks) {
 
     let newPost;
 
-    run(function () {
+    run(function() {
       newPost = store.createRecord('post', {
         name: 'Ember.js: 10 most common mistakes',
       });
@@ -308,7 +308,7 @@ module('Unit | Model | post', function(hooks) {
       newPost.save();
     });
 
-    run(function () {
+    run(function() {
       store.find('post', newPost.id).then(function (post) {
         assert.equal(post.id, newPost.id);
         assert.equal(post.name, 'Ember.js: 10 most common mistakes');

@@ -19,7 +19,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store.createRecord('blog/post', { name: 'Super Name' }).save();
       store.createRecord('blog/post', { name: 'Just awesome' }).save();
       store.createRecord('blog/post', { name: 'Just a Name' }).save();
@@ -68,7 +68,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     let newPost;
 
-    run(function () {
+    run(function() {
       newPost = store.createRecord('blog/post', {
         name: 'Ember.js: 10 most common mistakes'
       });
@@ -76,7 +76,7 @@ module('Unit | Model | blog/post', function(hooks) {
       newPost.save();
     });
 
-    run(function () {
+    run(function() {
       store.find('blog/post', newPost.id).then(function (post) {
         assert.equal(post.id, newPost.id);
         assert.equal(post.name, 'Ember.js: 10 most common mistakes');
@@ -93,7 +93,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store
         .createRecord('blog/post', {
           name: 'Ember.js: 10 most common mistakes',
@@ -121,7 +121,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
+    run(function() {
       store
         .createRecord('blog/post', {
           name: 'Super Name',

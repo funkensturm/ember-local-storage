@@ -15,7 +15,7 @@ module('Unit | Model | queryRecord', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function () {
+    run(function() {
       // Create records
       store
         .createRecord('post', {
@@ -82,7 +82,7 @@ module('Unit | Model | queryRecord', function(hooks) {
 
     let paul, peter, moritz;
 
-    run(function () {
+    run(function() {
       // Create users
       paul = store.createRecord('editor', { name: 'Paul' });
       peter = store.createRecord('editor', { name: 'Peter' });
@@ -170,7 +170,7 @@ module('Unit | Model | queryRecord', function(hooks) {
 
     let anna, peter, moritz, project, bookPublication, cat, dog, dog2;
 
-    run(function () {
+    run(function() {
       project = store.createRecord('project', {
         name: 'Componentize all the things!',
       });

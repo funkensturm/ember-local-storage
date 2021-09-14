@@ -136,7 +136,7 @@ import { action } from '@ember/object';
 export default class ApplicationController extends Controller {
   @storageFor('stats') stats;
 
-  @action acountUp() {
+  @action countUp() {
     this.incrementProperty('stats.counter');
   }
 
