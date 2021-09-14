@@ -261,11 +261,11 @@ module('Unit | Model | query', function(hooks) {
 
     // get the users with bookPublication '123' (camelcased key)
     store.query('user', {
-      filter: { bookPublications: bookPublication.id },
-    })
-    .then(function(users) {
-      assert.equal(users.length, 2);
-      done();
-    });
+        filter: { bookPublications: bookPublication.id },
+      })
+      .then(function(users) {
+        assert.equal(users.length, 2);
+        done();
+      });
   });
 });

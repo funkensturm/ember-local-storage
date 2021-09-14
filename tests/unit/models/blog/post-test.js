@@ -96,7 +96,7 @@ module('Unit | Model | blog/post', function(hooks) {
     run(function() {
       store
         .createRecord('blog/post', {
-          name: 'Ember.js: 10 most common mistakes',
+          name: 'Ember.js: 10 most common mistakes'
         })
         .save();
 

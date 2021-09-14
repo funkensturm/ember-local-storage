@@ -29,7 +29,7 @@ module('object - settings', function(hooks) {
         return {
           welcomeMessageSeen: false
         };
-      },
+      }
     });
 
     mockStorageB.reopenClass({
