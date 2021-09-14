@@ -15,15 +15,12 @@ module('storageFor - DI', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
-    this.owner.register(
-      'service:backend',
-      Service.extend({
-        name: 'Backend Name',
-      })
-    );
+    this.owner.register('service:backend', Service.extend({
+      name: 'Backend Name'
+    }));
 
     let mockStorage = StorageObject.extend({
-      backend: service(),
+      backend: service()
     });
 
     mockStorage.reopenClass({
@@ -36,12 +33,9 @@ module('storageFor - DI', function(hooks) {
 
     this.owner.register('storage:settings', mockStorage);
 
-    this.owner.register(
-      'object:test',
-      EmberObject.extend({
-        settings: storageFor('settings'),
-      })
-    );
+    this.owner.register('object:test', EmberObject.extend({
+      settings: storageFor('settings'),
+    }));
     subject = this.owner.lookup('object:test');
   });
 

@@ -27,7 +27,7 @@ module('object - settings', function(hooks) {
     mockStorage.reopenClass({
       initialState() {
         return {
-          welcomeMessageSeen: false,
+          welcomeMessageSeen: false
         };
       },
     });
@@ -38,10 +38,10 @@ module('object - settings', function(hooks) {
           address: {
             first: null,
             second: null,
-            anotherProp: null,
-          },
+            anotherProp: null
+          }
         };
-      },
+      }
     });
 
     this.owner.register('storage:settings', mockStorage);
@@ -49,15 +49,12 @@ module('object - settings', function(hooks) {
     this.owner.register('storage:cache', mockStorageC);
     this.owner.register('storage:local-cache', mockStorageD);
 
-    this.owner.register(
-      'object:test',
-      EmberObject.extend({
-        settings: storageFor('settings'),
-        nestedObjects: storageFor('nested-objects'),
-        cache: storageFor('cache'),
-        localCache: storageFor('local-cache'),
-      })
-    );
+    this.owner.register('object:test', EmberObject.extend({
+      settings: storageFor('settings'),
+      nestedObjects: storageFor('nested-objects'),
+      cache: storageFor('cache'),
+      localCache: storageFor('local-cache')
+    }));
     subject = this.owner.lookup('object:test');
   });
 
@@ -73,7 +70,7 @@ module('object - settings', function(hooks) {
     assert.equal(subject.settings._storageType, 'local');
     assert.equal(subject.settings._storageKey, 'storage:settings');
     assert.deepEqual(subject.settings._initialContent, {
-      welcomeMessageSeen: false,
+      welcomeMessageSeen: false
     });
 
     assert.equal(subject.cache._storageType, 'session');
@@ -92,7 +89,7 @@ module('object - settings', function(hooks) {
     });
 
     storageDeepEqual(assert, window.sessionStorage['storage:cache'], {
-      image1: 'image1png',
+      image1: 'image1png'
     });
   });
 
@@ -146,14 +143,12 @@ module('object - settings', function(hooks) {
     subject.settings._testing = true;
 
     assert.equal(subject.settings.changeFired, undefined);
-    window.dispatchEvent(
-      new window.StorageEvent('storage', {
-        key: 'storage:settings',
-        newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
-        oldValue: '{"welcomeMessageSeen":false}',
-        storageArea: subject.settings._storage(),
-      })
-    );
+    window.dispatchEvent(new window.StorageEvent('storage', {
+      key: 'storage:settings',
+      newValue: '{"welcomeMessageSeen":false,"changeFired":true}',
+      oldValue: '{"welcomeMessageSeen":false}',
+      storageArea: get(subject, 'settings')._storage()
+    }));
     assert.false(subject.settings.welcomeMessageSeen);
     assert.true(subject.settings.changeFired);
   });
@@ -168,24 +163,24 @@ module('object - settings', function(hooks) {
     run(function() {
       subject.nestedObjects.set('address.first', {
         street: 'Somestreet 1',
-        city: 'A City',
+        city: 'A City'
       });
     });
 
     assert.deepEqual(subject.nestedObjects.address.first, {
       street: 'Somestreet 1',
-      city: 'A City',
+      city: 'A City'
     });
 
     storageDeepEqual(assert, window.localStorage['storage:nested-objects'], {
       address: {
         first: {
           street: 'Somestreet 1',
-          city: 'A City',
+          city: 'A City'
         },
         second: null,
-        anotherProp: null,
-      },
+        anotherProp: null
+      }
     });
   });
 
@@ -194,7 +189,7 @@ module('object - settings', function(hooks) {
 
     //initialContent is set properly
     assert.deepEqual(subject.settings.content, {
-      welcomeMessageSeen: false,
+      welcomeMessageSeen: false
     });
 
     //set new properties and overwrite others
@@ -212,7 +207,7 @@ module('object - settings', function(hooks) {
 
     //data is back to initial values
     assert.deepEqual(subject.settings.content, {
-      welcomeMessageSeen: false,
+      welcomeMessageSeen: false
     });
     assert.strictEqual(subject.settings.newProp, undefined);
   });

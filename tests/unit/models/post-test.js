@@ -89,11 +89,12 @@ module('Unit | Model | post', function(hooks) {
     });
 
     run(function() {
-      store.find('post', newPost.id).then(function (post) {
-        assert.equal(post.id, newPost.id);
-        assert.equal(post.name, 'Ember.js: 10 most common mistakes');
-        done();
-      });
+      store.find('post', newPost.id)
+        .then(function(post) {
+          assert.equal(post.id, newPost.id);
+          assert.equal(post.name, 'Ember.js: 10 most common mistakes');
+          done();
+        });
     });
   });
 
@@ -309,11 +310,12 @@ module('Unit | Model | post', function(hooks) {
     });
 
     run(function() {
-      store.find('post', newPost.id).then(function (post) {
-        assert.equal(post.id, newPost.id);
-        assert.equal(post.name, 'Ember.js: 10 most common mistakes');
-        done();
-      });
+      store.find('post', newPost.id)
+        .then(function(post) {
+          assert.equal(post.id, newPost.id);
+          assert.equal(post.name, 'Ember.js: 10 most common mistakes');
+          done();
+        });
     });
   });
 });

@@ -17,62 +17,57 @@ module('Unit | Model | queryRecord', function(hooks) {
 
     run(function() {
       // Create records
-      store
-        .createRecord('post', {
-          name: 'Super Name',
-          commentCount: 3,
-        })
-        .save();
-      store
-        .createRecord('post', {
-          name: 'Just awesome',
-          commentCount: 1,
-        })
-        .save();
-      store
-        .createRecord('post', {
-          name: 'Just a Name',
-          commentCount: 3,
-        })
-        .save();
-      store
-        .createRecord('post', {
-          commentCount: 2,
-          isPrivate: false,
-        })
-        .save();
-      store
-        .createRecord('post', {
-          commentCount: 0,
-        })
-        .save();
+      store.createRecord('post', {
+        name: 'Super Name',
+        commentCount: 3
+      }).save();
+      store.createRecord('post', {
+        name: 'Just awesome',
+        commentCount: 1
+      }).save();
+      store.createRecord('post', {
+        name: 'Just a Name',
+        commentCount: 3
+      }).save();
+      store.createRecord('post', {
+        commentCount: 2,
+        isPrivate: false
+      }).save();
+      store.createRecord('post', {
+        commentCount: 0
+      }).save();
     });
 
     // string
-    store.queryRecord('post', { filter: { name: 'Super Name' } }).then(function (post) {
-      assert.equal(post.name, 'Super Name');
-    });
+    store.queryRecord('post', { filter: { name: 'Super Name' } })
+      .then(function(post) {
+        assert.equal(post.name, 'Super Name');
+      });
 
     // boolean
-    store.queryRecord('post', { filter: { isPrivate: false } }).then(function (post) {
-      assert.false(post.isPrivate);
-    });
+    store.queryRecord('post', { filter: { isPrivate: false } })
+      .then(function(post) {
+        assert.false(post.isPrivate);
+      });
 
     // number
-    store.queryRecord('post', { filter: { commentCount: 3 } }).then(function (post) {
-      assert.equal(post.commentCount, 3);
-    });
+    store.queryRecord('post', { filter: { commentCount: 3 } })
+      .then(function(post) {
+        assert.equal(post.commentCount, 3);
+      });
 
     // regex
-    store.queryRecord('post', { filter: { name: /^Just(.*)/ } }).then(function (post) {
-      assert.equal(post.name, 'Just awesome');
-    });
+    store.queryRecord('post', { filter: { name: /^Just(.*)/ } })
+      .then(function(post) {
+        assert.equal(post.name, 'Just awesome');
+      });
 
     // camelized key
-    store.queryRecord('post', { filter: { commentCount: 3 } }).then(function (post) {
-      assert.equal(post.commentCount, 3);
-      done();
-    });
+    store.queryRecord('post', { filter: { commentCount: 3 } })
+      .then(function(post) {
+        assert.equal(post.commentCount, 3);
+        done();
+      });
   });
 
   test('belongsTo relationship', function(assert) {
@@ -89,33 +84,25 @@ module('Unit | Model | queryRecord', function(hooks) {
       moritz = store.createRecord('user', { name: 'Moritz' });
 
       // Create posts
-      store
-        .createRecord('post', {
-          name: 'Ember.js: 10 most common mistakes',
-          user: paul,
-        })
-        .save();
+      store.createRecord('post', {
+        name: 'Ember.js: 10 most common mistakes',
+        user: paul
+      }).save();
 
-      store
-        .createRecord('post', {
-          name: 'Ember.js: Ember-CPM',
-          user: paul,
-        })
-        .save();
+      store.createRecord('post', {
+        name: 'Ember.js: Ember-CPM',
+        user: paul
+      }).save();
 
-      store
-        .createRecord('post', {
-          name: 'Ember.js: Testing with Ember PageObjects',
-          user: peter,
-        })
-        .save();
+      store.createRecord('post', {
+        name: 'Ember.js: Testing with Ember PageObjects',
+        user: peter
+      }).save();
 
-      store
-        .createRecord('post', {
-          name: 'ES6',
-          user: moritz,
-        })
-        .save();
+      store.createRecord('post', {
+        name: 'ES6',
+        user: moritz
+      }).save();
     });
 
     const id = peter.id,
@@ -123,44 +110,52 @@ module('Unit | Model | queryRecord', function(hooks) {
 
     // get first post from user '123'
     // string
-    store.queryRecord('post', { filter: { user: id } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
-    });
+    store.queryRecord('post', { filter: { user: id } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
+      });
 
     // object
-    store.queryRecord('post', { filter: { user: { id: id } } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
-    });
+    store.queryRecord('post', { filter: { user: { id: id } } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
+      });
 
     // regex
-    store.queryRecord('post', { filter: { user: regexId } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
-    });
+    store.queryRecord('post', { filter: { user: regexId } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
+      });
 
     // object regex
-    store.queryRecord('post', { filter: { user: { id: regexId } } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
-    });
+    store.queryRecord('post', { filter: { user: { id: regexId } } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects');
+      });
 
     // polymorphic
     // get first post from editors
-    store.queryRecord('post', { filter: { user: { type: 'editor' } } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: 10 most common mistakes');
-    });
+    store.queryRecord('post', { filter: { user: { type: 'editor' } } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: 10 most common mistakes');
+      });
     // regex
-    store.queryRecord('post', { filter: { user: { type: /^ed(.*)ors$/ } } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: 10 most common mistakes');
-    });
+    store.queryRecord('post', { filter: { user: { type: /^ed(.*)ors$/ } } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: 10 most common mistakes');
+      });
 
     // get first post from editor '123'
-    store.queryRecord('post', { filter: { user: { id: id, type: 'editor' } } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects', 'nuu');
-    });
+    store.queryRecord('post', { filter: { user: { id: id, type: 'editor' } } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects', 'nuu');
+      });
     // regex
-    store.queryRecord('post', { filter: { user: { id: id, type: /^ed(.*)ors$/ } } }).then(function (post) {
-      assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects', 'ups');
-      done();
-    });
+    store.queryRecord('post', { filter: { user: { id: id, type: /^ed(.*)ors$/ } } })
+      .then(function(post) {
+        assert.equal(post.name, 'Ember.js: Testing with Ember PageObjects', 'ups');
+        done();
+      });
   });
 
   test('hasMany relationship', function(assert) {
@@ -172,11 +167,11 @@ module('Unit | Model | queryRecord', function(hooks) {
 
     run(function() {
       project = store.createRecord('project', {
-        name: 'Componentize all the things!',
+        name: 'Componentize all the things!'
       });
 
       bookPublication = store.createRecord('book-publication', {
-        name: 'Books For Dummies',
+        name: 'Books For Dummies'
       });
 
       cat = store.createRecord('cat', { name: 'Cat name' });
@@ -185,7 +180,7 @@ module('Unit | Model | queryRecord', function(hooks) {
 
       anna = store.createRecord('user', {
         name: 'Anna',
-        pets: [cat],
+        pets: [cat]
       });
       anna.save();
 
@@ -193,7 +188,7 @@ module('Unit | Model | queryRecord', function(hooks) {
         name: 'Peter',
         pets: [dog2],
         projects: [project],
-        bookPublications: [bookPublication],
+        bookPublications: [bookPublication]
       });
       peter.save();
 
@@ -201,7 +196,7 @@ module('Unit | Model | queryRecord', function(hooks) {
         name: 'Moritz',
         pets: [cat, dog],
         projects: [project],
-        bookPublications: [bookPublication],
+        bookPublications: [bookPublication]
       });
       moritz.save();
 
@@ -216,49 +211,56 @@ module('Unit | Model | queryRecord', function(hooks) {
 
     // get first user who've contributed to project.id = 123
     // string
-    store.queryRecord('user', { filter: { projects: id } }).then(function (user) {
-      assert.equal(user.name, 'Peter');
-    });
+    store.queryRecord('user', { filter: { projects: id } })
+      .then(function(user) {
+        assert.equal(user.name, 'Peter');
+      });
 
     // object
-    store.queryRecord('user', { filter: { projects: { id: id } } }).then(function (user) {
-      assert.equal(user.name, 'Peter');
-    });
+    store.queryRecord('user', { filter: { projects: { id: id } } })
+      .then(function(user) {
+        assert.equal(user.name, 'Peter');
+      });
 
     // regex
-    store.queryRecord('user', { filter: { projects: regexId } }).then(function (user) {
-      assert.equal(user.name, 'Peter');
-    });
+    store.queryRecord('user', { filter: { projects: regexId } })
+      .then(function(user) {
+        assert.equal(user.name, 'Peter');
+      });
 
     // object regex
-    store.queryRecord('user', { filter: { projects: { id: regexId } } }).then(function (user) {
-      assert.equal(user.name, 'Peter');
-    });
+    store.queryRecord('user', { filter: { projects: { id: regexId } } })
+      .then(function(user) {
+        assert.equal(user.name, 'Peter');
+      });
 
     // polymorphic
     // get first user with cats
-    store.queryRecord('user', { filter: { pets: { type: 'cat' } } }).then(function (user) {
-      assert.equal(user.name, 'Anna');
-    });
+    store.queryRecord('user', { filter: { pets: { type: 'cat' } } })
+      .then(function(user) {
+        assert.equal(user.name, 'Anna');
+      });
 
     // get first user with cat '123'
-    store.queryRecord('user', { filter: { pets: { id: cat.id, type: 'cat' } } }).then(function (user) {
-      assert.equal(user.name, 'Anna');
-    });
+    store.queryRecord('user', { filter: { pets: { id: cat.id, type: 'cat' } } })
+      .then(function(user) {
+        assert.equal(user.name, 'Anna');
+      });
 
     // get first user with cats AND dogs
-    store.queryRecord('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } }).then(function (user) {
-      assert.equal(user.name, 'Moritz');
-    });
+    store.queryRecord('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } })
+      .then(function(user) {
+        assert.equal(user.name, 'Moritz');
+      });
 
     // get first user with cats OR dogs
-    store.queryRecord('user', { filter: { pets: { type: /cats|dogs/ } } }).then(function (user) {
-      assert.equal(user.name, 'Anna');
-    });
+    store.queryRecord('user', { filter: { pets: { type: /cats|dogs/ } } })
+      .then(function(user) {
+        assert.equal(user.name, 'Anna');
+      });
 
     // get the first user with bookPublication '123' (camelcased key)
-    store
-      .queryRecord('user', {
+    store.queryRecord('user', {
         filter: { bookPublications: bookPublication.id },
       })
       .then(function (user) {
