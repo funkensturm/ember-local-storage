@@ -1,3 +1,3 @@
 import Pet from './pet';
 
-export default class extends Pet {}
+export default class DogModel extends Pet {}

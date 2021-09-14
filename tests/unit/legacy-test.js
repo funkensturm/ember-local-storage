@@ -1,10 +1,15 @@
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { storageDeepEqual } from '../helpers/storage';
+import {
+  storageDeepEqual
+} from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
-import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage';
+import {
+  storageFor,
+  _resetStorages
+} from 'ember-local-storage/helpers/storage';
 
 let subject;
 
@@ -14,7 +19,7 @@ module('legacy - config', function(hooks) {
   hooks.beforeEach(function() {
     // old serialized content
     window.localStorage.settings = JSON.stringify({
-      mapStyle: 'dark',
+      mapStyle: 'dark'
     });
 
     let mockStorage = StorageObject.extend();
@@ -22,22 +27,19 @@ module('legacy - config', function(hooks) {
     mockStorage.reopenClass({
       initialState() {
         return {
-          token: 1234,
+          token: 1234
         };
-      },
+      }
     });
 
     this.owner.register('storage:config', mockStorage);
-    this.owner.register(
-      'object:test',
-      EmberObject.extend({
-        settings: storageFor('config', { legacyKey: 'settings' }),
-      })
-    );
+    this.owner.register('object:test', EmberObject.extend({
+      settings: storageFor('config', { legacyKey: 'settings' })
+    }));
     subject = this.owner.lookup('object:test');
   });
 
-  hooks.afterEach(function () {
+  hooks.afterEach(function() {
     window.localStorage.clear();
     _resetStorages();
   });
@@ -48,7 +50,7 @@ module('legacy - config', function(hooks) {
     assert.equal(subject.get('settings._storageType'), 'local');
     assert.equal(subject.get('settings._storageKey'), 'settings');
     assert.deepEqual(subject.get('settings._initialContent'), {
-      token: 1234,
+      token: 1234
     });
   });
 
@@ -58,7 +60,7 @@ module('legacy - config', function(hooks) {
     assert.equal(subject.get('settings.mapStyle'), 'dark');
     storageDeepEqual(assert, window.localStorage.settings, {
       mapStyle: 'dark',
-      token: 1234,
+      token: 1234
     });
   });
 });

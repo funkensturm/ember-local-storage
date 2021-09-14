@@ -72,7 +72,7 @@ module('Unit | Adapter | import/export', function(hooks) {
 
       return hash({
         posts: posts,
-        comments: comments,
+        comments: comments
       });
     }).then(function (data) {
       assert.equal(data.posts.length, 2);
@@ -94,7 +94,7 @@ module('Unit | Adapter | import/export', function(hooks) {
 
       return hash({
         posts: posts,
-        comments: comments,
+        comments: comments
       });
     }).then(function () {
       return store.exportData(['posts', 'comments'], { json: false });
@@ -116,13 +116,11 @@ module('Unit | Adapter | import/export', function(hooks) {
 
       return hash({
         posts: posts,
-        comments: comments,
+        comments: comments
       });
-    })
-    .then(function () {
+    }).then(function () {
       return store.exportData(['posts', 'comments'], { json: false });
-    })
-    .then(function (data) {
+    }).then(function (data) {
       assert.equal(data.data.length, 5);
     });
   });

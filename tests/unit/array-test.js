@@ -2,10 +2,15 @@ import { run } from '@ember/runloop';
 import EmberObject, { get } from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { storageDeepEqual } from '../helpers/storage';
+import {
+  storageDeepEqual
+} from '../helpers/storage';
 
 import StorageArray from 'ember-local-storage/local/array';
-import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage';
+import {
+  storageFor,
+  _resetStorages
+} from 'ember-local-storage/helpers/storage';
 
 let subject;
 
@@ -18,13 +23,10 @@ module('array - likes', function(hooks) {
 
     this.owner.register('storage:anonymous-likes', mockStorage);
     this.owner.register('storage:post-likes', mockStorageB);
-    this.owner.register(
-      'object:test',
-      EmberObject.extend({
-        anonymousLikes: storageFor('anonymous-likes'),
-        postLikes: storageFor('post-likes'),
-      })
-    );
+    this.owner.register('object:test', EmberObject.extend({
+      anonymousLikes: storageFor('anonymous-likes'),
+      postLikes: storageFor('post-likes')
+    }));
     subject = this.owner.lookup('object:test');
   });
 
@@ -37,7 +39,10 @@ module('array - likes', function(hooks) {
     assert.expect(3);
 
     assert.equal(get(subject, 'anonymousLikes._storageType'), 'local');
-    assert.equal(get(subject, 'anonymousLikes._storageKey'), 'storage:anonymous-likes');
+    assert.equal(
+      get(subject, 'anonymousLikes._storageKey'),
+      'storage:anonymous-likes'
+    );
     assert.deepEqual(get(subject, 'anonymousLikes._initialContent'), []);
   });
 
@@ -46,14 +51,14 @@ module('array - likes', function(hooks) {
 
     // ImageLikes
     assert.deepEqual(get(subject, 'anonymousLikes._initialContent'), []);
-    run(function () {
+    run(function() {
       subject.anonymousLikes.addObject('martin');
     });
     assert.deepEqual(get(subject, 'anonymousLikes.content'), ['martin']);
 
     // PostLikes
     assert.deepEqual(get(subject, 'postLikes._initialContent'), []);
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('peter');
     });
     assert.deepEqual(get(subject, 'postLikes.content'), ['peter']);
@@ -69,7 +74,7 @@ module('array - likes', function(hooks) {
     assert.deepEqual(get(subject, 'postLikes.content'), []);
 
     //add new objects
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('martin');
     });
 
@@ -90,7 +95,7 @@ module('array - likes', function(hooks) {
     assert.expect(2);
 
     assert.true(subject.postLikes.isInitialContent());
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('martin');
     });
     assert.false(subject.postLikes.isInitialContent());
@@ -99,12 +104,12 @@ module('array - likes', function(hooks) {
   test('it updates _isInitialContent on reset', function(assert) {
     assert.expect(2);
 
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('martin');
     });
     assert.false(subject.postLikes.isInitialContent());
 
-    run(function () {
+    run(function() {
       subject.postLikes.reset();
     });
     assert.true(subject.postLikes.isInitialContent());
@@ -113,12 +118,16 @@ module('array - likes', function(hooks) {
   test('clear method removes the content from localStorage', function(assert) {
     assert.expect(2);
 
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('martin');
     });
-    storageDeepEqual(assert, window.localStorage['storage:post-likes'], ['martin']);
+    storageDeepEqual(
+      assert,
+      window.localStorage['storage:post-likes'],
+      ['martin']
+    );
 
-    run(function () {
+    run(function() {
       subject.postLikes.clear();
     });
     assert.equal(window.localStorage['storage:post-likes'], undefined);
@@ -127,20 +136,28 @@ module('array - likes', function(hooks) {
   test('after .clear() the array works as expected', function(assert) {
     assert.expect(4);
 
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('martin');
     });
-    storageDeepEqual(assert, window.localStorage['storage:post-likes'], ['martin']);
+    storageDeepEqual(
+      assert,
+      window.localStorage['storage:post-likes'],
+      ['martin']
+    );
 
-    run(function () {
+    run(function() {
       subject.postLikes.clear();
     });
     assert.equal(window.localStorage['storage:post-likes'], undefined);
 
-    run(function () {
+    run(function() {
       subject.postLikes.addObject('martin');
     });
-    storageDeepEqual(assert, window.localStorage['storage:post-likes'], ['martin']);
+    storageDeepEqual(
+      assert,
+      window.localStorage['storage:post-likes'],
+      ['martin']
+    );
     assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
   });
 });

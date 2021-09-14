@@ -40,21 +40,19 @@ module('Unit | Model | blog/post', function(hooks) {
 
     assert.equal(posts.length, 0);
 
-    run(function () {
-      store.push({
-        data: [
-          {
-            id: '1',
-            type: 'blog/post',
-            attributes: { name: 'Super Name' },
-          },
-          {
-            id: '2',
-            type: 'blog/post',
-            attributes: { name: 'Totally rad' },
-          },
-        ],
-      });
+    run(function() {
+      store.push({data: [
+        {
+          id: '1',
+          type: 'blog/post',
+          attributes: {name: 'Super Name'}
+        },
+        {
+          id: '2',
+          type: 'blog/post',
+          attributes: {name: 'Totally rad'}
+        }
+      ]});
     });
 
     store.findAll('blog/post').then(function (posts) {
@@ -72,7 +70,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     run(function () {
       newPost = store.createRecord('blog/post', {
-        name: 'Ember.js: 10 most common mistakes',
+        name: 'Ember.js: 10 most common mistakes'
       });
 
       newPost.save();

@@ -4,7 +4,10 @@ import { setupTest } from 'ember-qunit';
 import { storageDeepEqual, registerConfigEnvironment, setConfigEnvironment } from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
-import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage';
+import {
+  storageFor,
+  _resetStorages
+} from 'ember-local-storage/helpers/storage';
 
 let subject;
 
@@ -43,7 +46,7 @@ module('storageFor', function(hooks) {
     subject = this.owner.lookup('object:test');
   });
 
-  hooks.afterEach(function () {
+  hooks.afterEach(function() {
     window.localStorage.clear();
     _resetStorages();
   });

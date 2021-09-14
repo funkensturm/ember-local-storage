@@ -1,6 +1,11 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { storageEqual, storageDeepEqual, registerConfigEnvironment, setConfigEnvironment } from '../../helpers/storage';
+import {
+  storageEqual,
+  storageDeepEqual,
+  registerConfigEnvironment,
+  setConfigEnvironment
+} from '../../helpers/storage';
 
 module('Unit | Adapter | indices', function(hooks) {
   setupTest(hooks);
@@ -78,7 +83,11 @@ module('Unit | Adapter | indices', function(hooks) {
     storageEqual(assert, window.localStorage['index-projects'], undefined);
 
     adapter._addToIndex('projects', '1234');
-    storageDeepEqual(assert, window.localStorage['custom:index-projects'], ['1234']);
+    storageDeepEqual(
+      assert,
+      window.localStorage['custom:index-projects'],
+      ['1234']
+    );
 
     adapter._removeFromIndex('projects', '1234');
     storageDeepEqual(assert, window.localStorage['custom:index-projects'], []);
@@ -95,7 +104,11 @@ module('Unit | Adapter | indices', function(hooks) {
     storageEqual(assert, window.localStorage['index-projects'], undefined);
 
     adapter._addToIndex('projects', '1234');
-    storageDeepEqual(assert, window.localStorage['my-app/index-projects'], ['1234']);
+    storageDeepEqual(
+      assert,
+      window.localStorage['my-app/index-projects'],
+      ['1234']
+    );
 
     adapter._removeFromIndex('projects', '1234');
     storageDeepEqual(assert, window.localStorage['my-app/index-projects'], []);

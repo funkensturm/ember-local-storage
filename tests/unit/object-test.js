@@ -2,11 +2,16 @@ import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { storageDeepEqual } from '../helpers/storage';
+import {
+  storageDeepEqual
+} from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
 import SessionStorageObject from 'ember-local-storage/session/object';
-import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage';
+import {
+  storageFor,
+  _resetStorages
+} from 'ember-local-storage/helpers/storage';
 
 let subject;
 
@@ -56,7 +61,7 @@ module('object - settings', function(hooks) {
     subject = this.owner.lookup('object:test');
   });
 
-  hooks.afterEach(function () {
+  hooks.afterEach(function() {
     window.localStorage.clear();
     window.sessionStorage.clear();
     _resetStorages();

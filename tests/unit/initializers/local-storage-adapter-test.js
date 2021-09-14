@@ -11,7 +11,7 @@ module('Unit | Initializer | local storage adapter', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  hooks.afterEach(function () {
+  hooks.afterEach(function() {
     store = null;
   });
 
