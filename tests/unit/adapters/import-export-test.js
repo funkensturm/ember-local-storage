@@ -29,8 +29,7 @@ module('Unit | Adapter | import/export', function(hooks) {
         posts: posts,
         comments: comments
       });
-    })
-    .then(function (data) {
+    }).then(function (data) {
       assert.equal(data.posts.length, 2);
       assert.equal(data.comments.length, 3);
     });
@@ -96,9 +95,12 @@ module('Unit | Adapter | import/export', function(hooks) {
         posts: posts,
         comments: comments
       });
-    }).then(function () {
-      return store.exportData(['posts', 'comments'], { json: false });
-    }).then(function (data) {
+    }).then(function() {
+      return store.exportData(
+        ['posts', 'comments'],
+        {json: false}
+      );
+    }).then(function(data) {
       assert.equal(data.data.length, 5);
     });
   });
@@ -118,9 +120,12 @@ module('Unit | Adapter | import/export', function(hooks) {
         posts: posts,
         comments: comments
       });
-    }).then(function () {
-      return store.exportData(['posts', 'comments'], { json: false });
-    }).then(function (data) {
+    }).then(function() {
+      return store.exportData(
+        ['posts', 'comments'],
+        {json: false}
+      );
+    }).then(function(data) {
       assert.equal(data.data.length, 5);
     });
   });

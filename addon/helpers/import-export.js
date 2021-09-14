@@ -44,7 +44,7 @@ export function importData(store, content, options) {
     reloadTypes.addObject(singularize(record.type));
 
     return adapter._handleStorageRequest(null, 'POST', {
-      data: {data: record},
+      data: {data: record}
     });
   });
 

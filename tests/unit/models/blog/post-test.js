@@ -25,10 +25,11 @@ module('Unit | Model | blog/post', function(hooks) {
       store.createRecord('blog/post', { name: 'Just a Name' }).save();
     });
 
-    store.findAll('blog/post').then(function (posts) {
-      assert.equal(posts.length, 3);
-      done();
-    });
+    store.findAll('blog/post')
+      .then(function(posts) {
+        assert.equal(posts.length, 3);
+        done();
+      });
   });
 
   test('push a namespaced record', function(assert) {
@@ -55,10 +56,11 @@ module('Unit | Model | blog/post', function(hooks) {
       ]});
     });
 
-    store.findAll('blog/post').then(function (posts) {
-      assert.equal(posts.length, 2);
-      done();
-    });
+    store.findAll('blog/post')
+      .then(function(posts) {
+        assert.equal(posts.length, 2);
+        done();
+      });
   });
 
   test('find a single namespaced record', function(assert) {
@@ -77,11 +79,12 @@ module('Unit | Model | blog/post', function(hooks) {
     });
 
     run(function() {
-      store.find('blog/post', newPost.id).then(function (post) {
-        assert.equal(post.id, newPost.id);
-        assert.equal(post.name, 'Ember.js: 10 most common mistakes');
-        done();
-      });
+      store.find('blog/post', newPost.id)
+        .then(function(post) {
+          assert.equal(post.id, newPost.id);
+          assert.equal(post.name, 'Ember.js: 10 most common mistakes');
+          done();
+        });
     });
   });
 
@@ -94,23 +97,20 @@ module('Unit | Model | blog/post', function(hooks) {
     assert.equal(posts.length, 0);
 
     run(function() {
-      store
-        .createRecord('blog/post', {
-          name: 'Ember.js: 10 most common mistakes'
-        })
-        .save();
+      store.createRecord('blog/post', {
+        name: 'Ember.js: 10 most common mistakes'
+      }).save();
 
-      store
-        .createRecord('blog/post', {
-          name: 'Ember.js: Ember-CPM',
-        })
-        .save();
+      store.createRecord('blog/post', {
+        name: 'Ember.js: Ember-CPM'
+      }).save();
     });
 
-    store.findAll('blog/post').then(function (posts) {
-      assert.equal(posts.length, 2);
-      done();
-    });
+    store.findAll('blog/post')
+      .then(function(posts) {
+        assert.equal(posts.length, 2);
+        done();
+      });
   });
 
   test('namespaced queryRecord attributes', function(assert) {
@@ -122,28 +122,23 @@ module('Unit | Model | blog/post', function(hooks) {
     assert.equal(posts.length, 0);
 
     run(function() {
-      store
-        .createRecord('blog/post', {
-          name: 'Super Name',
-        })
-        .save();
+      store.createRecord('blog/post', {
+        name: 'Super Name'
+      }).save();
 
-      store
-        .createRecord('blog/post', {
-          name: 'Just a Name',
-        })
-        .save();
+      store.createRecord('blog/post', {
+        name: 'Just a Name'
+      }).save();
 
-      store
-        .createRecord('blog/post', {
-          name: 'Just a Name',
-        })
-        .save();
+      store.createRecord('blog/post', {
+        name: 'Just a Name'
+      }).save();
     });
 
-    store.findAll('blog/post').then(function (posts) {
-      assert.equal(posts.length, 3);
-    });
+    store.findAll('blog/post')
+      .then(function (posts) {
+        assert.equal(posts.length, 3);
+      });
 
     store.queryRecord('blog/post', { filter: { name: 'Super Name' } }).then(function (post) {
       assert.equal(post.name, 'Super Name');
