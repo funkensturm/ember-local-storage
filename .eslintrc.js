@@ -48,7 +48,7 @@ module.exports = {
         './tests/dummy/config/**/*.js'
       ],
       parserOptions: {
-        sourceType: 'script',
+        sourceType: 'script'
       },
       env: {
         browser: false,

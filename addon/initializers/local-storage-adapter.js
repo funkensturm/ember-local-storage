@@ -10,7 +10,7 @@ export function initialize() {
       },
       exportData: function(types, options) {
         return exportData(this, types, options);
-      },
+      }
     });
   }
 }

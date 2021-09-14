@@ -8,7 +8,7 @@ import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage'
 
 let subject;
 
-module('legacy - config', function (hooks) {
+module('legacy - config', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -42,7 +42,7 @@ module('legacy - config', function (hooks) {
     _resetStorages();
   });
 
-  test('it has correct defaults', function (assert) {
+  test('it has correct defaults', function(assert) {
     assert.expect(3);
 
     assert.equal(subject.get('settings._storageType'), 'local');
@@ -52,7 +52,7 @@ module('legacy - config', function (hooks) {
     });
   });
 
-  test('serialized content can be used', function (assert) {
+  test('serialized content can be used', function(assert) {
     assert.expect(2);
 
     assert.equal(subject.get('settings.mapStyle'), 'dark');

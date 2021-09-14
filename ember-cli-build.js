@@ -23,7 +23,7 @@ module.exports = function(defaults) {
         'highlightAuto',
         'highlightBlock'
       ]
-    },
+    }
   });
 
   return app.toTree();

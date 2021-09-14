@@ -34,9 +34,9 @@ module.exports = async function() {
             '@ember/jquery': '^0.5.1',
             'ember-cli-shims': '1.1.0',
             'ember-data': '~2.13.0',
-            'ember-source': '~2.13.0',
-          },
-        },
+            'ember-source': '~2.13.0'
+          }
+        }
       },
       {
         name: 'ember-lts-2.16',
@@ -64,7 +64,7 @@ module.exports = async function() {
           devDependencies: {
             '@ember/jquery': '^0.5.1',
             'ember-data': '~2.18.0',
-            'ember-source': '~2.18.0',
+            'ember-source': '~2.18.0'
           }
         }
       },

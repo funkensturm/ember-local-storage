@@ -8,7 +8,7 @@ import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage'
 
 let subject;
 
-module('storageFor', function (hooks) {
+module('storageFor', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -48,7 +48,7 @@ module('storageFor', function (hooks) {
     _resetStorages();
   });
 
-  test('it has the correct key (namespace not set)', function (assert) {
+  test('it has the correct key (namespace not set)', function(assert) {
     assert.expect(4);
 
     assert.equal(subject.get('settings._storageKey'), 'storage:settings:post:123');
@@ -64,7 +64,7 @@ module('storageFor', function (hooks) {
     });
   });
 
-  test('it has the correct key (namespace: true)', function (assert) {
+  test('it has the correct key (namespace: true)', function(assert) {
     assert.expect(4);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -82,7 +82,7 @@ module('storageFor', function (hooks) {
     });
   });
 
-  test('it has the correct key (namespace: "custom")', function (assert) {
+  test('it has the correct key (namespace: "custom")', function(assert) {
     assert.expect(4);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -100,7 +100,7 @@ module('storageFor', function (hooks) {
     });
   });
 
-  test('it has the correct key (keyDelimiter: "/")', function (assert) {
+  test('it has the correct key (keyDelimiter: "/")', function(assert) {
     assert.expect(4);
 
     setConfigEnvironment(this, 'namespace', true);

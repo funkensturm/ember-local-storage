@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | query', function (hooks) {
+module('Unit | Model | query', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -10,7 +10,7 @@ module('Unit | Model | query', function (hooks) {
     window.sessionStorage.clear();
   });
 
-  test('attributes (string, regex, boolean, number)', function (assert) {
+  test('attributes (string, regex, boolean, number)', function(assert) {
     assert.expect(5);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -75,7 +75,7 @@ module('Unit | Model | query', function (hooks) {
     });
   });
 
-  test('belongsTo relationship', function (assert) {
+  test('belongsTo relationship', function(assert) {
     assert.expect(8);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -163,7 +163,7 @@ module('Unit | Model | query', function (hooks) {
     });
   });
 
-  test('hasMany relationship', function (assert) {
+  test('hasMany relationship', function(assert) {
     assert.expect(9);
     const done = assert.async();
     const store = this.owner.lookup('service:store');

@@ -6,7 +6,7 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL;
 }
 
-Router.map(function () {
+Router.map(function() {
   this.route('adapter', function () {
     this.route('projects', { resetNamespace: true }, function () {
       this.route('project', { path: ':project_id' }, function () {

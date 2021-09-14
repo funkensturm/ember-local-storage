@@ -3,7 +3,7 @@ import Mixin from '@ember/object/mixin';
 import { set } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import { getStorage } from '../helpers/storage';
-import { copy } from 'ember-copy';
+import { copy } from 'ember-copy'
 
 const assignIt = assign || merge;
 
@@ -62,9 +62,7 @@ export default Mixin.create({
 
     if (window.addEventListener) {
       this._storageEventHandler = (event) => {
-        if (this.isDestroying) {
-          return;
-        }
+        if (this.isDestroying) { return; }
 
         if (event.storageArea === storage && event.key === storageKey) {
           if (

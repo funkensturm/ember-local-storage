@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | blog/post', function (hooks) {
+module('Unit | Model | blog/post', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -10,7 +10,7 @@ module('Unit | Model | blog/post', function (hooks) {
     window.sessionStorage.clear();
   });
 
-  test('create a namespaced record', function (assert) {
+  test('create a namespaced record', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -31,7 +31,7 @@ module('Unit | Model | blog/post', function (hooks) {
     });
   });
 
-  test('push a namespaced record', function (assert) {
+  test('push a namespaced record', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -63,7 +63,7 @@ module('Unit | Model | blog/post', function (hooks) {
     });
   });
 
-  test('find a single namespaced record', function (assert) {
+  test('find a single namespaced record', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -87,7 +87,7 @@ module('Unit | Model | blog/post', function (hooks) {
     });
   });
 
-  test('namespaced get all', function (assert) {
+  test('namespaced get all', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -115,7 +115,7 @@ module('Unit | Model | blog/post', function (hooks) {
     });
   });
 
-  test('namespaced queryRecord attributes', function (assert) {
+  test('namespaced queryRecord attributes', function(assert) {
     assert.expect(3);
     const done = assert.async();
     const store = this.owner.lookup('service:store');

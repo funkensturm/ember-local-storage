@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { registerConfigEnvironment, setConfigEnvironment } from '../../helpers/storage';
 
-module('Unit | Model | post', function (hooks) {
+module('Unit | Model | post', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -14,13 +14,13 @@ module('Unit | Model | post', function (hooks) {
     window.sessionStorage.clear();
   });
 
-  test('it exists', function (assert) {
+  test('it exists', function(assert) {
     let model = run(() => this.owner.lookup('service:store').createRecord('post'));
     // var store = this.store();
     assert.ok(!!model);
   });
 
-  test('create a record', function (assert) {
+  test('create a record', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -41,7 +41,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('push a record', function (assert) {
+  test('push a record', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -73,7 +73,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('find a single record', function (assert) {
+  test('find a single record', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -97,7 +97,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('get all', function (assert) {
+  test('get all', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -125,7 +125,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('queryRecord attributes', function (assert) {
+  test('queryRecord attributes', function(assert) {
     assert.expect(3);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -175,7 +175,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('queryRecord empty store', function (assert) {
+  test('queryRecord empty store', function(assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -200,7 +200,7 @@ module('Unit | Model | post', function (hooks) {
       });
   });
 
-  test('create a record (namespace: true)', function (assert) {
+  test('create a record (namespace: true)', function(assert) {
     assert.expect(1);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -218,7 +218,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('create a record (namespace: "custom")', function (assert) {
+  test('create a record (namespace: "custom")', function(assert) {
     assert.expect(1);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -236,7 +236,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('create a record (keyDelimiter: "/")', function (assert) {
+  test('create a record (keyDelimiter: "/")', function(assert) {
     assert.expect(1);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -255,7 +255,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('push a record (namespace: true)', function (assert) {
+  test('push a record (namespace: true)', function(assert) {
     assert.expect(2);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -290,7 +290,7 @@ module('Unit | Model | post', function (hooks) {
     });
   });
 
-  test('find a single record (namespace: true)', function (assert) {
+  test('find a single record (namespace: true)', function(assert) {
     assert.expect(2);
 
     setConfigEnvironment(this, 'namespace', true);

@@ -9,10 +9,10 @@ import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage'
 
 let subject;
 
-module('array - likes', function (hooks) {
+module('array - likes', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     let mockStorage = StorageArray.extend();
     let mockStorageB = StorageArray.extend();
 
@@ -28,12 +28,12 @@ module('array - likes', function (hooks) {
     subject = this.owner.lookup('object:test');
   });
 
-  hooks.afterEach(function () {
+  hooks.afterEach(function() {
     window.localStorage.clear();
     _resetStorages();
   });
 
-  test('it has correct defaults', function (assert) {
+  test('it has correct defaults', function(assert) {
     assert.expect(3);
 
     assert.equal(get(subject, 'anonymousLikes._storageType'), 'local');
@@ -41,7 +41,7 @@ module('array - likes', function (hooks) {
     assert.deepEqual(get(subject, 'anonymousLikes._initialContent'), []);
   });
 
-  test('it does not share data', function (assert) {
+  test('it does not share data', function(assert) {
     assert.expect(5);
 
     // ImageLikes
@@ -62,7 +62,7 @@ module('array - likes', function (hooks) {
     assert.deepEqual(get(subject, 'anonymousLikes.content'), ['martin']);
   });
 
-  test('reset method restores initialContent', function (assert) {
+  test('reset method restores initialContent', function(assert) {
     assert.expect(4);
 
     //initialContent is set properly
@@ -86,7 +86,7 @@ module('array - likes', function (hooks) {
     storageDeepEqual(assert, window.localStorage['storage:post-likes'], []);
   });
 
-  test('it updates _isInitialContent', function (assert) {
+  test('it updates _isInitialContent', function(assert) {
     assert.expect(2);
 
     assert.true(subject.postLikes.isInitialContent());
@@ -96,7 +96,7 @@ module('array - likes', function (hooks) {
     assert.false(subject.postLikes.isInitialContent());
   });
 
-  test('it updates _isInitialContent on reset', function (assert) {
+  test('it updates _isInitialContent on reset', function(assert) {
     assert.expect(2);
 
     run(function () {
@@ -110,7 +110,7 @@ module('array - likes', function (hooks) {
     assert.true(subject.postLikes.isInitialContent());
   });
 
-  test('clear method removes the content from localStorage', function (assert) {
+  test('clear method removes the content from localStorage', function(assert) {
     assert.expect(2);
 
     run(function () {
@@ -124,7 +124,7 @@ module('array - likes', function (hooks) {
     assert.equal(window.localStorage['storage:post-likes'], undefined);
   });
 
-  test('after .clear() the array works as expected', function (assert) {
+  test('after .clear() the array works as expected', function(assert) {
     assert.expect(4);
 
     run(function () {

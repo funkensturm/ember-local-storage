@@ -10,7 +10,7 @@ import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage'
 
 let subject;
 
-module('object - settings', function (hooks) {
+module('object - settings', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -62,7 +62,7 @@ module('object - settings', function (hooks) {
     _resetStorages();
   });
 
-  test('it has correct defaults', function (assert) {
+  test('it has correct defaults', function(assert) {
     assert.expect(6);
 
     assert.equal(subject.settings._storageType, 'local');
@@ -76,7 +76,7 @@ module('object - settings', function (hooks) {
     assert.deepEqual(subject.cache._initialContent, {});
   });
 
-  test('it saves changes to sessionStorage', function (assert) {
+  test('it saves changes to sessionStorage', function(assert) {
     assert.expect(3);
 
     assert.ok(window.sessionStorage);
@@ -91,7 +91,7 @@ module('object - settings', function (hooks) {
     });
   });
 
-  test('it saves changes to localStorage', function (assert) {
+  test('it saves changes to localStorage', function(assert) {
     assert.expect(3);
 
     assert.ok(window.localStorage);
@@ -106,7 +106,7 @@ module('object - settings', function (hooks) {
     });
   });
 
-  test('it does not share data', function (assert) {
+  test('it does not share data', function(assert) {
     assert.expect(10);
 
     assert.equal(subject.cache._storageType, 'session');
@@ -134,7 +134,7 @@ module('object - settings', function (hooks) {
     assert.deepEqual(subject.cache.key1, '123456');
   });
 
-  test('it updates when change events fire', function (assert) {
+  test('it updates when change events fire', function(assert) {
     assert.expect(3);
 
     // setup testing
@@ -153,7 +153,7 @@ module('object - settings', function (hooks) {
     assert.true(subject.settings.changeFired);
   });
 
-  test('nested values get persisted', function (assert) {
+  test('nested values get persisted', function(assert) {
     assert.expect(4);
 
     storageDeepEqual(assert, window.localStorage['storage:nested-objects'], undefined);
@@ -184,7 +184,7 @@ module('object - settings', function (hooks) {
     });
   });
 
-  test('reset method restores initialContent', function (assert) {
+  test('reset method restores initialContent', function(assert) {
     assert.expect(5);
 
     //initialContent is set properly
@@ -212,7 +212,7 @@ module('object - settings', function (hooks) {
     assert.strictEqual(subject.settings.newProp, undefined);
   });
 
-  test('it updates _isInitialContent', function (assert) {
+  test('it updates _isInitialContent', function(assert) {
     assert.expect(2);
 
     assert.true(subject.settings.isInitialContent());
@@ -224,7 +224,7 @@ module('object - settings', function (hooks) {
     assert.false(subject.settings.isInitialContent());
   });
 
-  test('it updates _isInitialContent on reset', function (assert) {
+  test('it updates _isInitialContent on reset', function(assert) {
     assert.expect(2);
 
     run(function () {
@@ -240,7 +240,7 @@ module('object - settings', function (hooks) {
     assert.true(subject.settings.isInitialContent());
   });
 
-  test('clear method removes the content from localStorage', function (assert) {
+  test('clear method removes the content from localStorage', function(assert) {
     assert.expect(2);
 
     run(function () {
@@ -258,7 +258,7 @@ module('object - settings', function (hooks) {
     assert.equal(window.localStorage['storage:settings'], undefined);
   });
 
-  test('after .clear() the object works as expected', function (assert) {
+  test('after .clear() the object works as expected', function(assert) {
     assert.expect(4);
 
     run(function () {

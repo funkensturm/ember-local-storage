@@ -6,21 +6,21 @@ export default class extends Model {
 
   @belongsTo('project', {
     async: true,
-    autoSave: true,
+    autoSave: true
   })
   project;
 
   @belongsTo('task', {
     async: true,
     autoSave: true,
-    inverse: 'children',
+    inverse: 'children'
   })
   parent;
 
   @hasMany('task', {
     async: true,
     dependent: 'destroy',
-    inverse: 'parent',
+    inverse: 'parent'
   })
   children;
 }

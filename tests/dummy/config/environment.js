@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (environment) {
+module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'dummy',
     environment,
@@ -13,8 +13,8 @@ module.exports = function (environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false,
-      },
+        Date: false
+      }
     },
 
     APP: {
@@ -25,7 +25,7 @@ module.exports = function (environment) {
     'ember-local-storage': {
       fileExport: true,
       // ignoreBlobWarning: true,
-    },
+    }
   };
 
   if (environment === 'development') {
@@ -50,7 +50,7 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.rootURL = '/ember-local-storage';
+    ENV.rootURL = '/ember-local-storage'
     ENV.locationType = 'hash';
   }
 

@@ -12,7 +12,7 @@ function tryStorage(name) {
 
   // safari private mode exposes xStorage but fails on setItem
   try {
-    nativeStorage = name === 'local' ? localStorage : sessionStorage;
+    nativeStorage = (name === 'local') ? localStorage : sessionStorage;
     nativeStorage.setItem('emberlocalstorage.test', 'ok');
     nativeStorage.removeItem('emberlocalstorage.test');
   } catch (e) {
@@ -113,7 +113,7 @@ function createStorage(context, key, modelKey, options) {
 
   const StorageFactoryClass = StorageFactory.class;
 
-  if (typeof StorageFactoryClass.initialState === 'function') {
+  if (typeof(StorageFactoryClass.initialState) === 'function') {
     defaultState._initialContent = StorageFactoryClass.initialState.call(
       StorageFactoryClass,
       context

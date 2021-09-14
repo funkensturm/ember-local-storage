@@ -8,7 +8,7 @@ import { storageFor, _resetStorages } from 'ember-local-storage/helpers/storage'
 
 let subject;
 
-module('storageFor - DI', function (hooks) {
+module('storageFor - DI', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
@@ -47,7 +47,7 @@ module('storageFor - DI', function (hooks) {
     _resetStorages();
   });
 
-  test('DI is working in a storage', function (assert) {
+  test('DI is working in a storage', function(assert) {
     assert.expect(1);
 
     assert.equal(subject.get('settings.backend.name'), 'Backend Name');

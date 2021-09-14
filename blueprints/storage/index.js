@@ -23,10 +23,10 @@ module.exports = {
         { 's': 'session'},
         { 'session': 'session'}
       ]
-    },
+    }
   ],
 
-  locals: function (options) {
+  locals: function(options) {
     var storage         = options.storage;
     var type            = options.type;
     var path            = [storage, type].join('/');
@@ -43,7 +43,7 @@ module.exports = {
     return {
       importStatement: importStatement,
       baseClass: baseClass,
-      initialState: initialState,
+      initialState: initialState
     };
-  },
+  }
 };

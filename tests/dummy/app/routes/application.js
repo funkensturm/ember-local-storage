@@ -11,7 +11,7 @@ export default class extends Route {
     // setup a user
     if (!this.settings.get('userId')) {
       this.store
-        .createRecord('user', { name: 'Me' })
+        .createRecord('user', {name: 'Me'})
         .save()
         .then((user) => {
           this.set('settings.userId', user.get('id'));

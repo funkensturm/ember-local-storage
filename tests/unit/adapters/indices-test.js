@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { storageEqual, storageDeepEqual, registerConfigEnvironment, setConfigEnvironment } from '../../helpers/storage';
 
-module('Unit | Adapter | indices', function (hooks) {
+module('Unit | Adapter | indices', function(hooks) {
   setupTest(hooks);
 
   // Specify the other units that are required for this test.
@@ -14,7 +14,7 @@ module('Unit | Adapter | indices', function (hooks) {
     window.sessionStorage.clear();
   });
 
-  test('it persists the index', function (assert) {
+  test('it persists the index', function(assert) {
     assert.expect(2);
     var adapter = this.owner.lookup('adapter:application');
 
@@ -24,7 +24,7 @@ module('Unit | Adapter | indices', function (hooks) {
     storageDeepEqual(assert, window.localStorage['index-projects'], ['1234']);
   });
 
-  test('it does not persists duplicates to index', function (assert) {
+  test('it does not persists duplicates to index', function(assert) {
     assert.expect(2);
     var adapter = this.owner.lookup('adapter:application');
 
@@ -35,7 +35,7 @@ module('Unit | Adapter | indices', function (hooks) {
     storageDeepEqual(assert, window.localStorage['index-projects'], ['1234']);
   });
 
-  test('it removes ids from index (namespace not set)', function (assert) {
+  test('it removes ids from index (namespace not set)', function(assert) {
     assert.expect(3);
     var adapter = this.owner.lookup('adapter:application');
 
@@ -48,7 +48,7 @@ module('Unit | Adapter | indices', function (hooks) {
     storageDeepEqual(assert, window.localStorage['index-projects'], []);
   });
 
-  test('it removes ids from index (namespace: true)', function (assert) {
+  test('it removes ids from index (namespace: true)', function(assert) {
     assert.expect(3);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -58,13 +58,17 @@ module('Unit | Adapter | indices', function (hooks) {
     storageEqual(assert, window.localStorage['index-projects'], undefined);
 
     adapter._addToIndex('projects', '1234');
-    storageDeepEqual(assert, window.localStorage['my-app:index-projects'], ['1234']);
+    storageDeepEqual(
+      assert,
+      window.localStorage['my-app:index-projects'],
+      ['1234']
+    );
 
     adapter._removeFromIndex('projects', '1234');
     storageDeepEqual(assert, window.localStorage['my-app:index-projects'], []);
   });
 
-  test('it removes ids from index (namespace: "custom")', function (assert) {
+  test('it removes ids from index (namespace: "custom")', function(assert) {
     assert.expect(3);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -80,7 +84,7 @@ module('Unit | Adapter | indices', function (hooks) {
     storageDeepEqual(assert, window.localStorage['custom:index-projects'], []);
   });
 
-  test('it removes ids from index (keyDelimiter: "/")', function (assert) {
+  test('it removes ids from index (keyDelimiter: "/")', function(assert) {
     assert.expect(3);
 
     setConfigEnvironment(this, 'namespace', true);
