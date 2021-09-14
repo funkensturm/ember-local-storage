@@ -7,9 +7,8 @@ export default Component.extend({
   lang: 'js',
 
   didInsertElement() {
-    this._super(...arguments);
     this.$('code').text(this.$('code').text().trim());
-    hljs.configure({tabReplace: ' '});
+    hljs.configure({tabReplace: '  '});
     highlightBlock(this.$('code')[0]);
   }
 });

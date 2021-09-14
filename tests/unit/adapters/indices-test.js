@@ -7,7 +7,7 @@ module('Unit | Adapter | indices', function(hooks) {
 
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     registerConfigEnvironment(this);
 
     window.localStorage.clear();

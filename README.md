@@ -417,7 +417,7 @@ export default class IndexRoute extends Route {
   @action exportData() {
     this.store.exportData(
       ['posts', 'comments'],
-      { download: true, filename: 'my-data.json' }
+      {download: true, filename: 'my-data.json'}
     );
   }
 }

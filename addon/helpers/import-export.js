@@ -13,8 +13,7 @@ export function importData(store, content, options) {
     truncate: true
   }, options || {});
 
-  let truncateTypes = A(),
-    reloadTypes = A();
+  let truncateTypes = A(), reloadTypes = A();
 
   content = options.json ? JSON.parse(content) : content;
 
@@ -45,16 +44,17 @@ export function importData(store, content, options) {
     reloadTypes.addObject(singularize(record.type));
 
     return adapter._handleStorageRequest(null, 'POST', {
-      data: { data: record },
+      data: {data: record},
     });
   });
 
-  return all(promises).then(function () {
-    // reload from store
-    reloadTypes.forEach(function (type) {
-      store.findAll(type);
+  return all(promises)
+    .then(function() {
+      // reload from store
+      reloadTypes.forEach(function(type) {
+        store.findAll(type);
+      });
     });
-  });
 }
 
 export function exportData(store, types, options) {

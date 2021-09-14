@@ -9,7 +9,7 @@ import SessionStorageAdapter from 'ember-local-storage/adapters/session';
 module('Unit | Adapter | import/export', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     initialize();
     window.localStorage.clear();
     window.sessionStorage.clear();
@@ -21,20 +21,19 @@ module('Unit | Adapter | import/export', function(hooks) {
 
     return run(function() {
       return store.importData(testData.importFileContent);
-    })
-      .then(function () {
-        const posts = store.findAll('post');
-        const comments = store.findAll('comment');
+    }).then(function() {
+      const posts = store.findAll('post');
+      const comments = store.findAll('comment');
 
-        return hash({
-          posts: posts,
-          comments: comments,
-        });
-      })
-      .then(function (data) {
-        assert.equal(data.posts.length, 2);
-        assert.equal(data.comments.length, 3);
+      return hash({
+        posts: posts,
+        comments: comments
       });
+    })
+    .then(function (data) {
+      assert.equal(data.posts.length, 2);
+      assert.equal(data.comments.length, 3);
+    });
   });
 
   test('import with records loaded', function(assert) {
@@ -51,7 +50,7 @@ module('Unit | Adapter | import/export', function(hooks) {
     }).then(function() {
       return hash({
         posts: store.findAll('post'),
-        comments: store.findAll('comment'),
+        comments:  store.findAll('comment')
       });
     }).then(function(data) {
       assert.equal(data.posts.length, 2);
@@ -67,22 +66,20 @@ module('Unit | Adapter | import/export', function(hooks) {
 
     return run(function() {
       return store.importData(testData.importFileContent);
-    })
-      .then(function () {
-        const posts = store.findAll('post');
-        const comments = store.findAll('comment');
+    }).then(function() {
+      const posts = store.findAll('post');
+      const comments = store.findAll('comment');
 
-        return hash({
-          posts: posts,
-          comments: comments,
-        });
-      })
-      .then(function (data) {
-        assert.equal(data.posts.length, 2);
-        assert.equal(data.comments.length, 3);
-        assert.equal(JSON.parse(window.localStorage['index-comments']).length, 3);
-        assert.equal(JSON.parse(window.sessionStorage['index-posts']).length, 2);
+      return hash({
+        posts: posts,
+        comments: comments,
       });
+    }).then(function (data) {
+      assert.equal(data.posts.length, 2);
+      assert.equal(data.comments.length, 3);
+      assert.equal(JSON.parse(window.localStorage['index-comments']).length, 3);
+      assert.equal(JSON.parse(window.sessionStorage['index-posts']).length, 2);
+    });
   });
 
   test('export', function(assert) {
@@ -91,22 +88,19 @@ module('Unit | Adapter | import/export', function(hooks) {
 
     return run(function() {
       return store.importData(testData.importFileContent);
-    })
-      .then(function () {
-        const posts = store.findAll('post');
-        const comments = store.findAll('comment');
+    }).then(function() {
+      const posts = store.findAll('post');
+      const comments = store.findAll('comment');
 
-        return hash({
-          posts: posts,
-          comments: comments,
-        });
-      })
-      .then(function () {
-        return store.exportData(['posts', 'comments'], { json: false });
-      })
-      .then(function (data) {
-        assert.equal(data.data.length, 5);
+      return hash({
+        posts: posts,
+        comments: comments,
       });
+    }).then(function () {
+      return store.exportData(['posts', 'comments'], { json: false });
+    }).then(function (data) {
+      assert.equal(data.data.length, 5);
+    });
   });
 
   test('export from multiple adapter types', function(assert) {
@@ -116,21 +110,20 @@ module('Unit | Adapter | import/export', function(hooks) {
 
     return run(function() {
       return store.importData(testData.importFileContent);
-    })
-      .then(function () {
-        const posts = store.findAll('post');
-        const comments = store.findAll('comment');
+    }).then(function() {
+      const posts = store.findAll('post');
+      const comments = store.findAll('comment');
 
-        return hash({
-          posts: posts,
-          comments: comments,
-        });
-      })
-      .then(function () {
-        return store.exportData(['posts', 'comments'], { json: false });
-      })
-      .then(function (data) {
-        assert.equal(data.data.length, 5);
+      return hash({
+        posts: posts,
+        comments: comments,
       });
+    })
+    .then(function () {
+      return store.exportData(['posts', 'comments'], { json: false });
+    })
+    .then(function (data) {
+      assert.equal(data.data.length, 5);
+    });
   });
 });

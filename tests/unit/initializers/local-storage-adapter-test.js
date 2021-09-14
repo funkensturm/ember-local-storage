@@ -7,7 +7,7 @@ let store;
 module('Unit | Initializer | local storage adapter', function(hooks) {
   setupApplicationTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
   });
 

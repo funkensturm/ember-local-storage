@@ -11,7 +11,7 @@ let subject;
 module('storageFor', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     registerConfigEnvironment(this);
 
     let mockStorage = StorageObject.extend();

@@ -13,7 +13,7 @@ let subject;
 module('object - settings', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     let mockStorage = StorageObject.extend();
     let mockStorageB = StorageObject.extend();
     let mockStorageC = SessionStorageObject.extend();

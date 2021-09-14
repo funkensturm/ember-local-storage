@@ -7,7 +7,7 @@ import { registerConfigEnvironment, setConfigEnvironment } from '../../helpers/s
 module('Unit | Model | post', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     registerConfigEnvironment(this);
 
     window.localStorage.clear();

@@ -5,7 +5,7 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Model | blog/post', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     window.localStorage.clear();
     window.sessionStorage.clear();
   });

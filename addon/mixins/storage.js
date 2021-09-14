@@ -134,5 +134,5 @@ export default Mixin.create({
   clear() {
     this._clear();
     delete this._storage()[this._storageKey];
-  },
+  }
 });

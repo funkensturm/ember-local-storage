@@ -11,7 +11,7 @@ let subject;
 module('legacy - config', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     // old serialized content
     window.localStorage.settings = JSON.stringify({
       mapStyle: 'dark',

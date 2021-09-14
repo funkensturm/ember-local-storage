@@ -11,7 +11,7 @@ let subject;
 module('storageFor - DI', function(hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     this.owner.register(
       'service:backend',
       Service.extend({
