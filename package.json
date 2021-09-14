@@ -45,7 +45,7 @@
     "ember-cli-htmlbars": "^5.7.1",
     "ember-cli-string-utils": "^1.1.0",
     "ember-cli-version-checker": "^2.1.0",
-    "ember-copy": "^1.0.0"
+    "ember-copy": "^2.0.1"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -71,7 +71,6 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-one-way-controls": "^3.1.0",
     "ember-page-title": "^6.2.2",
     "ember-qunit": "^5.1.4",
     "ember-resolver": "^8.0.2",

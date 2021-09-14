@@ -4,7 +4,7 @@
 <br>
 
 <strong>Name:</strong>
-<OneWayInput @value={{this.name}} @update={{fn (mut this.name)}} @onenter={{this.createTask}} />
+<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} {{on "enter" this.createTask}}>
 <a {{on "click" (fn this.createTask this.name)}} href="#" role="button">Create task</a>
 
 <br>

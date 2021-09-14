@@ -6,6 +6,6 @@ export default class extends Controller {
   @storageFor('settings') settings;
 
   @action toggleWelcomeMessage() {
-    this.settings.welcomeMessageSeen = !this.settings.welcomeMessageSeen;
+    this.settings.set('welcomeMessageSeen', !this.settings.get('welcomeMessageSeen'));
   }
 }
