@@ -22,9 +22,9 @@ The documentation is for versions `>= 1.0.0` if you are looking for older versio
 
 If you upgrade from a version `<= 0.1.5` you need to set a `legacyKey` on the computed `storageFor`:
 ```javascript
-export default Ember.Component.extend({
-  settings: storageFor('settings', { legacyKey: 'your-old-key' })
-});
+export default class MyComponent extends Component {
+  @storageFor('settings', { legacyKey: 'your-old-key' }) settings;
+}
 ```
 
 See the [CHANGELOG](CHANGELOG.md)
@@ -57,13 +57,14 @@ To activate it there are the following options:
 
 ```js
 // config/environment.js
-module.exports = function() {
-  var ENV = {
+
+module.exports = function (environment) {
+  let ENV = {
     modulePrefix: 'my-app',
     'ember-local-storage': {
       namespace: true, // will use the modulePrefix e.g. 'my-app'
       namespace: 'customNamespace', // will use 'customNamespace'
-      keyDelimiter: '/' // will use / as a delimiter - the default is :
+      keyDelimiter: '/', // will use / as a delimiter - the default is :
     }
   }
 };
@@ -75,12 +76,13 @@ This addon autodetects if you use ember-data and will include the support for em
 
 ```js
 // config/environment.js
-module.exports = function() {
-  var ENV = {
+
+module.exports = function (environment) {
+  let ENV = {
     modulePrefix: 'my-app',
     'ember-local-storage': {
-      includeEmberDataSupport: false
-    }
+      includeEmberDataSupport: false,
+    },
   }
 };
 ```
@@ -126,30 +128,32 @@ export default Storage;
 
 ```javascript
 // app/controllers/application.js
-import Ember from 'ember';
+
+import Controller from '@ember/controller';
 import { storageFor } from 'ember-local-storage';
+import { action } from '@ember/object';
 
-export default Ember.Controller.extend({
-  stats: storageFor('stats'),
+export default class ApplicationController extends Controller {
+  @storageFor('stats') stats;
 
-  actions: {
-    countUp() {
-      this.incrementProperty('stats.counter');
-    },
-    resetCounter() {
-      this.get('stats').clear();
-      // or
-      // this.get('stats').reset();
-      // this.set('stats.counter', 0);
-    }
+  @action acountUp() {
+    this.incrementProperty('stats.counter');
   }
-});
+
+  @action resetCounter() {
+    this.get('stats').clear();
+    // or
+    // this.get('stats').reset();
+    // this.set('stats.counter', 0);
+  }
+}
 ```
 
 ```handlebars
-{{! app/templates/application.hbs}}
-<button {{action "countUp"}}>Page Visits: {{stats.counter}}</button>
-<button {{action "resetCounter"}}>X</button>
+{{! app/templates/application.hbs }}
+
+<button {{on "click" this.countUp}}>Page Visits: {{this.stats.counter}}</button>
+<button {{on "click" this.resetCounter}}>X</button>
 ```
 
 #### Array
@@ -166,6 +170,7 @@ ember g storage anonymous-likes -a -s
 
 ```javascript
 // app/storages/anonymous-likes.js
+
 import StorageArray from 'ember-local-storage/local/array';
 
 const Storage = StorageArray.extend();
@@ -182,28 +187,29 @@ export default Storage;
 
 ```javascript
 // app/components/like-item.js
-import Ember from 'ember';
+
+import Component from '@glimmer/component';
 import { storageFor } from 'ember-local-storage';
+import { action } from '@ember/object';
 
-export default Ember.Component.extend({
-  anonymousLikes: storageFor('anonymous-likes'),
+export default class LikeItemComponent extends Component {
+  @storageFor('anonymous-likes') anonymousLikes;
 
-  isLiked: computed('id', function() {
+  get isLiked() {
     return this.get('anonymousLikes').includes(this.get('id'));
-  }),
-
-  actions: {
-    like: function(id) {
-      this.get('anonymousLikes').addObject(id);
-    }
   }
-});
+
+  @action like(id) {
+    this.get('anonymousLikes').addObject(id);
+  }
+}
 ```
 
 ```handlebars
-{{! app/templates/components/like-item.hbs}}
-{{#unless isLiked}}
-  <button {{action "like" id}}>Like it</button>
+{{! app/components/like-item.hbs}}
+
+{{#unless this.isLiked}}
+  <button type="button" {{on "click" (fn this.like id)}}>Like it</button>
 {{else}}
   You like it!
 {{/unless}}
@@ -268,12 +274,13 @@ If you use namespaced models e.g. `blog/post` you have to add the `modelNamespac
 
 ```js
 // app/adapters/blog/post.js
+
 import Adapter from 'ember-local-storage/adapters/local';
 // or import Adapter from 'ember-local-storage/adapters/session';
 
-export default Adapter.extend({
-  modelNamespace: 'blog'
-});
+export default class BlogPostAdapter extends Adapter {
+  modelNamespace = 'blog';
+}
 ```
 
 #### Model
@@ -282,34 +289,26 @@ Your model is a `DS.Model` with two new relationship options
 
 ```javascript
 // app/models/post.js
-import DS from 'ember-data';
 
-const {
-  Model,
-  attr,
-  hasMany
-} = DS;
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
+export default class PostModel extends Model {
+  @attr('string') name;
 
-  comments: hasMany('comment', { async: true, dependent: 'destroy' })
-});
+  @hasMany('comment', { async: true, dependent: 'destroy' }) comments;
+}
+```
 
+```javascript
 // app/models/comment.js
-import DS from 'ember-data';
 
-const {
-  Model,
-  attr,
-  belongsTo
-} = DS;
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
+export default class CommentModel extends Model {
+  @attr('string') name;
 
-  post: belongsTo('post', { async: true, autoSave: true })
-});
+  @belongsTo('post', { async: true, autoSave: true }) post;
+}
 ```
 
 **Options**
@@ -376,8 +375,9 @@ You have to add `fileExport` option to the `environment.js`:
 
 ```javascript
 // config/environment.js
-module.exports = function() {
-  var ENV = {
+
+module.exports = function (environment) {
+  let ENV = {
     'ember-local-storage': {
       fileExport: true
     }
@@ -388,44 +388,39 @@ module.exports = function() {
 The initializer provides `exportData()` and `importData()` on the store. Both return a Promise.
 
 ```javascript
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
-const {
-  Route
-} = Ember;
-
-export default Route.extend({
-  readFile: function(file) {
+export default class IndexRoute extends Route {
+  readFile(file) {
     const reader = new FileReader();
 
-    return new Ember.RSVP.Promise((resolve) => {
-      reader.onload = function(event) {
+    return new Promise((resolve) => {
+      reader.onload = function (event) {
         resolve({
           file: file.name,
           type: file.type,
           data: event.target.result,
-          size: file.size
+          size: file.size,
         });
       };
 
       reader.readAsText(file);
     });
-  },
-  actions: {
-    importData: function(event) {
-      this.readFile(event.target.files[0])
-        .then((file) => {
-          this.store.importData(file.data);
-        });
-    },
-    exportData: function() {
-      this.store.exportData(
-        ['posts', 'comments'],
-        {download: true, filename: 'my-data.json'}
-      );
-    }
   }
-});
+
+  @action async importData(event) {
+    const file = await this.readFile(event.target.files[0])
+    this.store.importData(file.data);
+  }
+
+  @action exportData() {
+    this.store.exportData(
+      ['posts', 'comments'],
+      { download: true, filename: 'my-data.json' }
+    );
+  }
+}
 ```
 
 **importData(content, options)**

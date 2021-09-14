@@ -1,7 +1,7 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
+export default class PetModel extends Model {
+  @attr('string') name;
 
-  users: hasMany('user', { async: true }),
-});
+  @hasMany('user', { async: true }) users;
+}

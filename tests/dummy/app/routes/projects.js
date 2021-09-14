@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-  model: function () {
+export default class ProjectsRoute extends Route {
+  model() {
     return this.store.findAll('project');
-  },
-});
+  }
+}

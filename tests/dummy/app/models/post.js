@@ -1,10 +1,10 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
-  commentCount: attr('number'),
-  isPrivate: attr('boolean', { defaultValue: true }),
+export default class PostModel extends Model {
+  @attr('string') name;
+  @attr('number') commentCount;
+  @attr('boolean', { defaultValue: true }) isPrivate;
 
-  user: belongsTo('user', { async: true, autoSave: true }),
-  comments: hasMany('comment', { async: true, dependent: 'destroy' }),
-});
+  @belongsTo('user', { async: true, autoSave: true }) user;
+  @hasMany('comment', { async: true, dependent: 'destroy' }) comments;
+}
