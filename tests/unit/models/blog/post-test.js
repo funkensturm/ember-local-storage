@@ -136,13 +136,14 @@ module('Unit | Model | blog/post', function(hooks) {
     });
 
     store.findAll('blog/post')
-      .then(function (posts) {
+      .then(function(posts) {
         assert.equal(posts.length, 3);
       });
 
-    store.queryRecord('blog/post', { filter: { name: 'Super Name' } }).then(function (post) {
-      assert.equal(post.name, 'Super Name');
-      done();
-    });
+    store.queryRecord('blog/post', { filter: { name: 'Super Name' } })
+      .then(function(post) {
+        assert.equal(post.name, 'Super Name');
+        done();
+      });
   });
 });

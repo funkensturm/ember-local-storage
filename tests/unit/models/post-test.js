@@ -189,8 +189,7 @@ module('Unit | Model | post', function(hooks) {
         }
 
         done();
-      })
-      .catch(function(error) {
+      }).catch(function(error) {
         assert.ok(false, 'queryRecord on empty store throws error: ' + error.message);
         done();
       });
