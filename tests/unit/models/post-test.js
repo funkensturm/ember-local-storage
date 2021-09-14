@@ -138,7 +138,7 @@ module('Unit | Model | post', function(hooks) {
 
     run(function() {
       paul = store.createRecord('user', {
-        name: 'Paul',
+        name: 'Paul'
       });
       paul.save();
     });
@@ -146,17 +146,17 @@ module('Unit | Model | post', function(hooks) {
     run(function() {
       store.createRecord('post', {
         name: 'Super Name',
-        user: paul,
+        user: paul
       }).save();
 
       store.createRecord('post', {
         name: 'Just a Name',
-        user: paul,
+        user: paul
       }).save();
 
       store.createRecord('post', {
         name: 'Just a Name',
-        user: paul,
+        user: paul
       }).save();
     });
 
@@ -208,7 +208,7 @@ module('Unit | Model | post', function(hooks) {
     });
 
     store.findAll('post')
-      .then(function (posts) {
+      .then(function(posts) {
         assert.equal(posts.length, 1);
         done();
       });

@@ -263,7 +263,7 @@ module('Unit | Model | queryRecord', function(hooks) {
     store.queryRecord('user', {
         filter: { bookPublications: bookPublication.id },
       })
-      .then(function (user) {
+      .then(function(user) {
         assert.equal(user.name, 'Peter');
         done();
       });
