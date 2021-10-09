@@ -3,7 +3,10 @@ import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../local/array';
 
 export default class LocalAdapter extends BaseAdapter {
-  @getStorage('local') _storage;
+  constructor() {
+    super(...arguments);
+    this._storage = getStorage('local');
+  }
 
   _getIndex(type) {
     const indices = this._indices;
