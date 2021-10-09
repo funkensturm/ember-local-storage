@@ -8,58 +8,9 @@ on:
   pull_request: {}
 
 jobs:
-  # test:
-  #   name: "Tests"
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Install Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 12.x
-  #         cache: yarn
-  #     - name: Install Dependencies
-  #       run: yarn install --frozen-lockfile
-  #     - name: Lint - Templates
-  #       run: yarn lint:hbs
-  #     - name: Lint - JS
-  #       run: yarn lint:js
-  #     - name: Run Tests
-  #       run: yarn test
-  #
-  # floating:
-  #   name: "Floating Dependencies"
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 12.x
-  #         cache: yarn
-  #     - name: Install Dependencies
-  #       run: yarn install --no-lockfile
-  #     - name: Run Tests
-  #       run: yarn test
-
-  try-scenarios:
-    name: ${{ matrix.try-scenario }}
+  test:
+    name: "Tests"
     runs-on: ubuntu-latest
-    # needs: 'test'
-
-    strategy:
-      fail-fast: true
-      matrix:
-        try-scenario:
-          # - ember-lts-2.18
-          - ember-lts-3.12
-          # - ember-lts-3.20
-          # - ember-lts-3.24
-          # - ember-release
-          # - ember-beta
-          # - ember-canary
-          # - ember-default-with-jquery
 
     steps:
       - uses: actions/checkout@v2
@@ -70,5 +21,52 @@ jobs:
           cache: yarn
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
       - name: Run Tests
-        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+        run: yarn test:ember
+
+  floating:
+    name: "Floating Dependencies"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --no-lockfile
+      - name: Run Tests
+        run: yarn test:ember
+
+  # try-scenarios:
+  #   name: ${{ matrix.try-scenario }}
+  #   runs-on: ubuntu-latest
+  #   # needs: 'test'
+  #
+  #   strategy:
+  #     fail-fast: true
+  #     matrix:
+  #       try-scenario:
+  #         # - ember-lts-2.18
+  #         # - ember-lts-3.12
+  #         # - ember-lts-3.20
+  #         # - ember-lts-3.24
+  #         # - ember-release
+  #         # - ember-beta
+  #         # - ember-canary
+  #         # - ember-default-with-jquery
+  #
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Install Node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 12.x
+  #         cache: yarn
+  #     - name: Install Dependencies
+  #       run: yarn install --frozen-lockfile
+  #     - name: Run Tests
+  #       run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
