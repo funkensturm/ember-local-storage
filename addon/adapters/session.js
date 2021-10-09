@@ -3,7 +3,10 @@ import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../session/array';
 
 export default class SessionAdapter extends BaseAdapter {
-  @getStorage('session') _storage;
+  constructor() {
+    super(...arguments);
+    this._storage = getStorage('session');
+  }
 
   _getIndex(type) {
     const indices = this._indices;

@@ -242,7 +242,7 @@ module('Unit | Model | query', function(hooks) {
       });
 
     // get users with cat '123'
-    store.query('user', { filter: { pets: { id: get(cat, 'id'), type: 'cat' } } })
+    store.query('user', { filter: { pets: { id: cat.id, type: 'cat' } } })
       .then(function(users) {
         assert.equal(users.length, 2);
       });

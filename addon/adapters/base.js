@@ -50,7 +50,7 @@ export default class BaseAdapter extends JSONAPIAdapter.extend(ImportExportMixin
       }
     });
 
-    return this._super.apply(this, arguments);
+    return super.createRecord.apply(this, arguments);
   }
 
   deleteRecord(store, type, snapshot) {
@@ -79,12 +79,12 @@ export default class BaseAdapter extends JSONAPIAdapter.extend(ImportExportMixin
       }
     });
 
-    return this._super.apply(this, arguments);
+    return super.deleteRecord.apply(this, arguments);
   }
 
   // Polyfill queryRecord
   queryRecord(store, type, query) {
-    let records = this._super.apply(this, arguments);
+    let records = super.queryRecord.apply(this, arguments);
 
     if (!records) {
       var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
