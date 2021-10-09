@@ -7,11 +7,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 <br>
 
 <strong>Name:</strong>
-{{one-way-input
-  value=name
-  update=(action (mut name))
-  onenter=(action "createProject")
-}}
+<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} {{on "enter" (action "createProject")}}>
 <a {{action "createProject" name}} role="button">Create project</a>
 
 <br>

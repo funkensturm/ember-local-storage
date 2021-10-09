@@ -4,11 +4,7 @@
 <br>
 
 <strong>Name:</strong>
-{{one-way-input
-  value=name
-  update=(action (mut name))
-  onenter=(action "createTask")
-}}
+<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} {{on "enter" (action "createTask")}}>
 <a {{action "createTask" name}} role="button">Create task</a>
 
 <br>
@@ -28,4 +24,3 @@
     {{outlet}}
   </div>
 </div>
-
