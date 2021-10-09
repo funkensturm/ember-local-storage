@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -18,7 +17,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     let posts = store.findAll('blog/post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.equal(posts.length, 0);
 
     run(function() {
       store.createRecord('blog/post', { name: 'Super Name' }).save();
@@ -28,7 +27,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     store.findAll('blog/post')
       .then(function(posts) {
-        assert.equal(get(posts, 'length'), 3);
+        assert.equal(posts.length, 3);
         done();
       });
   });
@@ -40,7 +39,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     let posts = store.findAll('blog/post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.equal(posts.length, 0);
 
     run(function() {
       store.push({data: [
@@ -59,7 +58,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     store.findAll('blog/post')
       .then(function(posts) {
-        assert.equal(get(posts, 'length'), 2);
+        assert.equal(posts.length, 2);
         done();
       });
   });
@@ -80,10 +79,10 @@ module('Unit | Model | blog/post', function(hooks) {
     });
 
     run(function() {
-      store.find('blog/post', get(newPost, 'id'))
+      store.find('blog/post', newPost.id)
         .then(function(post) {
-          assert.equal(get(post, 'id'), get(newPost, 'id'));
-          assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+          assert.equal(post.id, newPost.id);
+          assert.equal(post.name, 'Ember.js: 10 most common mistakes');
           done();
         });
     });
@@ -95,8 +94,7 @@ module('Unit | Model | blog/post', function(hooks) {
     const store = this.owner.lookup('service:store');
     let posts = store.findAll('blog/post');
 
-    assert.equal(get(posts, 'length'), 0);
-
+    assert.equal(posts.length, 0);
 
     run(function() {
       store.createRecord('blog/post', {
@@ -110,7 +108,7 @@ module('Unit | Model | blog/post', function(hooks) {
 
     store.findAll('blog/post')
       .then(function(posts) {
-        assert.equal(get(posts, 'length'), 2);
+        assert.equal(posts.length, 2);
         done();
       });
   });
@@ -121,7 +119,7 @@ module('Unit | Model | blog/post', function(hooks) {
     const store = this.owner.lookup('service:store');
     let posts = store.findAll('blog/post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.equal(posts.length, 0);
 
     run(function() {
       store.createRecord('blog/post', {
@@ -139,12 +137,12 @@ module('Unit | Model | blog/post', function(hooks) {
 
     store.findAll('blog/post')
       .then(function(posts) {
-        assert.equal(get(posts, 'length'), 3);
+        assert.equal(posts.length, 3);
       });
 
     store.queryRecord('blog/post', { filter: { name: 'Super Name' } })
       .then(function(post) {
-        assert.equal(get(post, 'name'), 'Super Name');
+        assert.equal(post.name, 'Super Name');
         done();
       });
   });

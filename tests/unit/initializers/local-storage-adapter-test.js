@@ -18,12 +18,12 @@ module('Unit | Initializer | local storage adapter', function(hooks) {
   test('it adds importData to DS.Store', function(assert) {
     initialize();
 
-    assert.ok(typeof store.importData === 'function');
+    assert.strictEqual(typeof store.importData, 'function');
   });
 
   test('it adds exportData to DS.Store', function(assert) {
     initialize();
 
-    assert.ok(typeof store.exportData === 'function');
+    assert.strictEqual(typeof store.exportData, 'function');
   });
 });

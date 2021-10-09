@@ -1,13 +1,7 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-const {
-  Model,
-  attr,
-  hasMany
-} = DS;
+export default class PetModel extends Model {
+  @attr('string') name;
 
-export default Model.extend({
-  name: attr('string'),
-
-  users: hasMany('user', { async: true })
-});
+  @hasMany('user', { async: true }) users;
+}

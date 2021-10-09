@@ -1,16 +1,10 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-const {
-  Model,
-  attr,
-  hasMany
-} = DS;
+export default class UserModel extends Model {
+  @attr('string') name;
 
-export default Model.extend({
-  name: attr('string'),
-
-  bookPublications: hasMany('book-publications', { async: true }),
-  projects: hasMany('project', { async: true }),
-  posts: hasMany('post', { async: true, dependent: 'destroy' }),
-  pets: hasMany('pet', { async: true, polymorphic: true, dependent: 'destroy' })
-});
+  @hasMany('book-publications', { async: true }) bookPublications;
+  @hasMany('project', { async: true }) projects;
+  @hasMany('post', { async: true, dependent: 'destroy' }) posts;
+  @hasMany('pet', { async: true, polymorphic: true, dependent: 'destroy' }) pets;
+}

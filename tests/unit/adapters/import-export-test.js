@@ -1,5 +1,4 @@
 import { hash } from 'rsvp';
-import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -31,8 +30,8 @@ module('Unit | Adapter | import/export', function(hooks) {
         comments: comments
       });
     }).then(function(data) {
-      assert.equal(get(data.posts, 'length'), 2);
-      assert.equal(get(data.comments, 'length'), 3);
+      assert.equal(data.posts.length, 2);
+      assert.equal(data.comments.length, 3);
     });
   });
 
@@ -53,8 +52,8 @@ module('Unit | Adapter | import/export', function(hooks) {
         comments:  store.findAll('comment')
       });
     }).then(function(data) {
-      assert.equal(get(data.posts, 'length'), 2);
-      assert.equal(get(data.comments, 'length'), 3);
+      assert.equal(data.posts.length, 2);
+      assert.equal(data.comments.length, 3);
     });
   });
 
@@ -75,8 +74,8 @@ module('Unit | Adapter | import/export', function(hooks) {
         comments: comments
       });
     }).then(function(data) {
-      assert.equal(get(data.posts, 'length'), 2);
-      assert.equal(get(data.comments, 'length'), 3);
+      assert.equal(data.posts.length, 2);
+      assert.equal(data.comments.length, 3);
       assert.equal(JSON.parse(window.localStorage['index-comments']).length, 3);
       assert.equal(JSON.parse(window.sessionStorage['index-posts']).length, 2);
     });

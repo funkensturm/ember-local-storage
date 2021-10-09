@@ -1,6 +1,5 @@
 import { all, Promise } from 'rsvp';
 import { assign, merge } from '@ember/polyfills';
-import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 import { A } from '@ember/array';
@@ -28,7 +27,7 @@ export function importData(store, content, options) {
       const adapter = store.adapterFor(singularType);
 
       adapter._getIndex(type).forEach((storageKey) => {
-        delete get(adapter, '_storage')[storageKey];
+        delete adapter._storage[storageKey];
       });
 
       adapter._getIndex(type).reset();

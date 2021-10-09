@@ -1,13 +1,7 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-const {
-  Model,
-  attr,
-  belongsTo
-} = DS;
+export default class BlogPostModel extends Model {
+  @attr('string') name;
 
-export default Model.extend({
-  name: attr('string'),
-
-  post: belongsTo('post', { async: true, autoSave: true })
-});
+  @belongsTo('post', { async: true, autoSave: true }) post;
+}

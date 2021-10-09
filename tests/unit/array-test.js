@@ -52,14 +52,14 @@ module('array - likes', function(hooks) {
     // ImageLikes
     assert.deepEqual(get(subject, 'anonymousLikes._initialContent'), []);
     run(function() {
-      get(subject, 'anonymousLikes').addObject('martin');
+      subject.anonymousLikes.addObject('martin');
     });
     assert.deepEqual(get(subject, 'anonymousLikes.content'), ['martin']);
 
     // PostLikes
     assert.deepEqual(get(subject, 'postLikes._initialContent'), []);
     run(function() {
-      get(subject, 'postLikes').addObject('peter');
+      subject.postLikes.addObject('peter');
     });
     assert.deepEqual(get(subject, 'postLikes.content'), ['peter']);
 
@@ -75,14 +75,14 @@ module('array - likes', function(hooks) {
 
     //add new objects
     run(function() {
-      get(subject, 'postLikes').addObject('martin');
+      subject.postLikes.addObject('martin');
     });
 
     //we expect them to be present
     assert.deepEqual(get(subject, 'postLikes.content'), ['martin']);
 
     //reset
-    get(subject, 'postLikes').reset();
+    subject.postLikes.reset();
 
     //data is back to initial values
     assert.deepEqual(get(subject, 'postLikes.content'), []);
@@ -94,32 +94,32 @@ module('array - likes', function(hooks) {
   test('it updates _isInitialContent', function(assert) {
     assert.expect(2);
 
-    assert.equal(get(subject, 'postLikes').isInitialContent(), true);
+    assert.true(subject.postLikes.isInitialContent());
     run(function() {
-      get(subject, 'postLikes').addObject('martin');
+      subject.postLikes.addObject('martin');
     });
-    assert.equal(get(subject, 'postLikes').isInitialContent(), false);
+    assert.false(subject.postLikes.isInitialContent());
   });
 
   test('it updates _isInitialContent on reset', function(assert) {
     assert.expect(2);
 
     run(function() {
-      get(subject, 'postLikes').addObject('martin');
+      subject.postLikes.addObject('martin');
     });
-    assert.equal(get(subject, 'postLikes').isInitialContent(), false);
+    assert.false(subject.postLikes.isInitialContent());
 
     run(function() {
-      get(subject, 'postLikes').reset();
+      subject.postLikes.reset();
     });
-    assert.equal(get(subject, 'postLikes').isInitialContent(), true);
+    assert.true(subject.postLikes.isInitialContent());
   });
 
   test('clear method removes the content from localStorage', function(assert) {
     assert.expect(2);
 
     run(function() {
-      get(subject, 'postLikes').addObject('martin');
+      subject.postLikes.addObject('martin');
     });
     storageDeepEqual(
       assert,
@@ -128,7 +128,7 @@ module('array - likes', function(hooks) {
     );
 
     run(function() {
-      get(subject, 'postLikes').clear();
+      subject.postLikes.clear();
     });
     assert.equal(window.localStorage['storage:post-likes'], undefined);
   });
@@ -137,7 +137,7 @@ module('array - likes', function(hooks) {
     assert.expect(4);
 
     run(function() {
-      get(subject, 'postLikes').addObject('martin');
+      subject.postLikes.addObject('martin');
     });
     storageDeepEqual(
       assert,
@@ -146,12 +146,12 @@ module('array - likes', function(hooks) {
     );
 
     run(function() {
-      get(subject, 'postLikes').clear();
+      subject.postLikes.clear();
     });
     assert.equal(window.localStorage['storage:post-likes'], undefined);
 
     run(function() {
-      get(subject, 'postLikes').addObject('martin');
+      subject.postLikes.addObject('martin');
     });
     storageDeepEqual(
       assert,

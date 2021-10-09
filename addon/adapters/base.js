@@ -2,7 +2,7 @@ import { keys } from '@ember/polyfills';
 import RSVP from 'rsvp';
 import { run } from '@ember/runloop';
 import { isEmpty, typeOf } from '@ember/utils';
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 import ImportExportMixin from '../mixins/adapters/import-export';
 import { _buildKey } from '../helpers/storage';
@@ -16,21 +16,21 @@ const {
 // Ember data ships with ember-inflector
 import { singularize, pluralize } from 'ember-inflector';
 
-export default JSONAPIAdapter.extend(ImportExportMixin, {
-  _debug: false,
-  _indices: computed(function() { return {}; }),
-  isNewSerializerAPI: true,
-  coalesceFindRequests: false,
+export default class BaseAdapter extends JSONAPIAdapter.extend(ImportExportMixin) {
+  _debug = false;
+  _indices = computed(function() { return {}; });
+  isNewSerializerAPI = true;
+  coalesceFindRequests = false;
 
   // Reload behavior
-  shouldReloadRecord() { return true; },
-  shouldReloadAll() { return true; },
-  shouldBackgroundReloadRecord() { return true; },
-  shouldBackgroundReloadAll() { return true; },
+  shouldReloadRecord() { return true; }
+  shouldReloadAll() { return true; }
+  shouldBackgroundReloadRecord() { return true; }
+  shouldBackgroundReloadAll() { return true; }
 
   generateIdForRecord() {
     return Math.random().toString(32).slice(2).substr(0, 8);
-  },
+  }
 
   // Relationship sugar
   createRecord(store, type, snapshot) {
@@ -50,8 +50,8 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       }
     });
 
-    return this._super.apply(this, arguments);
-  },
+    return super.createRecord.apply(this, arguments);
+  }
 
   deleteRecord(store, type, snapshot) {
     snapshot.eachRelationship(function(name, relationship) {
@@ -79,12 +79,12 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       }
     });
 
-    return this._super.apply(this, arguments);
-  },
+    return super.deleteRecord.apply(this, arguments);
+  }
 
   // Polyfill queryRecord
   queryRecord(store, type, query) {
-    let records = this._super.apply(this, arguments);
+    let records = super.queryRecord.apply(this, arguments);
 
     if (!records) {
       var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
@@ -100,12 +100,12 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       .then(function(result) {
         return {data: result.data[0] || null};
       });
-  },
+  }
 
   // Delegate to _handleStorageRequest
   ajax() {
     return this._handleStorageRequest.apply(this, arguments);
-  },
+  }
 
   // Delegate to _handleStorageRequest
   makeRequest(request) {
@@ -114,17 +114,17 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       request.method,
       { data: request.data }
     );
-  },
+  }
 
   // Work arround ds-improved-ajax Feature Flag
   _makeRequest() {
     return this.makeRequest.apply(this, arguments);
-  },
+  }
 
   // Remove the ajax() deprecation warning
   _hasCustomizedAjax() {
     return false;
-  },
+  }
 
   // Delegate to _handle${type}Request
   _handleStorageRequest(url, type, options = {}) {
@@ -145,11 +145,11 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
         );
       }
     }, 'DS: LocalStorageAdapter#_handleStorageRequest ' + type + ' to ' + url);
-  },
+  }
 
   _handleGETRequest(url, query) {
     const { type, id } = this._urlParts(url);
-    const storage = get(this, '_storage'),
+    const storage = this._storage,
       storageKey = this._storageKey(type, id);
 
     if (id) {
@@ -176,37 +176,37 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     }
 
     return records;
-  },
+  }
 
   _handlePOSTRequest(url, record) {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
 
     this._addToIndex(type, storageKey);
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
+    this._storage[storageKey] = JSON.stringify(record.data);
 
     return null;
-  },
+  }
 
   _handlePATCHRequest(url, record) {
     const { type, id } = record.data;
     const storageKey = this._storageKey(type, id);
 
     this._addToIndex(type, storageKey);
-    get(this, '_storage')[storageKey] = JSON.stringify(record.data);
+    this._storage[storageKey] = JSON.stringify(record.data);
 
     return null;
-  },
+  }
 
   _handleDELETERequest(url) {
     const { type, id } = this._urlParts(url);
     const storageKey = this._storageKey(type, id);
 
     this._removeFromIndex(type, storageKey);
-    delete get(this, '_storage')[storageKey];
+    delete this._storage[storageKey];
 
     return null;
-  },
+  }
 
   _queryFilter(data, serializer, query = {}) {
     const queryType = typeOf(query),
@@ -280,7 +280,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
         });
       }
     }
-  },
+  }
 
   _matches(recordValue, queryValue) {
     if (typeOf(queryValue) === 'regexp') {
@@ -288,7 +288,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     }
 
     return recordValue === queryValue;
-  },
+  }
 
   _urlParts(url) {
     const parts = url.split('/');
@@ -308,28 +308,28 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       type: type,
       id: id
     };
-  },
+  }
 
   _storageKey(type, id) {
     return _buildKey(this, type + '-' + id);
-  },
+  }
 
   // Should be overwriten
   // Signature: _getIndex(type)
   _getIndex() {
-  },
+  }
 
   _indexHasKey(type, id) {
     return this._getIndex(type).indexOf(id) !== -1;
-  },
+  }
 
   _addToIndex(type, id) {
     if (!this._indexHasKey(type, id)) {
       this._getIndex(type).addObject(id);
     }
-  },
+  }
 
   _removeFromIndex(type, id) {
     this._getIndex(type).removeObject(id);
   }
-});
+}

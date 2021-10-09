@@ -1,11 +1,11 @@
-<strong>{{model.name}}</strong>
+<strong>{{this.model.name}}</strong>
 
 <br>
 <br>
 
 <strong>Name:</strong>
-<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} {{on "enter" (action "createTask")}}>
-<a {{action "createTask" name}} role="button">Create task</a>
+<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} {{on "enter" this.createTask}}>
+<a {{on "click" (fn this.createTask this.name)}} href="#" role="button">Create task</a>
 
 <br>
 <br>
@@ -14,9 +14,9 @@
   <div class="tasks__list layout__item u-1/4">
     <strong>Tasks:</strong><br>
 
-    {{#each model.tasks as |task|}}
-      {{#link-to "tasks.task" task}}{{task.name}}{{/link-to}} -
-      <a {{action "deleteTask" task}} role="button">Delete</a>
+    {{#each this.model.tasks as |task|}}
+      <LinkTo @route="tasks.task" @model={{task}}>{{task.name}}</LinkTo> -
+      <a {{on "click" (fn this.deleteTask task)}} href="#" role="button">Delete</a>
       <br>
     {{/each}}
   </div>

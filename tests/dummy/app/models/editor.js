@@ -1,3 +1,3 @@
 import User from './user';
 
-export default User.extend();
+export default class EditorModel extends User {}

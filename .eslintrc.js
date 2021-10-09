@@ -25,6 +25,7 @@ module.exports = {
     'ember/no-classic-classes': 'off',
     'ember/no-classic-components': 'off',
     'ember/no-component-lifecycle-hooks': 'off',
+    'ember/no-computed-properties-in-native-classes': 'off',
     'ember/no-get': 'off',
     'ember/no-jquery': 'off',
     'ember/no-mixins': 'off',
@@ -63,6 +64,7 @@ module.exports = {
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
       rules: {
+        'ember/no-get': 'off',
         'qunit/no-assert-equal-boolean': 'off',
         'qunit/no-conditional-assertions': 'off',
         'qunit/no-ok-equality': 'off',
