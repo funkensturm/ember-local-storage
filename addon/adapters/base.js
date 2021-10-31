@@ -19,9 +19,12 @@ import { singularize, pluralize } from 'ember-inflector';
 export default JSONAPIAdapter.extend(ImportExportMixin, {
   _debug: false,
   _indices: computed(function() { return {}; }),
-  isNewSerializerAPI: true,
   coalesceFindRequests: false,
 
+  // TODO: v2.0 - What are the defaults now? What versions to support?
+  isNewSerializerAPI: true,
+
+  // TODO: v2.0 - Can we deprecate or remove that? What are the defaults now? What versions to support?
   // Reload behavior
   shouldReloadRecord() { return true; },
   shouldReloadAll() { return true; },
@@ -89,6 +92,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     if (!records) {
       var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
 
+      // TODO: Document why this is needed or remove it!
       if (this.sortQueryParams) {
         query = this.sortQueryParams(query);
       }
@@ -102,6 +106,7 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
       });
   },
 
+  // TODO: v2.0 - What are the defaults now? What versions to support?
   // Delegate to _handleStorageRequest
   ajax() {
     return this._handleStorageRequest.apply(this, arguments);
@@ -149,8 +154,8 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
   _handleGETRequest(url, query) {
     const { type, id } = this._urlParts(url);
-    const storage = get(this, '_storage'),
-      storageKey = this._storageKey(type, id);
+    const storage = get(this, '_storage');
+    const storageKey = this._storageKey(type, id);
 
     if (id) {
       if (!storage[storageKey]) {
@@ -208,9 +213,10 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
     return null;
   },
 
+  // TODO: Extract into utility functions in private/query.js
   _queryFilter(data, serializer, query = {}) {
-    const queryType = typeOf(query),
-      dataType = typeOf(data);
+    const queryType = typeOf(query);
+    const dataType = typeOf(data);
 
     if (queryType === 'object' && dataType === 'object') {
       return getKeys(query).every((key) => {
