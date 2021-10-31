@@ -53,17 +53,22 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.4
-          - ember-lts-3.8
-          - ember-lts-3.12
-          - ember-lts-3.16
-          - ember-lts-3.20
-          - ember-lts-3.24
-          - ember-release
+          - ember-lts-2.18
+          - ember-lts-3.0
+          - ember-lts-3.1
+          - ember-lts-3.2
+          - ember-lts-3.3
+          # - ember-lts-3.4
+          # - ember-lts-3.8
+          # - ember-lts-3.12
+          # - ember-lts-3.16
+          # - ember-lts-3.20
+          # - ember-lts-3.24
+          # - ember-release
           # - ember-beta
           # - ember-canary
-          - ember-default-with-jquery
-          - embroider-safe
+          # - ember-default-with-jquery
+          # - embroider-safe
           # - embroider-optimized
 
     steps:
