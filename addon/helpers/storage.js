@@ -2,7 +2,6 @@ import { assert } from '@ember/debug';
 import EmberObject, { computed, get } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { dasherize } from '@ember/string';
-import { deprecate } from '@ember/application/deprecations';
 
 
 const storage = {};
@@ -32,22 +31,14 @@ function getStorage(name) {
 
 let storages = {};
 
-// TODO: v2.0 - Remove options
-function storageFor(key, modelName, options = {}) {
-  if (arguments.length === 2 && typeof modelName === 'object') {
-    options = modelName;
-    modelName = null;
-  }
-
-  assert('The options argument must be an object', typeof options === 'object');
-
-  // normalize key
+function storageFor(key, modelName) {
+  // Normalize key
   key = dasherize(key);
 
   if (!modelName) {
     return computed(function() {
       if (!storages[key]) {
-        storages[key] = createStorage(this, key, null, options);
+        storages[key] = createStorage(this, key, null);
       }
 
       return storages[key];
@@ -56,20 +47,20 @@ function storageFor(key, modelName, options = {}) {
 
   assert('The second argument must be a string', typeof modelName === 'string');
 
+  // TODO: Allow callbacks to delete the storage if model gets deleted
   return computed(modelName, function() {
     const model = get(this, modelName);
 
-    // if the propertyValue is null/undefined we simply return null/undefined
+    // If the propertyValue is null/undefined we simply return null/undefined
     if (!model || typeof model === 'undefined') {
       return model;
     }
 
     const modelKey = _modelKey(model);
     const storageKey = `${key}:${modelKey}`;
-    // TODO allow callbacks to delete the storage if model gets deleted
 
     if (!storages[storageKey]) {
-      storages[storageKey] = createStorage(this, key, modelKey, options);
+      storages[storageKey] = createStorage(this, key, modelKey);
     }
 
     return storages[storageKey];
@@ -80,30 +71,14 @@ function storageFor(key, modelName, options = {}) {
  * Looks up the storage factory on the container and sets initial state
  * on the instance if desired.
  */
-// TODO: v2.0 - Remove options and legacyKey
-function createStorage(context, key, modelKey, options) {
+function createStorage(context, key, modelKey) {
   const owner = getOwner(context);
   const factoryType = 'storage';
   const storageFactory = `${factoryType}:${key}`;
-
-  let storageKey;
-
-  if (options.legacyKey) {
-    deprecate('Using legacyKey has been deprecated and will be removed in version 2.0.0', false, {
-      id: 'ember-local-storage.storageFor.options.legacyKey',
-      until: '2.0.0',
-      url: 'https://github.com/funkensturm/ember-local-storage#deprecations'
-    });
-
-    storageKey = options.legacyKey;
-  } else {
-    storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
-  }
-
-  storageKey = _buildKey(context, storageKey);
+  const storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
 
   const defaultState = {
-    _storageKey: storageKey
+    _storageKey: _buildKey(context, storageKey)
   };
   const StorageFactory = owner.factoryFor(storageFactory);
 
@@ -143,7 +118,7 @@ function _modelKey(model) {
   return `${modelName}:${id}`;
 }
 
-// TODO: v2.0 - Make modulePrefix the default
+// TODO: v2.0 - Make modulePrefix the default - needs a warning/error
 function _getNamespace(appConfig, addonConfig) {
   // For backward compatibility this is a opt-in feature
   let namespace = addonConfig.namespace;
