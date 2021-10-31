@@ -1,8 +1,7 @@
 # Ember localStorage
 
-[![Build Status](https://api.travis-ci.org/funkensturm/ember-local-storage.svg?branch=master)](https://travis-ci.org/funkensturm/ember-local-storage)
+[![Build Status](https://github.com/funkensturm/ember-local-storage/actions/workflows/ci.yml/badge.svg)](https://github.com/funkensturm/ember-local-storage/actions/workflows/ci.yml)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-local-storage.svg)](http://emberobserver.com/addons/ember-local-storage)
-[![Greenkeeper badge](https://badges.greenkeeper.io/funkensturm/ember-local-storage.svg)](https://greenkeeper.io/)
 
 
 The addon provides a `storageFor` computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It works with objects and arrays and has a generator to create the proxy objects or arrays.
@@ -18,7 +17,12 @@ The `storageFor` API was inspired by [Ember State Services](https://github.com/s
 
 ## Changelog
 
-The documentation is for versions `>= 1.0.0` if you are looking for older versions look [here](https://github.com/funkensturm/ember-local-storage/tree/v0.1.5#readme).
+See the [CHANGELOG](CHANGELOG.md)
+
+The documentation in this README is for versions `>= 2.0.0`
+
+* Version [1.x](https://github.com/funkensturm/ember-local-storage/tree/v1.7.2#readme)
+* Version [0.x](https://github.com/funkensturm/ember-local-storage/tree/v0.1.5#readme)
 
 If you upgrade from a version `<= 0.1.5` you need to set a `legacyKey` on the computed `storageFor`:
 ```javascript
@@ -26,8 +30,6 @@ export default Ember.Component.extend({
   settings: storageFor('settings', { legacyKey: 'your-old-key' })
 });
 ```
-
-See the [CHANGELOG](CHANGELOG.md)
 
 ## Usage
 
