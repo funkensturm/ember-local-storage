@@ -1,5 +1,5 @@
 import { assert } from '@ember/debug';
-import EmberObject, { computed } from '@ember/object';
+import EmberObject, { computed, get } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { dasherize } from '@ember/string';
 import { deprecate } from '@ember/application/deprecations';
@@ -57,7 +57,7 @@ function storageFor(key, modelName, options = {}) {
   assert('The second argument must be a string', typeof modelName === 'string');
 
   return computed(modelName, function() {
-    const model = this.get(modelName);
+    const model = get(this, modelName);
 
     // if the propertyValue is null/undefined we simply return null/undefined
     if (!model || typeof model === 'undefined') {
