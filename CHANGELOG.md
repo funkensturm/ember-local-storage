@@ -1,9 +1,12 @@
 # Changelog
 
+## 2.0.1
+* [CHORE] Remove 2.0 deprecations [#339](https://github.com/funkensturm/ember-local-storage/pull/339)
+
 ## 2.0.0
 * [ENHANCEMENT] Update `ember-cli` to `3.28` + update dependencies. Drops test coverage for ember versions < `3.4`
 * [ENHANCEMENT] Update `ember-copy` to v2 - Allows to use `ember-cli-babel` v7. Thanks to [@GreatWizard](https://github.com/GreatWizard) for reporting.
-* [Fix] Use `get` to retrieve the dependent model [#331](https://github.com/funkensturm/ember-local-storage/issues/330). Thanks to [@rnuyts](https://github.com/rnuyts) for reporting.
+* [FIX] Use `get` to retrieve the dependent model [#331](https://github.com/funkensturm/ember-local-storage/issues/330). Thanks to [@rnuyts](https://github.com/rnuyts) for reporting.
 
 ## 1.7.2
 * [FIX] Fix performance issue in `importData()` with `truncate` option. Thanks to [@koopa](https://github.com/koopa) for the PR.
