@@ -8,7 +8,7 @@
 
 window.saveAs || (
   window.saveAs = (
-    window.navigator.msSaveBlob ? function(b,n) {
+    (window.navigator && window.navigator.msSaveBlob) ? function(b,n) {
       return window.navigator.msSaveBlob(b,n);
     } : false
   ) ||
