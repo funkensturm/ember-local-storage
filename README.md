@@ -113,6 +113,7 @@ ember g storage stats -s
 
 ```javascript
 // app/storages/stats.js
+
 import StorageObject from 'ember-local-storage/local/object';
 
 const Storage = StorageObject.extend();
@@ -128,30 +129,34 @@ export default Storage;
 
 ```javascript
 // app/controllers/application.js
-import Ember from 'ember';
+
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { storageFor } from 'ember-local-storage';
 
-export default Ember.Controller.extend({
-  stats: storageFor('stats'),
+export default class ApplicationController extends Controller {
+  @storageFor('stats') stats;
 
-  actions: {
-    countUp() {
-      this.incrementProperty('stats.counter');
-    },
-    resetCounter() {
-      this.get('stats').clear();
-      // or
-      // this.get('stats').reset();
-      // this.set('stats.counter', 0);
-    }
+  @action
+  countUp() {
+    this.incrementProperty('stats.counter');
   }
-});
+
+  @action
+  resetCounter() {
+    this.get('stats').clear();
+    // or
+    // this.get('stats').reset();
+    // this.set('stats.counter', 0);
+  }
+}
 ```
 
 ```handlebars
 {{! app/templates/application.hbs}}
-<button {{action "countUp"}}>Page Visits: {{stats.counter}}</button>
-<button {{action "resetCounter"}}>X</button>
+
+<button {{on "click" this.countUp}}>Page Visits: {{stats.counter}}</button>
+<button {{on "click" this.resetCounter}}>X</button>
 ```
 
 #### Array
@@ -168,6 +173,7 @@ ember g storage anonymous-likes -a -s
 
 ```javascript
 // app/storages/anonymous-likes.js
+
 import StorageArray from 'ember-local-storage/local/array';
 
 const Storage = StorageArray.extend();
@@ -184,28 +190,30 @@ export default Storage;
 
 ```javascript
 // app/components/like-item.js
-import Ember from 'ember';
-import { storageFor } from 'ember-local-storage';
 
-export default Ember.Component.extend({
+import Component from '@glimmer/component';
+import { storageFor } from 'ember-local-storage';
+import { action } from '@ember/object';
+
+export default class LikeItemComponent extends Component {
   anonymousLikes: storageFor('anonymous-likes'),
 
-  isLiked: computed('id', function() {
+  get isLiked() {
     return this.get('anonymousLikes').includes(this.get('id'));
   }),
 
-  actions: {
-    like: function(id) {
-      this.get('anonymousLikes').addObject(id);
-    }
+  @action
+  like(id) {
+    this.get('anonymousLikes').addObject(id);
   }
-});
+}
 ```
 
 ```handlebars
 {{! app/templates/components/like-item.hbs}}
-{{#unless isLiked}}
-  <button {{action "like" id}}>Like it</button>
+
+{{#unless this.isLiked}}
+  <button {{on "click" (fn this.like this.id)}}>Like it</button>
 {{else}}
   You like it!
 {{/unless}}
@@ -248,10 +256,12 @@ If your app is a pure LocalStorage app you just need to create the application a
 
 ```javascript
 // app/adapters/application.js
+
 export { default } from 'ember-local-storage/adapters/local';
 // or export { default } from 'ember-local-storage/adapters/session';
 
 // app/serializers/application.js
+
 export { default } from 'ember-local-storage/serializers/serializer';
 ```
 
@@ -259,10 +269,12 @@ If you already use Ember Data for non LocalStorage models you can use a per type
 
 ```javascript
 // app/adapters/post.js
+
 export { default } from 'ember-local-storage/adapters/local';
 // or export { default } from 'ember-local-storage/adapters/session';
 
 // app/serializers/post.js
+
 export { default } from 'ember-local-storage/serializers/serializer';
 ```
 
@@ -270,12 +282,13 @@ If you use namespaced models e.g. `blog/post` you have to add the `modelNamespac
 
 ```js
 // app/adapters/blog/post.js
+
 import Adapter from 'ember-local-storage/adapters/local';
 // or import Adapter from 'ember-local-storage/adapters/session';
 
-export default Adapter.extend({
-  modelNamespace: 'blog'
-});
+export default class BlogPostAdapter extends Adapter {
+  modelNamespace = 'blog';
+}
 ```
 
 #### Model
@@ -284,33 +297,23 @@ Your model is a `DS.Model` with two new relationship options
 
 ```javascript
 // app/models/post.js
-import DS from 'ember-data';
 
-const {
-  Model,
-  attr,
-  hasMany
-} = DS;
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
+export default class PostModel extends Model {
+  @attr('string') name;
 
-  comments: hasMany('comment', { async: true, dependent: 'destroy' })
-});
+  @hasMany('comment', { dependent: 'destroy' }) comments;
+}
 
 // app/models/comment.js
-import DS from 'ember-data';
 
-const {
-  Model,
-  attr,
-  belongsTo
-} = DS;
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
+export default class CommentModel extends Model {
+  @attr('string') name;
 
-  post: belongsTo('post', { async: true, autoSave: true })
+  @belongsTo('post', { autoSave: true }) post;
 });
 ```
 
@@ -390,44 +393,43 @@ module.exports = function() {
 The initializer provides `exportData()` and `importData()` on the store. Both return a Promise.
 
 ```javascript
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
-const {
-  Route
-} = Ember;
-
-export default Route.extend({
-  readFile: function(file) {
+export default class IndexRoute extends Route {
+  readFile(file) {
     const reader = new FileReader();
 
-    return new Ember.RSVP.Promise((resolve) => {
+    return new Promise((resolve) => {
       reader.onload = function(event) {
         resolve({
           file: file.name,
           type: file.type,
           data: event.target.result,
-          size: file.size
+          size: file.size,
         });
       };
 
       reader.readAsText(file);
     });
-  },
-  actions: {
-    importData: function(event) {
-      this.readFile(event.target.files[0])
-        .then((file) => {
-          this.store.importData(file.data);
-        });
-    },
-    exportData: function() {
-      this.store.exportData(
-        ['posts', 'comments'],
-        {download: true, filename: 'my-data.json'}
-      );
-    }
   }
-});
+
+  @action
+  importData(event) {
+    this.readFile(event.target.files[0])
+      .then((file) => {
+        this.store.importData(file.data);
+      });
+  }
+
+  @action
+  exportData() {
+    this.store.exportData(
+      ['posts', 'comments'],
+      { download: true, filename: 'my-data.json' }
+    );
+  }
+}
 ```
 
 **importData(content, options)**
