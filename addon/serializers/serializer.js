@@ -4,7 +4,7 @@ const {
   JSONAPISerializer
 } = DS;
 
-const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|3\.0/);
+const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|^3\.0/);
 
 export default JSONAPISerializer.extend({
   // Serialization behavior
