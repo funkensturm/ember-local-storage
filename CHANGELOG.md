@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+* [FIX] Remove `assign` usage to silence deprecation warning [#347](https://github.com/funkensturm/ember-local-storage/pull/347). Thanks to [@charlesfries](https://github.com/charlesfries) for the PR.
+* [FIX] Fix regex in ember data version check in serializer [#348](https://github.com/funkensturm/ember-local-storage/pull/348). Thanks to [@wozny1989](https://github.com/wozny1989) for the PR.
+
 ## 2.0.1
 * [CHORE] Remove 2.0 deprecations [#339](https://github.com/funkensturm/ember-local-storage/pull/339)
 
