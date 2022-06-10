@@ -1,15 +1,12 @@
 import { all, Promise } from 'rsvp';
-import { assign, merge } from '@ember/polyfills';
 import { get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 import { A } from '@ember/array';
 
-const assignIt = assign || merge;
-
 export function importData(store, content, options) {
   // merge defaults
-  options = assignIt({
+  options = Object.assign({
     json: true,
     truncate: true
   }, options || {});
@@ -60,7 +57,7 @@ export function importData(store, content, options) {
 
 export function exportData(store, types, options) {
   // merge defaults
-  options = assignIt({
+  options = Object.assign({
     json: true,
     download: false,
     filename: 'ember-data.json'
