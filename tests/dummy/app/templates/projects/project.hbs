@@ -15,7 +15,7 @@
     <strong>Tasks:</strong><br>
 
     {{#each model.tasks as |task|}}
-      {{#link-to "tasks.task" task}}{{task.name}}{{/link-to}} -
+      <LinkTo @route="tasks.task" @model={{task}}>{{task.name}}</LinkTo> -
       <a {{action "deleteTask" task}} role="button">Delete</a>
       <br>
     {{/each}}
