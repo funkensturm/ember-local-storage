@@ -24,7 +24,6 @@ module.exports = function (environment) {
 
     'ember-local-storage': {
       fileExport: true,
-      // ignoreBlobWarning: true,
     },
   };
 
