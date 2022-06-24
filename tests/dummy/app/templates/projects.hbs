@@ -18,7 +18,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
     <strong>Projects:</strong><br>
 
     {{#each model as |project|}}
-      {{#link-to "projects.project" project}}{{project.name}}{{/link-to}} -
+      <LinkTo @route="projects.project" @model={{project}}>{{project.name}}</LinkTo> -
       <a {{action "deleteProject" project}} role="button">Delete</a>
       <br>
     {{/each}}
