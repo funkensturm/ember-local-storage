@@ -1,7 +1,9 @@
 # Ember localStorage
 
 [![Build Status](https://github.com/funkensturm/ember-local-storage/actions/workflows/ci.yml/badge.svg)](https://github.com/funkensturm/ember-local-storage/actions/workflows/ci.yml)
-[![Ember Observer Score](http://emberobserver.com/badges/ember-local-storage.svg)](http://emberobserver.com/addons/ember-local-storage)
+[![npm version](https://badge.fury.io/js/ember-local-storage.svg)](https://www.npmjs.com/package/ember-local-storage)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-local-storage.svg)](https://emberobserver.com/addons/ember-local-storage)
+[![Download](https://img.shields.io/npm/dy/ember-local-storage)](https://www.npmjs.com/package/ember-local-storage)
 
 
 The addon provides a `storageFor` computed property that returns a proxy and persists the changes to localStorage or sessionStorage. It works with objects and arrays and has a generator to create the proxy objects or arrays.
@@ -324,7 +326,7 @@ export default class CommentModel extends Model {
 
 #### .query() & .queryRecord()
 
-As per ember [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-multiple-records) you can query for attributes:
+As per ember [guides](https://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-multiple-records) you can query for attributes:
 
 ```js
   // with a string
@@ -372,7 +374,7 @@ this.store.query('user', { filter: { pets: [{ type: 'cat' }, { type: 'dog' }] } 
 this.store.query('user', { filter: { pets: { type: /cats|dogs/ } } }); // you need to use the plural
 ```
 
-You can use `queryRecord` to return only one record. See the [guides](http://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.
+You can use `queryRecord` to return only one record. See the [guides](https://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.
 
 #### Export & Import
 
