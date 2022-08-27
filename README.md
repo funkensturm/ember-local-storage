@@ -17,6 +17,14 @@ The `storageFor` API was inspired by [Ember State Services](https://github.com/s
 
 * `ember install ember-local-storage`
 
+## Compatibility
+
+| Ember   | Addon  | Node    |
+|---------|--------|---------|
+| >= 3.4  | >= 2.0 | >= 12.x |
+| >= 2.12 | < 2.0  | >= 10.x |
+
+
 ## Changelog
 
 See the [CHANGELOG](CHANGELOG.md)
@@ -530,19 +538,10 @@ Using `legacyKey` has been deprecated and will be removed in version 2.0.0. You 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
 
-## Ember support
-
-* Ember.js v2.12 or above
-* Ember CLI v2.13 or above
-* Node.js v8 or above
-
-
 ## Publishing
 
 ```bash
-ember github-pages:commit --message "New gh-pages release"
-
-ember release
+npx release-it
 npm publish --tag latest
 ```
 
