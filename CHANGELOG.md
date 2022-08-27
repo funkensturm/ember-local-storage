@@ -1,5 +1,21 @@
 # Changelog
 
+
+## v2.0.3 (2022-08-27)
+
+#### :memo: Documentation
+* [#352](https://github.com/funkensturm/ember-local-storage/pull/352) Fix `LinkTo`'s ([@charlesfries](https://github.com/charlesfries))
+
+#### :house: Internal
+* [#355](https://github.com/funkensturm/ember-local-storage/pull/355) Add release-it and release-it-lerna-changelog ([@fsmanuel](https://github.com/fsmanuel))
+* [#354](https://github.com/funkensturm/ember-local-storage/pull/354) Replace http with https ([@fsmanuel](https://github.com/fsmanuel))
+* [#351](https://github.com/funkensturm/ember-local-storage/pull/351) Remove bower ([@charlesfries](https://github.com/charlesfries))
+* [#353](https://github.com/funkensturm/ember-local-storage/pull/353) Update codeql-analysis.yml ([@fsmanuel](https://github.com/fsmanuel))
+
+#### Committers: 2
+- Charles Fries ([@charlesfries](https://github.com/charlesfries))
+- Manuel Wiedenmann ([@fsmanuel](https://github.com/fsmanuel))
+
 ## 2.0.2
 * [FIX] Remove `assign` usage to silence deprecation warning [#347](https://github.com/funkensturm/ember-local-storage/pull/347). Thanks to [@charlesfries](https://github.com/charlesfries) for the PR.
 * [FIX] Fix regex in ember data version check in serializer [#348](https://github.com/funkensturm/ember-local-storage/pull/348). Thanks to [@wozny1989](https://github.com/wozny1989) for the PR.
