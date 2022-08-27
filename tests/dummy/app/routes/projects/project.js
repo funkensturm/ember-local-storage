@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 export default class extends Route {
   @service store;
 
-  model() {
-    return this.store.findAll('project');
+  model(params) {
+    return this.store.findRecord('project', params.project_id);
   }
 }

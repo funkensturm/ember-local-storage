@@ -18,11 +18,11 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 
 <div class="example">
   {{! template-lint-disable simple-unless}}
-  {{#unless settings.welcomeMessageSeen}}
+  {{#unless this.settings.welcomeMessageSeen}}
     You will see this message until you click
-    <button {{action "toggleWelcomeMessage"}}>X</button>
+    <button {{on "click" this.toggleWelcomeMessage}}>X</button>
   {{else}}
-    <button {{action "toggleWelcomeMessage"}}>Undo</button>
+    <button {{on "click" this.toggleWelcomeMessage}}>Undo</button>
   {{/unless}}
 </div>
 
@@ -47,27 +47,27 @@ export default Storage;
 
 <HighlightJs @lang="js">
 // app/controllers/application.js
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { storageFor } from 'ember-local-storage';
 
-export default Ember.Controller.extend({
-  settings: storageFor('settings'),
+export default class extends Controller {
+  @storageFor('settings') settings;
 
-  actions: {
-    toggleWelcomeMessage() {
-      this.toggleProperty('settings.welcomeMessageSeen');
-    }
+  @action
+  toggleWelcomeMessage() {
+    this.toggleProperty('settings.welcomeMessageSeen');
   }
-});
+}
 </HighlightJs>
 
 <HighlightJs @lang="hbs">
 \{{! app/templates/application.hbs }}
-\{{#unless settings.welcomeMessageSeen}}
+\{{#unless this.settings.welcomeMessageSeen}}
   You will see this message until you click
-  &lt;button \{{action "toggleWelcomeMessage"}}>X&lt;/button>
+  &lt;button \{{on "click" this.toggleWelcomeMessage}}>X&lt;/button>
 \{{else}}
-  &lt;button \{{action "toggleWelcomeMessage"}}>Undo&lt;/button>
+  &lt;button \{{on "click" this.toggleWelcomeMessage}}>Undo&lt;/button>
 \{{/unless}}
 </HighlightJs>
 

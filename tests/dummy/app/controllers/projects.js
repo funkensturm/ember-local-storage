@@ -1,5 +1,8 @@
 import Controller from '@ember/controller';
-import { Promise } from 'rsvp';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { all, Promise } from 'rsvp';
 import { storageFor } from 'ember-local-storage';
 
 function readFile(file) {
@@ -19,49 +22,71 @@ function readFile(file) {
   });
 }
 
-export default Controller.extend({
-  settings: storageFor('settings'),
+export default class extends Controller {
+  @service router;
+  @service store;
+  @storageFor('settings') settings;
 
-  actions: {
-    createProject(name) {
-      let project = this.store.createRecord('project', { name: name });
+  @tracked name = '';
 
-      this.store
-        .findRecord('user', this.get('settings.userId'))
-        .then((user) => {
-          user.get('projects').addObject(project);
-          user.save();
+  @action
+  createProject(name) {
+    let project = this.store.createRecord('project', { name: name });
 
-          project.get('users').addObject(user);
-          project.save()
-            .then(() => {
-              this.set('name', null);
-            });
-        });
-    },
+    this.store
+      .findRecord('user', this.settings.get('userId'))
+      .then((user) => {
+        user.get('projects').addObject(project);
+        user.save();
 
-    deleteProject(project) {
-      project.destroyRecord();
-    },
-
-    importData(event) {
-      readFile(event.target.files[0])
-        .then((file) => {
-          this.store
-            .importData(file.data)
-            .then(function() {
-              // show a flash message or transitionTo somewehere
-            });
-        });
-    },
-
-    exportData() {
-      this.store.exportData(
-        ['projects', 'tasks'],
-        {download: true, filename: 'my-data.json'}
-      ).then(function() {
-        // show a flash message or transitionTo somewehere
+        project.get('users').addObject(user);
+        project.save()
+          .then(() => {
+            this.name = '';
+          });
       });
-    }
   }
-});
+
+  @action
+  deleteProject(project) {
+    all(
+      project.get('users').map((user) => {
+        user.get('projects').removeObject(project);
+        user.save();
+      })
+    ).then(() => {
+      all(
+        project.get('tasks').map((task) => {
+          task.destroyRecord();
+        })
+      ).then(() => {
+        project.destroyRecord()
+        .then(() => {
+          this.router.transitionTo('projects')
+        });
+      });
+    });
+  }
+
+  @action
+  importData(event) {
+    readFile(event.target.files[0])
+      .then((file) => {
+        this.store
+          .importData(file.data)
+          .then(function() {
+            // show a flash message or transitionTo somewehere
+          });
+      });
+  }
+
+  @action
+  exportData() {
+    this.store.exportData(
+      ['projects', 'tasks', 'users'],
+      {download: true, filename: 'my-data.json'}
+    ).then(function() {
+      // show a flash message or transitionTo somewehere
+    });
+  }
+}
