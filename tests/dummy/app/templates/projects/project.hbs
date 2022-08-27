@@ -1,26 +1,26 @@
-<strong>{{model.name}}</strong>
+<strong>{{this.model.name}}</strong>
 
 <br>
 <br>
 
 <strong>Name:</strong>
-<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} {{on "enter" (action "createTask")}}>
-<a {{action "createTask" name}} role="button">Create task</a>
+<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} />
+<a {{on "click" (fn this.createTask this.name)}} role="button">Create task</a>
 
 <br>
 <br>
 
-<div class="tasks layout">
-  <div class="tasks__list layout__item u-1/4">
+<div class="o-layout">
+  <div class="o-layout__item u-1/4">
     <strong>Tasks:</strong><br>
 
-    {{#each model.tasks as |task|}}
+    {{#each this.model.tasks as |task|}}
       <LinkTo @route="tasks.task" @model={{task}}>{{task.name}}</LinkTo> -
-      <a {{action "deleteTask" task}} role="button">Delete</a>
+      <a {{on "click" (fn this.deleteTask task)}} role="button">Delete</a>
       <br>
     {{/each}}
   </div>
-  <div class="tasks__task layout__item u-3/4">
+  <div class="o-layout__item u-3/4">
     {{outlet}}
   </div>
 </div>

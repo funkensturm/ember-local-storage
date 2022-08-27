@@ -19,18 +19,7 @@ module.exports = function (defaults) {
     This build file does *not* influence how the addon or the app using it
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
-  app.import('node_modules/highlight.js/styles/railscasts.css');
-  app.import('node_modules/highlight.js/lib/highlight.js');
-  app.import('vendor/highlightjs-shim.js', {
-    exports: {
-      'highlightjs': [
-        'default',
-        'highlight',
-        'highlightAuto',
-        'highlightBlock'
-      ]
-    }
-  });
+  app.import('node_modules/highlight.js/styles/base16/railscasts.css');
 
   const { maybeEmbroider } = require('@embroider/test-setup');
   return maybeEmbroider(app, {

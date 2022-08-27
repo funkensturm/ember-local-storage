@@ -1,14 +1,15 @@
-import Component from '@ember/component';
-import hljs from 'highlightjs';
-import { highlightBlock } from 'highlightjs';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import hljs from 'highlight.js';
 
-export default Component.extend({
-  tagName: 'pre',
-  lang: 'js',
-
-  didInsertElement() {
-    this.$('code').text(this.$('code').text().trim());
-    hljs.configure({tabReplace: '  '});
-    highlightBlock(this.$('code')[0]);
+export default class HighlightJsComponent extends Component {
+  get lang() {
+    return this.args.lang || 'js';
   }
-});
+
+  @action
+  highlight(element) {
+    element.innerHTML = element.innerHTML.trim();
+    hljs.highlightElement(element);
+  }
+}

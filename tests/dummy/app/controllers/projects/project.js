@@ -1,23 +1,30 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  actions: {
-    createTask(name) {
-      let task = this.store.createRecord('task', { name: name });
+export default class extends Controller {
+  @service store;
 
-      // The project
-      let project = this.get('model');
-      project.get('tasks').addObject(task);
+  @tracked name = '';
 
-      task.set('project', project);
-      task.save()
-        .then(() => {
-          this.set('name', null);
-        });
-    },
+  @action
+  createTask(name) {
+    let task = this.store.createRecord('task', { name: name });
 
-    deleteTask(task) {
-      task.destroyRecord();
-    }
+    // The project
+    let project = this.model;
+    project.get('tasks').addObject(task);
+
+    task.set('project', project);
+    task.save()
+      .then(() => {
+        this.name = '';
+      });
   }
-});
+
+  @action
+  deleteTask(task) {
+    task.destroyRecord();
+  }
+}
