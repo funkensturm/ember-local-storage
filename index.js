@@ -9,19 +9,6 @@ const mergeTrees = require('broccoli-merge-trees');
 module.exports = {
   name: require('./package').name,
 
-  _warn(message) {
-    let chalk = require('chalk');
-    let warning = chalk.yellow('WARNING: ' + message);
-
-    if (this.ui && this.ui.writeWarnLine) {
-      this.ui.writeWarnLine(message);
-    } else if (this.ui) {
-      this.ui.writeLine(warning);
-    } else {
-      console.log(warning); // eslint-disable-line no-console
-    }
-  },
-
   init(app) {
     this._super.init && this._super.init.apply(this, arguments);
 
