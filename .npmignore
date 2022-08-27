@@ -25,9 +25,9 @@
 /config/release.js
 /CONTRIBUTING.md
 /ember-cli-build.js
+/RELEASE.md
 /testem.js
 /tests/
-/vendor/highlightjs-shim.js
 /yarn-error.log
 /yarn.lock
 .gitkeep
