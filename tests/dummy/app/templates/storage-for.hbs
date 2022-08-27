@@ -2,13 +2,13 @@
 {{! template-lint-disable block-indentation}}
 Run <code>ember g storage -h</code> for all options.<br><br>
 
-{{#highlight-js land="bash"}}
+<HighlightJs @lang="bash">
 ember g storage stats // will generate a localStorage object
 ember g storage stats -s // will generate a sessionStorage object
 
 ember g storage anonymous-likes -a // will generate a localStorage array
 ember g storage anonymous-likes -a -s // will generate a sessionStorage array
-{{/highlight-js}}
+</HighlightJs>
 
 <h3>Examples</h3>
 
@@ -28,7 +28,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 
 <br><br>
 
-{{#highlight-js lang="js"}}
+<HighlightJs @lang="js">
 // app/storages/settings.js
 import StorageObject from 'ember-local-storage/local/object';
 
@@ -43,9 +43,9 @@ Storage.reopenClass({
 });
 
 export default Storage;
-{{/highlight-js}}
+</HighlightJs>
 
-{{#highlight-js lang="js"}}
+<HighlightJs @lang="js">
 // app/controllers/application.js
 import Ember from 'ember';
 import { storageFor } from 'ember-local-storage';
@@ -59,9 +59,9 @@ export default Ember.Controller.extend({
     }
   }
 });
-{{/highlight-js}}
+</HighlightJs>
 
-{{#highlight-js lang="hbs"}}
+<HighlightJs @lang="hbs">
 \{{! app/templates/application.hbs }}
 \{{#unless settings.welcomeMessageSeen}}
   You will see this message until you click
@@ -69,6 +69,6 @@ export default Ember.Controller.extend({
 \{{else}}
   &lt;button \{{action "toggleWelcomeMessage"}}>Undo&lt;/button>
 \{{/unless}}
-{{/highlight-js}}
+</HighlightJs>
 
 {{outlet}}
