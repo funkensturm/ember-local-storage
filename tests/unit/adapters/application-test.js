@@ -1,9 +1,9 @@
-import { run } from '@ember/runloop';
-import DS from 'ember-data';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-const { AdapterError, Model, attr } = DS;
+import { run } from '@ember/runloop';
+import Model, { attr } from '@ember-data/model';
+import AdapterError from '@ember-data/adapter/error';
 
 let SimpleModel = Model.extend({
   prop: attr('string'),

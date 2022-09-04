@@ -3,13 +3,11 @@ import RSVP from 'rsvp';
 import { run } from '@ember/runloop';
 import { isEmpty, typeOf } from '@ember/utils';
 import { computed, get } from '@ember/object';
-import DS from 'ember-data';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import ImportExportMixin from '../mixins/adapters/import-export';
 import { _buildKey } from '../helpers/storage';
 
 const getKeys = Object.keys || keys;
-
-const { JSONAPIAdapter } = DS;
 
 // Ember data ships with ember-inflector
 import { singularize, pluralize } from 'ember-inflector';

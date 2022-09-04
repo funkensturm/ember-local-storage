@@ -1,12 +1,12 @@
-import DS from 'ember-data';
+import Store from '@ember-data/store';
 import {
   importData,
   exportData,
 } from 'ember-local-storage/helpers/import-export';
 
 export function initialize() {
-  if (!DS.Store.prototype._emberLocalStoragePatched) {
-    DS.Store.reopen({
+  if (!Store.prototype._emberLocalStoragePatched) {
+    Store.reopen({
       _emberLocalStoragePatched: true,
       importData: function (json, options) {
         return importData(this, json, options);
