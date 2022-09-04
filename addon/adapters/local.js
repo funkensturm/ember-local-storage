@@ -4,8 +4,8 @@ import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../local/array';
 import { getOwner } from '@ember/application';
 
-export default BaseAdapter.extend({
-  _storage: getStorage('local'),
+export default class LocalStorageAdapter extends BaseAdapter {
+  _storage = getStorage('local');
 
   _getIndex(type) {
     const indices = get(this, '_indices');
@@ -19,5 +19,5 @@ export default BaseAdapter.extend({
     }
 
     return indices[type];
-  },
-});
+  }
+}
