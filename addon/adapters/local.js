@@ -12,11 +12,9 @@ export default BaseAdapter.extend({
     if (!indices[type]) {
       let storageKey = _buildKey(this, 'index-' + type);
 
-      indices[type] = StorageArray
-        .extend({ _storageKey: storageKey })
-        .create();
+      indices[type] = StorageArray.extend({ _storageKey: storageKey }).create();
     }
 
     return indices[type];
-  }
+  },
 });

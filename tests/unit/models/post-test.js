@@ -5,26 +5,28 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import {
   registerConfigEnvironment,
-  setConfigEnvironment
+  setConfigEnvironment,
 } from '../../helpers/storage';
 
-module('Unit | Model | post', function(hooks) {
+module('Unit | Model | post', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     registerConfigEnvironment(this);
 
     window.localStorage.clear();
     window.sessionStorage.clear();
   });
 
-  test('it exists', function(assert) {
-    let model = run(() => this.owner.lookup('service:store').createRecord('post'));
+  test('it exists', function (assert) {
+    let model = run(() =>
+      this.owner.lookup('service:store').createRecord('post')
+    );
     // var store = this.store();
     assert.ok(!!model);
   });
 
-  test('create a record', function(assert) {
+  test('create a record', function (assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -33,20 +35,19 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(get(posts, 'length'), 0);
 
-    run(function() {
+    run(function () {
       store.createRecord('post', { name: 'Super Name' }).save();
       store.createRecord('post', { name: 'Just awesome' }).save();
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 3);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 3);
+      done();
+    });
   });
 
-  test('push a record', function(assert) {
+  test('push a record', function (assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -55,54 +56,54 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(get(posts, 'length'), 0);
 
-    run(function() {
-      store.push({data: [
-        {
-          id: '1',
-          type: 'post',
-          attributes: {name: 'Super Name'}
-        },
-        {
-          id: '2',
-          type: 'post',
-          attributes: {name: 'Totally rad'}
-        }
-      ]});
+    run(function () {
+      store.push({
+        data: [
+          {
+            id: '1',
+            type: 'post',
+            attributes: { name: 'Super Name' },
+          },
+          {
+            id: '2',
+            type: 'post',
+            attributes: { name: 'Totally rad' },
+          },
+        ],
+      });
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 2);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 2);
+      done();
+    });
   });
 
-  test('find a single record', function(assert) {
+  test('find a single record', function (assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
     let newPost;
 
-    run(function() {
+    run(function () {
       newPost = store.createRecord('post', {
-        name: 'Ember.js: 10 most common mistakes'
+        name: 'Ember.js: 10 most common mistakes',
       });
 
       newPost.save();
     });
 
-    run(function() {
-      store.find('post', get(newPost, 'id'))
-        .then(function(post) {
-          assert.equal(get(post, 'id'), get(newPost, 'id'));
-          assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
-          done();
-        });
+    run(function () {
+      store.findRecord('post', get(newPost, 'id')).then(function (post) {
+        assert.equal(get(post, 'id'), get(newPost, 'id'));
+        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        done();
+      });
     });
   });
 
-  test('get all', function(assert) {
+  test('get all', function (assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -110,25 +111,27 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(get(posts, 'length'), 0);
 
+    run(function () {
+      store
+        .createRecord('post', {
+          name: 'Ember.js: 10 most common mistakes',
+        })
+        .save();
 
-    run(function() {
-      store.createRecord('post', {
-        name: 'Ember.js: 10 most common mistakes'
-      }).save();
-
-      store.createRecord('post', {
-        name: 'Ember.js: Ember-CPM'
-      }).save();
+      store
+        .createRecord('post', {
+          name: 'Ember.js: Ember-CPM',
+        })
+        .save();
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 2);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 2);
+      done();
+    });
   });
 
-  test('queryRecord attributes', function(assert) {
+  test('queryRecord attributes', function (assert) {
     assert.expect(3);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -138,43 +141,49 @@ module('Unit | Model | post', function(hooks) {
 
     let paul;
 
-    run(function() {
+    run(function () {
       paul = store.createRecord('user', {
-        name: 'Paul'
+        name: 'Paul',
       });
       paul.save();
     });
 
-    run(function() {
-      store.createRecord('post', {
-        name: 'Super Name',
-        user: paul
-      }).save();
+    run(function () {
+      store
+        .createRecord('post', {
+          name: 'Super Name',
+          user: paul,
+        })
+        .save();
 
-      store.createRecord('post', {
-        name: 'Just a Name',
-        user: paul
-      }).save();
+      store
+        .createRecord('post', {
+          name: 'Just a Name',
+          user: paul,
+        })
+        .save();
 
-      store.createRecord('post', {
-        name: 'Just a Name',
-        user: paul
-      }).save();
+      store
+        .createRecord('post', {
+          name: 'Just a Name',
+          user: paul,
+        })
+        .save();
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 3);
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 3);
+    });
 
-    store.queryRecord('post', { filter: { name: 'Super Name' } })
-      .then(function(post) {
+    store
+      .queryRecord('post', { filter: { name: 'Super Name' } })
+      .then(function (post) {
         assert.equal(get(post, 'name'), 'Super Name');
         done();
       });
   });
 
-  test('queryRecord empty store', function(assert) {
+  test('queryRecord empty store', function (assert) {
     assert.expect(2);
     const done = assert.async();
     const store = this.owner.lookup('service:store');
@@ -182,8 +191,9 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(get(posts, 'length'), 0);
 
-    store.queryRecord('post', { filter: { name: 'Super Name' } })
-      .then(function(post) {
+    store
+      .queryRecord('post', { filter: { name: 'Super Name' } })
+      .then(function (post) {
         if (DS.VERSION.match(/^1\.13\./) || DS.VERSION.match(/^2\.[0|1]\./)) {
           assert.deepEqual(post, []);
         } else {
@@ -191,13 +201,17 @@ module('Unit | Model | post', function(hooks) {
         }
 
         done();
-      }).catch(function(error) {
-        assert.ok(false, 'queryRecord on empty store throws error: ' + error.message);
+      })
+      .catch(function (error) {
+        assert.ok(
+          false,
+          'queryRecord on empty store throws error: ' + error.message
+        );
         done();
       });
   });
 
-  test('create a record (namespace: true)', function(assert) {
+  test('create a record (namespace: true)', function (assert) {
     assert.expect(1);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -205,18 +219,17 @@ module('Unit | Model | post', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function() {
+    run(function () {
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 1);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 1);
+      done();
+    });
   });
 
-  test('create a record (namespace: "custom")', function(assert) {
+  test('create a record (namespace: "custom")', function (assert) {
     assert.expect(1);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -224,18 +237,17 @@ module('Unit | Model | post', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function() {
+    run(function () {
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 1);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 1);
+      done();
+    });
   });
 
-  test('create a record (keyDelimiter: "/")', function(assert) {
+  test('create a record (keyDelimiter: "/")', function (assert) {
     assert.expect(1);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -244,18 +256,17 @@ module('Unit | Model | post', function(hooks) {
     const done = assert.async();
     const store = this.owner.lookup('service:store');
 
-    run(function() {
+    run(function () {
       store.createRecord('post', { name: 'Just a Name' }).save();
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 1);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 1);
+      done();
+    });
   });
 
-  test('push a record (namespace: true)', function(assert) {
+  test('push a record (namespace: true)', function (assert) {
     assert.expect(2);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -267,29 +278,30 @@ module('Unit | Model | post', function(hooks) {
 
     assert.equal(get(posts, 'length'), 0);
 
-    run(function() {
-      store.push({data: [
-        {
-          id: '1',
-          type: 'post',
-          attributes: {name: 'Super Name'}
-        },
-        {
-          id: '2',
-          type: 'post',
-          attributes: {name: 'Totally rad'}
-        }
-      ]});
+    run(function () {
+      store.push({
+        data: [
+          {
+            id: '1',
+            type: 'post',
+            attributes: { name: 'Super Name' },
+          },
+          {
+            id: '2',
+            type: 'post',
+            attributes: { name: 'Totally rad' },
+          },
+        ],
+      });
     });
 
-    store.findAll('post')
-      .then(function(posts) {
-        assert.equal(get(posts, 'length'), 2);
-        done();
-      });
+    store.findAll('post').then(function (posts) {
+      assert.equal(get(posts, 'length'), 2);
+      done();
+    });
   });
 
-  test('find a single record (namespace: true)', function(assert) {
+  test('find a single record (namespace: true)', function (assert) {
     assert.expect(2);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -299,21 +311,20 @@ module('Unit | Model | post', function(hooks) {
 
     let newPost;
 
-    run(function() {
+    run(function () {
       newPost = store.createRecord('post', {
-        name: 'Ember.js: 10 most common mistakes'
+        name: 'Ember.js: 10 most common mistakes',
       });
 
       newPost.save();
     });
 
-    run(function() {
-      store.find('post', get(newPost, 'id'))
-        .then(function(post) {
-          assert.equal(get(post, 'id'), get(newPost, 'id'));
-          assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
-          done();
-        });
+    run(function () {
+      store.findRecord('post', get(newPost, 'id')).then(function (post) {
+        assert.equal(get(post, 'id'), get(newPost, 'id'));
+        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        done();
+      });
     });
   });
 });

@@ -4,21 +4,21 @@ import { setupTest } from 'ember-qunit';
 import {
   storageDeepEqual,
   registerConfigEnvironment,
-  setConfigEnvironment
+  setConfigEnvironment,
 } from '../helpers/storage';
 
 import StorageObject from 'ember-local-storage/local/object';
 import {
   storageFor,
-  _resetStorages
+  _resetStorages,
 } from 'ember-local-storage/helpers/storage';
 
 let subject;
 
-module('storageFor', function(hooks) {
+module('storageFor', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     registerConfigEnvironment(this);
 
     let mockStorage = StorageObject.extend();
@@ -26,9 +26,9 @@ module('storageFor', function(hooks) {
     mockStorage.reopenClass({
       initialState() {
         return {
-          perPage: 10
+          perPage: 10,
         };
-      }
+      },
     });
 
     this.owner.register('storage:settings', mockStorage);
@@ -36,23 +36,26 @@ module('storageFor', function(hooks) {
 
     let post = EmberObject.extend({
       modelName: 'post',
-      id: '123'
+      id: '123',
     }).create();
 
-    this.owner.register('object:test', EmberObject.extend({
-      post: post,
-      settings: storageFor('settings', 'post'),
-      options: storageFor('options', 'post')
-    }));
+    this.owner.register(
+      'object:test',
+      EmberObject.extend({
+        post: post,
+        settings: storageFor('settings', 'post'),
+        options: storageFor('options', 'post'),
+      })
+    );
     subject = this.owner.lookup('object:test');
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     window.localStorage.clear();
     _resetStorages();
   });
 
-  test('it has the correct key (namespace not set)', function(assert) {
+  test('it has the correct key (namespace not set)', function (assert) {
     assert.expect(4);
 
     assert.equal(
@@ -66,15 +69,15 @@ module('storageFor', function(hooks) {
     );
 
     storageDeepEqual(assert, window.localStorage['storage:settings:post:123'], {
-      perPage: 10
+      perPage: 10,
     });
 
     storageDeepEqual(assert, window.localStorage['storage:options:post:123'], {
-      perPage: 10
+      perPage: 10,
     });
   });
 
-  test('it has the correct key (namespace: true)', function(assert) {
+  test('it has the correct key (namespace: true)', function (assert) {
     assert.expect(4);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -89,22 +92,24 @@ module('storageFor', function(hooks) {
       'my-app:storage:options:post:123'
     );
 
-    storageDeepEqual(assert,
+    storageDeepEqual(
+      assert,
       window.localStorage['my-app:storage:settings:post:123'],
       {
-        perPage: 10
+        perPage: 10,
       }
     );
 
-    storageDeepEqual(assert,
+    storageDeepEqual(
+      assert,
       window.localStorage['my-app:storage:options:post:123'],
       {
-        perPage: 10
+        perPage: 10,
       }
     );
   });
 
-  test('it has the correct key (namespace: "custom")', function(assert) {
+  test('it has the correct key (namespace: "custom")', function (assert) {
     assert.expect(4);
 
     setConfigEnvironment(this, 'namespace', 'custom');
@@ -119,22 +124,24 @@ module('storageFor', function(hooks) {
       'custom:storage:options:post:123'
     );
 
-    storageDeepEqual(assert,
+    storageDeepEqual(
+      assert,
       window.localStorage['custom:storage:settings:post:123'],
       {
-        perPage: 10
+        perPage: 10,
       }
     );
 
-    storageDeepEqual(assert,
+    storageDeepEqual(
+      assert,
       window.localStorage['custom:storage:options:post:123'],
       {
-        perPage: 10
+        perPage: 10,
       }
     );
   });
 
-  test('it has the correct key (keyDelimiter: "/")', function(assert) {
+  test('it has the correct key (keyDelimiter: "/")', function (assert) {
     assert.expect(4);
 
     setConfigEnvironment(this, 'namespace', true);
@@ -150,19 +157,20 @@ module('storageFor', function(hooks) {
       'my-app/storage:options:post:123'
     );
 
-    storageDeepEqual(assert,
+    storageDeepEqual(
+      assert,
       window.localStorage['my-app/storage:settings:post:123'],
       {
-        perPage: 10
+        perPage: 10,
       }
     );
 
-    storageDeepEqual(assert,
+    storageDeepEqual(
+      assert,
       window.localStorage['my-app/storage:options:post:123'],
       {
-        perPage: 10
+        perPage: 10,
       }
     );
   });
 });
-

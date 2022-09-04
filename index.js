@@ -51,11 +51,9 @@ module.exports = {
     this._super.included.apply(this, arguments);
   },
 
-  treeForApp: function(tree) {
+  treeForApp: function (tree) {
     if (!this.hasEmberData) {
-      [
-        'initializers/local-storage-adapter.js'
-      ].forEach(function(file) {
+      ['initializers/local-storage-adapter.js'].forEach(function (file) {
         tree = stew.rm(tree, file);
       });
     }
@@ -63,7 +61,7 @@ module.exports = {
     return tree;
   },
 
-  treeForAddon: function(tree) {
+  treeForAddon: function (tree) {
     if (!this.hasEmberData) {
       [
         'adapters/adapter.js',
@@ -72,8 +70,8 @@ module.exports = {
         'adapters/session.js',
         'initializers/local-storage-adapter.js',
         'mixins/adapters/import-export.js',
-        'serializers/serializer.js'
-      ].forEach(function(file) {
+        'serializers/serializer.js',
+      ].forEach(function (file) {
         tree = stew.rm(tree, file);
       });
     }
@@ -83,9 +81,9 @@ module.exports = {
 
   treeForVendor(vendorTree) {
     let blobTree = new Funnel(path.dirname(require.resolve('blob-polyfill')), {
-      files: ['Blob.js']
+      files: ['Blob.js'],
     });
 
     return mergeTrees([vendorTree, blobTree]);
-  }
+  },
 };

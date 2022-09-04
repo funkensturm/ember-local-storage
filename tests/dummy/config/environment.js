@@ -50,7 +50,7 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.rootURL = '/ember-local-storage'
+    ENV.rootURL = '/ember-local-storage';
     ENV.locationType = 'hash';
   }
 

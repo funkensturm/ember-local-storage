@@ -14,24 +14,18 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:ember/recommended',
-    // 'plugin:prettier/recommended',
+    'plugin:prettier/recommended',
   ],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
     'ember/avoid-leaking-state-in-ember-objects': 'off',
-    'ember/no-actions-hash': 'off',
     'ember/no-classic-classes': 'off',
-    'ember/no-classic-components': 'off',
-    'ember/no-component-lifecycle-hooks': 'off',
     'ember/no-get': 'off',
-    'ember/no-jquery': 'off',
     'ember/no-mixins': 'off',
     'ember/no-new-mixins': 'off',
     'ember/no-string-prototype-extensions': 'off',
-    'ember/require-tagless-components': 'off',
-    'ember/require-super-in-lifecycle-hooks': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
   },
   overrides: [
@@ -63,9 +57,7 @@ module.exports = {
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
       rules: {
-        'qunit/no-assert-equal-boolean': 'off',
         'qunit/no-conditional-assertions': 'off',
-        'qunit/no-ok-equality': 'off',
       },
     },
   ],

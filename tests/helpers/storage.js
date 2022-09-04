@@ -11,10 +11,12 @@ function storageDeepEqual(assert, actual, expected, message) {
 function registerConfigEnvironment(context) {
   let environment = {
     modulePrefix: 'my-app',
-    'ember-local-storage': {}
+    'ember-local-storage': {},
   };
 
-  context.owner.register('config:environment', environment, { instantiate: false });
+  context.owner.register('config:environment', environment, {
+    instantiate: false,
+  });
 }
 
 function setConfigEnvironment(context, key, value) {
@@ -27,5 +29,5 @@ export {
   storageEqual,
   storageDeepEqual,
   registerConfigEnvironment,
-  setConfigEnvironment
+  setConfigEnvironment,
 };

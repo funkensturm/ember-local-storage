@@ -17,14 +17,18 @@ export default class extends Controller {
     project.get('tasks').addObject(task);
 
     task.set('project', project);
-    task.save()
-      .then(() => {
-        this.name = '';
-      });
+    task.save().then(() => {
+      this.name = '';
+    });
   }
 
   @action
   deleteTask(task) {
     task.destroyRecord();
+  }
+
+  @action
+  setName(event) {
+    this.name = event.target.value;
   }
 }

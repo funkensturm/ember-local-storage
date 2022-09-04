@@ -3,7 +3,6 @@ import EmberObject, { computed, get } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { dasherize } from '@ember/string';
 
-
 const storage = {};
 
 function tryStorage(name) {
@@ -11,7 +10,7 @@ function tryStorage(name) {
 
   // safari private mode exposes xStorage but fails on setItem
   try {
-    nativeStorage = (name === 'local') ? localStorage : sessionStorage;
+    nativeStorage = name === 'local' ? localStorage : sessionStorage;
     nativeStorage.setItem('emberlocalstorage.test', 'ok');
     nativeStorage.removeItem('emberlocalstorage.test');
   } catch (e) {
@@ -25,7 +24,7 @@ function getStorage(name) {
   if (storage[name]) {
     return storage[name];
   } else {
-    return storage[name] = tryStorage(name) || {};
+    return (storage[name] = tryStorage(name) || {});
   }
 }
 
@@ -36,7 +35,7 @@ function storageFor(key, modelName) {
   key = dasherize(key);
 
   if (!modelName) {
-    return computed(function() {
+    return computed(function () {
       if (!storages[key]) {
         storages[key] = createStorage(this, key, null);
       }
@@ -48,7 +47,7 @@ function storageFor(key, modelName) {
   assert('The second argument must be a string', typeof modelName === 'string');
 
   // TODO: Allow callbacks to delete the storage if model gets deleted
-  return computed(modelName, function() {
+  return computed(modelName, function () {
     const model = get(this, modelName);
 
     // If the propertyValue is null/undefined we simply return null/undefined
@@ -75,10 +74,12 @@ function createStorage(context, key, modelKey) {
   const owner = getOwner(context);
   const factoryType = 'storage';
   const storageFactory = `${factoryType}:${key}`;
-  const storageKey = modelKey ? `${storageFactory}:${modelKey}` : storageFactory;
+  const storageKey = modelKey
+    ? `${storageFactory}:${modelKey}`
+    : storageFactory;
 
   const defaultState = {
-    _storageKey: _buildKey(context, storageKey)
+    _storageKey: _buildKey(context, storageKey),
   };
   const StorageFactory = owner.factoryFor(storageFactory);
 
@@ -88,7 +89,7 @@ function createStorage(context, key, modelKey) {
 
   const StorageFactoryClass = StorageFactory.class;
 
-  if (typeof(StorageFactoryClass.initialState) === 'function') {
+  if (typeof StorageFactoryClass.initialState === 'function') {
     defaultState._initialContent = StorageFactoryClass.initialState.call(
       StorageFactoryClass,
       context
@@ -98,17 +99,15 @@ function createStorage(context, key, modelKey) {
   }
 
   if (EmberObject.detect(StorageFactoryClass)) {
-    return StorageFactoryClass.create(
-      owner.ownerInjection(),
-      defaultState
-    );
+    return StorageFactoryClass.create(owner.ownerInjection(), defaultState);
   }
 
   return EmberObject.create(owner.ownerInjection(), StorageFactoryClass);
 }
 
 function _modelKey(model) {
-  const modelName = model.modelName || model.constructor.typeKey || model.constructor.modelName;
+  const modelName =
+    model.modelName || model.constructor.typeKey || model.constructor.modelName;
   const id = model.get('id');
 
   if (!modelName || !id) {
@@ -125,7 +124,7 @@ function _getNamespace(appConfig, addonConfig) {
 
   // Shortcut for modulePrefix
   if (namespace === true) {
-    namespace = appConfig.modulePrefix
+    namespace = appConfig.modulePrefix;
   }
 
   return namespace;
@@ -134,7 +133,7 @@ function _getNamespace(appConfig, addonConfig) {
 // TODO: Add migration helper
 function _buildKey(context, key) {
   let appConfig = getOwner(context).resolveRegistration('config:environment');
-  let addonConfig = appConfig && appConfig['ember-local-storage'] || {};
+  let addonConfig = (appConfig && appConfig['ember-local-storage']) || {};
   let namespace = _getNamespace(appConfig, addonConfig);
   let delimiter = addonConfig.keyDelimiter || ':';
 
@@ -146,10 +145,4 @@ function _resetStorages() {
   storages = {};
 }
 
-export {
-  tryStorage,
-  getStorage,
-  storageFor,
-  _resetStorages,
-  _buildKey
-};
+export { tryStorage, getStorage, storageFor, _resetStorages, _buildKey };

@@ -3,9 +3,11 @@
 <br>
 <br>
 
-<strong>Name:</strong>
-<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} />
-<a {{on "click" (fn this.createTask this.name)}} role="button">Create task</a>
+<label>
+  <strong>Name:</strong>
+  <input value={{this.name}} {{on "input" this.setName}} />
+</label>
+<button type="button" {{on "click" (fn this.createTask this.name)}}>Create task</button>
 
 <br>
 <br>
@@ -16,7 +18,7 @@
 
     {{#each this.model.tasks as |task|}}
       <LinkTo @route="tasks.task" @model={{task}}>{{task.name}}</LinkTo> -
-      <a {{on "click" (fn this.deleteTask task)}} role="button">Delete</a>
+      <button type="button" {{on "click" (fn this.deleteTask task)}}>Delete</button>
       <br>
     {{/each}}
   </div>
