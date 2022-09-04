@@ -4,26 +4,26 @@ import { initialize } from '../../../initializers/local-storage-adapter';
 
 let store;
 
-module('Unit | Initializer | local storage adapter', function(hooks) {
+module('Unit | Initializer | local storage adapter', function (hooks) {
   setupApplicationTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     store = null;
   });
 
-  test('it adds importData to DS.Store', function(assert) {
+  test('it adds importData to DS.Store', function (assert) {
     initialize();
 
-    assert.strictEqual(typeof store.importData, 'function')
+    assert.strictEqual(typeof store.importData, 'function');
   });
 
-  test('it adds exportData to DS.Store', function(assert) {
+  test('it adds exportData to DS.Store', function (assert) {
     initialize();
 
-    assert.strictEqual(typeof store.exportData, 'function')
+    assert.strictEqual(typeof store.exportData, 'function');
   });
 });

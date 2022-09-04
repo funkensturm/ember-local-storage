@@ -1,5 +1,8 @@
 import Mixin from '@ember/object/mixin';
-import { importData, exportData } from 'ember-local-storage/helpers/import-export';
+import {
+  importData,
+  exportData,
+} from 'ember-local-storage/helpers/import-export';
 
 export default Mixin.create({
   importData(store, content, options) {
@@ -8,5 +11,5 @@ export default Mixin.create({
 
   exportData(store, types, options) {
     return exportData(store, types, options);
-  }
+  },
 });

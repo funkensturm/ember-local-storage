@@ -11,7 +11,4 @@ function saveIfChanged(key) {
   }
 }
 
-export {
-  save,
-  saveIfChanged
-};
+export { save, saveIfChanged };
