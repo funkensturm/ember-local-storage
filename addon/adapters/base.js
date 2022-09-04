@@ -23,10 +23,6 @@ export default class BaseAdapter extends JSONAPIAdapter {
   _debug = false;
   coalesceFindRequests = false;
 
-  // TODO: v2.0 - What are the defaults now? What versions to support?
-  isNewSerializerAPI = true;
-
-  // TODO: v2.0 - Can we deprecate or remove that? What are the defaults now? What versions to support?
   // Reload behavior
   shouldReloadRecord() {
     return true;
@@ -96,47 +92,17 @@ export default class BaseAdapter extends JSONAPIAdapter {
     return super.deleteRecord(...arguments);
   }
 
-  // Polyfill queryRecord
-  queryRecord(store, type, query) {
+  queryRecord() {
     let records = super.queryRecord(...arguments);
-
-    if (!records) {
-      var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
-
-      // TODO: Document why this is needed or remove it!
-      if (this.sortQueryParams) {
-        query = this.sortQueryParams(query);
-      }
-
-      records = this.ajax(url, 'GET', { data: query });
-    }
 
     return records.then(function (result) {
       return { data: result.data[0] || null };
     });
   }
 
-  // TODO: v2.0 - What are the defaults now? What versions to support?
   // Delegate to _handleStorageRequest
   ajax() {
     return this._handleStorageRequest.apply(this, arguments);
-  }
-
-  // Delegate to _handleStorageRequest
-  makeRequest(request) {
-    return this._handleStorageRequest(request.url, request.method, {
-      data: request.data,
-    });
-  }
-
-  // Work arround ds-improved-ajax Feature Flag
-  _makeRequest() {
-    return this.makeRequest.apply(this, arguments);
-  }
-
-  // Remove the ajax() deprecation warning
-  _hasCustomizedAjax() {
-    return false;
   }
 
   // Delegate to _handle${type}Request
