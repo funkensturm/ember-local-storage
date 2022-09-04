@@ -1,17 +1,13 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default JSONAPISerializer.extend({
+export default class Serializer extends JSONAPISerializer {
   shouldSerializeHasMany() {
     return true;
-  },
+  }
 
   serializeBelongsTo() {
     this._fixSerializeBelongsTo(...arguments);
-  },
-
-  serializeHasMany() {
-    this._fixSerializeHasMany(...arguments);
-  },
+  }
 
   _fixSerializeBelongsTo(snapshot, json, relationship) {
     let key = relationship.key;
@@ -43,7 +39,11 @@ export default JSONAPISerializer.extend({
         json.relationships[payloadKey] = { data };
       }
     }
-  },
+  }
+
+  serializeHasMany() {
+    this._fixSerializeHasMany(...arguments);
+  }
 
   _fixSerializeHasMany(snapshot, json, relationship) {
     let key = relationship.key;
@@ -66,7 +66,7 @@ export default JSONAPISerializer.extend({
         let data = new Array(nonNewHasMany.length);
 
         for (let i = 0; i < nonNewHasMany.length; i++) {
-          let item = hasMany[i];
+          let item = nonNewHasMany[i];
           let payloadType = this.payloadKeyFromModelName(item.modelName);
 
           data[i] = {
@@ -78,5 +78,5 @@ export default JSONAPISerializer.extend({
         json.relationships[payloadKey] = { data };
       }
     }
-  },
-});
+  }
+}
