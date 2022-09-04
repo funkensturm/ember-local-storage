@@ -68,8 +68,8 @@ export function exportData(store, types, options) {
   // collect data
   data = types.reduce((records, type) => {
     const adapter = store.adapterFor(singularize(type));
-    const url = adapter.buildURL(type),
-      exportData = adapter._handleGETRequest(url);
+    const url = adapter.buildURL(type);
+    const exportData = adapter._handleGETRequest(url);
 
     records.data = records.data.concat(exportData);
     return records;

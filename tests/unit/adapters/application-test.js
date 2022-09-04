@@ -29,12 +29,12 @@ module('Unit | Adapter | application', function(hooks) {
 
   test('it has a importData method', function(assert) {
     var adapter = this.owner.lookup('adapter:application');
-    assert.ok(typeof adapter.importData === 'function');
+    assert.strictEqual(typeof adapter.importData, 'function');
   });
 
   test('it has a exportData method', function(assert) {
     var adapter = this.owner.lookup('adapter:application');
-    assert.ok(typeof adapter.exportData === 'function');
+    assert.strictEqual(typeof adapter.exportData, 'function');
   });
 
   test('it handles requests for missing records', function(assert) {

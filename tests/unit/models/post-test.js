@@ -93,7 +93,7 @@ module('Unit | Model | post', function(hooks) {
     });
 
     run(function() {
-      store.find('post', get(newPost, 'id'))
+      store.findRecord('post', get(newPost, 'id'))
         .then(function(post) {
           assert.equal(get(post, 'id'), get(newPost, 'id'));
           assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
@@ -308,7 +308,7 @@ module('Unit | Model | post', function(hooks) {
     });
 
     run(function() {
-      store.find('post', get(newPost, 'id'))
+      store.findRecord('post', get(newPost, 'id'))
         .then(function(post) {
           assert.equal(get(post, 'id'), get(newPost, 'id'));
           assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');

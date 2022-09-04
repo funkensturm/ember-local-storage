@@ -94,11 +94,11 @@ module('array - likes', function(hooks) {
   test('it updates _isInitialContent', function(assert) {
     assert.expect(2);
 
-    assert.equal(get(subject, 'postLikes').isInitialContent(), true);
+    assert.true(get(subject, 'postLikes').isInitialContent());
     run(function() {
       get(subject, 'postLikes').addObject('martin');
     });
-    assert.equal(get(subject, 'postLikes').isInitialContent(), false);
+    assert.false(get(subject, 'postLikes').isInitialContent());
   });
 
   test('it updates _isInitialContent on reset', function(assert) {
@@ -107,12 +107,12 @@ module('array - likes', function(hooks) {
     run(function() {
       get(subject, 'postLikes').addObject('martin');
     });
-    assert.equal(get(subject, 'postLikes').isInitialContent(), false);
+    assert.false(get(subject, 'postLikes').isInitialContent());
 
     run(function() {
       get(subject, 'postLikes').reset();
     });
-    assert.equal(get(subject, 'postLikes').isInitialContent(), true);
+    assert.true(get(subject, 'postLikes').isInitialContent());
   });
 
   test('clear method removes the content from localStorage', function(assert) {

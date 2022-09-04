@@ -149,8 +149,8 @@ module('object - settings', function(hooks) {
       oldValue: '{"welcomeMessageSeen":false}',
       storageArea: get(subject, 'settings')._storage()
     }));
-    assert.equal(get(subject, 'settings.welcomeMessageSeen'), false);
-    assert.equal(get(subject, 'settings.changeFired'), true);
+    assert.false(get(subject, 'settings.welcomeMessageSeen'));
+    assert.true(get(subject, 'settings.changeFired'));
   });
 
   test('nested values get persisted', function(assert) {
@@ -200,7 +200,7 @@ module('object - settings', function(hooks) {
 
     //we expect them to be present
     assert.equal(get(subject, 'settings.newProp'), 'some-value');
-    assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
+    assert.true(get(subject, 'settings.welcomeMessageSeen'));
 
     //reset
     get(subject, 'settings').reset();
@@ -215,13 +215,13 @@ module('object - settings', function(hooks) {
   test('it updates _isInitialContent', function(assert) {
     assert.expect(2);
 
-    assert.equal(get(subject, 'settings').isInitialContent(), true);
+    assert.true(get(subject, 'settings').isInitialContent());
 
     run(function() {
       subject.set('settings.welcomeMessageSeen', true);
     });
 
-    assert.equal(get(subject, 'settings').isInitialContent(), false);
+    assert.false(get(subject, 'settings').isInitialContent());
   });
 
   test('it updates _isInitialContent on reset', function(assert) {
@@ -231,13 +231,13 @@ module('object - settings', function(hooks) {
       subject.set('settings.welcomeMessageSeen', true);
     });
 
-    assert.equal(get(subject, 'settings').isInitialContent(), false);
+    assert.false(get(subject, 'settings').isInitialContent());
 
     run(function() {
       get(subject, 'settings').reset();
     });
 
-    assert.equal(get(subject, 'settings').isInitialContent(), true);
+    assert.true(get(subject, 'settings').isInitialContent());
   });
 
   test('clear method removes the content from localStorage', function(assert) {
@@ -282,6 +282,6 @@ module('object - settings', function(hooks) {
     storageDeepEqual(assert, window.localStorage['storage:settings'], {
       welcomeMessageSeen: true
     });
-    assert.equal(get(subject, 'settings.welcomeMessageSeen'), true);
+    assert.true(get(subject, 'settings.welcomeMessageSeen'));
   });
 });

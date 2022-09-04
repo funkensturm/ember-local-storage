@@ -48,7 +48,7 @@ module('Unit | Model | queryRecord', function(hooks) {
     // boolean
     store.queryRecord('post', { filter: { isPrivate: false } })
       .then(function(post) {
-        assert.equal(get(post, 'isPrivate'), false);
+        assert.false(get(post, 'isPrivate'));
       });
 
     // number
