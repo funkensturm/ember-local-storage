@@ -39,7 +39,8 @@ export default JSONAPISerializer.extend({
       if (belongsTo === null || belongsToIsNotNew) {
         json.relationships = json.relationships || {};
 
-        let payloadKey = this._getMappedKey(key, snapshot.type);
+        let modelType = this.store.modelFor(snapshot.modelName);
+        let payloadKey = this._getMappedKey(key, modelType);
         if (payloadKey === key) {
           payloadKey = this.keyForRelationship(key, 'belongsTo', 'serialize');
         }
@@ -67,7 +68,8 @@ export default JSONAPISerializer.extend({
       if (hasMany !== undefined) {
         json.relationships = json.relationships || {};
 
-        let payloadKey = this._getMappedKey(key, snapshot.type);
+        let modelType = this.store.modelFor(snapshot.modelName);
+        let payloadKey = this._getMappedKey(key, modelType);
         if (payloadKey === key && this.keyForRelationship) {
           payloadKey = this.keyForRelationship(key, 'hasMany', 'serialize');
         }
