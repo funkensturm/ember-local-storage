@@ -1,6 +1,24 @@
 # Changelog
 
 
+
+## v2.0.4 (2022-09-04)
+
+#### :memo: Documentation
+* [#358](https://github.com/funkensturm/ember-local-storage/pull/358) Update demo app ([@fsmanuel](https://github.com/fsmanuel))
+
+#### :house: Internal
+* [#362](https://github.com/funkensturm/ember-local-storage/pull/362) Improve Linting ([@fsmanuel](https://github.com/fsmanuel))
+* [#360](https://github.com/funkensturm/ember-local-storage/pull/360) Bump node version to 14 for CI ([@fsmanuel](https://github.com/fsmanuel))
+* [#359](https://github.com/funkensturm/ember-local-storage/pull/359) Fix deprecation: `ember-data:deprecate-snapshot-model-class-access`. ([@wuron](https://github.com/wuron))
+* [#357](https://github.com/funkensturm/ember-local-storage/pull/357) Update dependencies ([@fsmanuel](https://github.com/fsmanuel))
+* [#356](https://github.com/funkensturm/ember-local-storage/pull/356) Drop ember-cli-release and ember-cli-github-pages ([@fsmanuel](https://github.com/fsmanuel))
+
+#### Committers: 2
+- Alexander Chepurnoy ([@wuron](https://github.com/wuron))
+- Manuel Wiedenmann ([@fsmanuel](https://github.com/fsmanuel))
+
+
 ## v2.0.3 (2022-08-27)
 
 #### :memo: Documentation
