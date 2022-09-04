@@ -3,7 +3,6 @@ import { setupTest } from 'ember-qunit';
 
 import { get } from '@ember/object';
 import { run } from '@ember/runloop';
-import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
 
 import {
   registerConfigEnvironment,
@@ -196,11 +195,7 @@ module('Unit | Model | post', function (hooks) {
     store
       .queryRecord('post', { filter: { name: 'Super Name' } })
       .then(function (post) {
-        if (DS.VERSION.match(/^1\.13\./) || DS.VERSION.match(/^2\.[0|1]\./)) {
-          assert.deepEqual(post, []);
-        } else {
-          assert.equal(post, null);
-        }
+        assert.equal(post, null);
 
         done();
       })
@@ -209,6 +204,7 @@ module('Unit | Model | post', function (hooks) {
           false,
           'queryRecord on empty store throws error: ' + error.message
         );
+
         done();
       });
   });

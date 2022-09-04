@@ -26,7 +26,6 @@ module.exports = {
     'ember/no-mixins': 'off',
     'ember/no-new-mixins': 'off',
     'ember/no-string-prototype-extensions': 'off',
-    // 'ember/use-ember-data-rfc-395-imports': 'off',
   },
   overrides: [
     // node files

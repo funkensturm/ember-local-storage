@@ -1,36 +1,16 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
-import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
-
-// Should be removed
-// https://github.com/emberjs/data/pull/5317
-// https://github.com/emberjs/data/pull/5324
-const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|^3\.0/);
 
 export default JSONAPISerializer.extend({
-  // Serialization behavior
-  // Can be removed (_shouldSerializeHasMany) removed in ember data 3.0.0
-  // https://github.com/emberjs/data/pull/5290
-  _shouldSerializeHasMany: function () {
-    return true;
-  },
-  shouldSerializeHasMany: function () {
+  shouldSerializeHasMany() {
     return true;
   },
 
-  serializeBelongsTo(snapshot, json, relationship) {
-    if (emberDataVersionOlderThan3Point1) {
-      this._super.apply(this, arguments);
-    } else {
-      this._fixSerializeBelongsTo(snapshot, json, relationship);
-    }
+  serializeBelongsTo() {
+    this._fixSerializeBelongsTo(...arguments);
   },
 
-  serializeHasMany(snapshot, json, relationship) {
-    if (emberDataVersionOlderThan3Point1) {
-      this._super.apply(this, arguments);
-    } else {
-      this._fixSerializeHasMany(snapshot, json, relationship);
-    }
+  serializeHasMany() {
+    this._fixSerializeHasMany(...arguments);
   },
 
   _fixSerializeBelongsTo(snapshot, json, relationship) {
