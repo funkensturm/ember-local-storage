@@ -1,8 +1,10 @@
-import { get } from '@ember/object';
-import { run } from '@ember/runloop';
-import DS from 'ember-data';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
+import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
+
 import {
   registerConfigEnvironment,
   setConfigEnvironment,

@@ -1,7 +1,9 @@
-import DS from 'ember-data';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
+import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
 
-const { JSONAPISerializer } = DS;
-
+// Should be removed
+// https://github.com/emberjs/data/pull/5317
+// https://github.com/emberjs/data/pull/5324
 const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|^3\.0/);
 
 export default JSONAPISerializer.extend({
