@@ -27,4 +27,9 @@ export default class extends Controller {
   deleteTask(task) {
     task.destroyRecord();
   }
+
+  @action
+  setName(event) {
+    this.name = event.target.value;
+  }
 }

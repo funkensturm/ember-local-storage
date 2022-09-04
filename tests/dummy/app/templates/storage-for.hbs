@@ -1,5 +1,5 @@
 <h3>Generator</h3>
-{{! template-lint-disable block-indentation}}
+{{! template-lint-disable block-indentation no-unbalanced-curlies}}
 Run <code>ember g storage -h</code> for all options.<br><br>
 
 <HighlightJs @lang="bash">
@@ -20,9 +20,9 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
   {{! template-lint-disable simple-unless}}
   {{#unless this.settings.welcomeMessageSeen}}
     You will see this message until you click
-    <button {{on "click" this.toggleWelcomeMessage}}>X</button>
+    <button type="button" {{on "click" this.toggleWelcomeMessage}}>X</button>
   {{else}}
-    <button {{on "click" this.toggleWelcomeMessage}}>Undo</button>
+    <button type="button" {{on "click" this.toggleWelcomeMessage}}>Undo</button>
   {{/unless}}
 </div>
 

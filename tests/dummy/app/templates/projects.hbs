@@ -1,17 +1,18 @@
 Open the developer tools and go to <code>Resources</code> -> <code>Local Storage</code> or reload to see the effect.<br><br>
 
-<input
-  type="file"
-  {{on "change" this.importData}}
-/>
-<a {{on "click" this.exportData}} role="button">Export</a>
+<label>
+  <input type="file" {{on "change" this.importData}} />
+</label>
+<button type="button" {{on "click" this.exportData}}>Export</button>
 
 <br>
 <br>
 
-<strong>Name:</strong>
-<input value={{this.name}} oninput={{action (mut this.name) value="target.value"}} />
-<a {{on "click" (fn this.createProject this.name)}} role="button">Create project</a>
+<label>
+  <strong>Name:</strong>
+  <input value={{this.name}} {{on "input" this.setName}} />
+</label>
+<button type="button" {{on "click" (fn this.createProject this.name)}}>Create project</button>
 
 <br>
 <br>
@@ -22,7 +23,7 @@ Open the developer tools and go to <code>Resources</code> -> <code>Local Storage
 
     {{#each this.model as |project|}}
       <LinkTo @route="projects.project" @model={{project}}>{{project.name}}</LinkTo> -
-      <a {{on "click" (fn this.deleteProject project)}} role="button">Delete</a>
+      <button type="button" {{on "click" (fn this.deleteProject project)}}>Delete</button>
       <br>
     {{/each}}
   </div>

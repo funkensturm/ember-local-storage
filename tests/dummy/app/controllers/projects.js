@@ -89,4 +89,9 @@ export default class extends Controller {
       // show a flash message or transitionTo somewehere
     });
   }
+
+  @action
+  setName(event) {
+    this.name = event.target.value;
+  }
 }
