@@ -77,9 +77,12 @@ function createStorage(context, key, modelKey) {
   const storageKey = modelKey
     ? `${storageFactory}:${modelKey}`
     : storageFactory;
+  let appConfig = owner.resolveRegistration('config:environment');
+  let addonConfig = (appConfig && appConfig['ember-local-storage']) || {};
 
   const defaultState = {
     _storageKey: _buildKey(context, storageKey),
+    _sync: _getSync(appConfig, addonConfig),
   };
   const StorageFactory = owner.factoryFor(storageFactory);
 
@@ -128,6 +131,17 @@ function _getNamespace(appConfig, addonConfig) {
   }
 
   return namespace;
+}
+
+function _getSync(appConfig, addonConfig) {
+  // For backward compatibility this is a opt-in feature
+  let sync = addonConfig.sync;
+
+  if (sync === undefined) {
+    sync = appConfig.sync;
+  }
+
+  return sync;
 }
 
 // TODO: Add migration helper

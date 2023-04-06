@@ -58,7 +58,7 @@ export default Ember.Component.extend({
 
 #### Namespace & keyDelimiter
 
-In you apps `config/environment.js` you can set a `namespace` and a `keyDelimiter`. For backward compatibility this is a opt-in feature.
+In your `config/environment.js` you can set a `namespace` and a `keyDelimiter` option. For backward compatibility this is a opt-in feature.
 
 **Important:** Don't turn this feature on for existing apps. You will lose access to existing keys.
 
@@ -76,6 +76,24 @@ module.exports = function() {
       namespace: true, // will use the modulePrefix e.g. 'my-app'
       namespace: 'customNamespace', // will use 'customNamespace'
       keyDelimiter: '/' // will use / as a delimiter - the default is :
+    }
+  }
+};
+```
+
+#### Window Sync
+
+In your `config/environment.js` you can set a `sync` option. For backward compatibility this is a opt-in feature and defaults to true.
+
+If set to `false`, this will disable immediate syncing across tabs/windows.
+
+```js
+// config/environment.js
+module.exports = function() {
+  var ENV = {
+    modulePrefix: 'my-app',
+    'ember-local-storage': {
+      sync: true // disable syncing across windows
     }
   }
 };
