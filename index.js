@@ -52,7 +52,7 @@ module.exports = {
   },
 
   treeForApp: function (tree) {
-    if (!this.hasEmberData) {
+    if (!this.needsFileExport) {
       ['initializers/local-storage-adapter.js'].forEach(function (file) {
         tree = stew.rm(tree, file);
       });
