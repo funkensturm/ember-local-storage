@@ -5,6 +5,15 @@ export default Model.extend({
   commentCount: attr('number'),
   isPrivate: attr('boolean', { defaultValue: true }),
 
-  user: belongsTo('user', { async: true, autoSave: true }),
-  comments: hasMany('comment', { async: true, dependent: 'destroy' }),
+  user: belongsTo('user', {
+    async: true,
+    autoSave: true,
+    inverse: 'posts',
+    polymorphic: true,
+  }),
+  comments: hasMany('comment', {
+    async: true,
+    dependent: 'destroy',
+    inverse: 'post',
+  }),
 });

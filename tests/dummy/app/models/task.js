@@ -7,6 +7,7 @@ export default Model.extend({
   project: belongsTo('project', {
     async: true,
     autoSave: true,
+    inverse: 'tasks',
   }),
 
   parent: belongsTo('task', {
