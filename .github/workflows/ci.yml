@@ -14,9 +14,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
           cache: yarn
@@ -33,8 +33,8 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
           cache: yarn
@@ -53,23 +53,24 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.4
-          - ember-lts-3.8
-          - ember-lts-3.12
           - ember-lts-3.16
           - ember-lts-3.20
           - ember-lts-3.24
+          - ember-lts-3.28
+          - ember-lts-4
+          - ember-lts-4.4
+          - ember-lts-4.8
           - ember-release
           - ember-beta
           - ember-canary
           - ember-default-with-jquery
           - embroider-safe
-          # - embroider-optimized
+          - embroider-optimized
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
           cache: yarn
