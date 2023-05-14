@@ -4,14 +4,16 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import testData from '../../helpers/test-data';
-import { initialize } from 'ember-local-storage/initializers/local-storage-adapter';
 import SessionStorageAdapter from 'ember-local-storage/adapters/session';
+import {
+  importData,
+  exportData,
+} from 'ember-local-storage/helpers/import-export';
 
-module('Unit | Adapter | import/export', function (hooks) {
+module('Unit | Helpers | import/export', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    initialize();
     window.localStorage.clear();
     window.sessionStorage.clear();
   });
@@ -21,7 +23,7 @@ module('Unit | Adapter | import/export', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     return run(function () {
-      return store.importData(testData.importFileContent);
+      return importData(store, testData.importFileContent);
     })
       .then(function () {
         const posts = store.findAll('post');
@@ -49,7 +51,7 @@ module('Unit | Adapter | import/export', function (hooks) {
       });
     })
       .then(function () {
-        return store.importData(testData.importFileContent);
+        return importData(store, testData.importFileContent);
       })
       .then(function () {
         return hash({
@@ -70,7 +72,7 @@ module('Unit | Adapter | import/export', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     return run(function () {
-      return store.importData(testData.importFileContent);
+      return importData(store, testData.importFileContent);
     })
       .then(function () {
         const posts = store.findAll('post');
@@ -100,7 +102,7 @@ module('Unit | Adapter | import/export', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     return run(function () {
-      return store.importData(testData.importFileContent);
+      return importData(store, testData.importFileContent);
     })
       .then(function () {
         const posts = store.findAll('post');
@@ -112,7 +114,7 @@ module('Unit | Adapter | import/export', function (hooks) {
         });
       })
       .then(function () {
-        return store.exportData(['posts', 'comments'], { json: false });
+        return exportData(store, ['posts', 'comments'], { json: false });
       })
       .then(function (data) {
         assert.equal(data.data.length, 5);
@@ -125,7 +127,7 @@ module('Unit | Adapter | import/export', function (hooks) {
     this.owner.register('adapter:post', SessionStorageAdapter);
 
     return run(function () {
-      return store.importData(testData.importFileContent);
+      return importData(store, testData.importFileContent);
     })
       .then(function () {
         const posts = store.findAll('post');
@@ -137,7 +139,7 @@ module('Unit | Adapter | import/export', function (hooks) {
         });
       })
       .then(function () {
-        return store.exportData(['posts', 'comments'], { json: false });
+        return exportData(store, ['posts', 'comments'], { json: false });
       })
       .then(function (data) {
         assert.equal(data.data.length, 5);

@@ -23,6 +23,14 @@ module.exports = {
         npmDep.gt('2.0.0'))
     ) {
       this.hasEmberData = true;
+      this.loadInitializer = true;
+    }
+
+    if (
+      npmDep.version &&
+      (npmDep.satisfies('>= 4.12.0') || npmDep.gt('4.12.0'))
+    ) {
+      this.loadInitializer = false;
     }
 
     // determine if saveAs and Blob should be imported
@@ -39,6 +47,10 @@ module.exports = {
       if (options.fileExport && this.hasEmberData) {
         this.needsFileExport = true;
       }
+
+      if (options.loadInitializer === false) {
+        this.loadInitializer = options.loadInitializer;
+      }
     }
   },
 
@@ -52,7 +64,7 @@ module.exports = {
   },
 
   treeForApp: function (tree) {
-    if (!this.needsFileExport) {
+    if (!this.loadInitializer) {
       ['initializers/local-storage-adapter.js'].forEach(function (file) {
         tree = stew.rm(tree, file);
       });
@@ -72,6 +84,12 @@ module.exports = {
         'mixins/adapters/import-export.js',
         'serializers/serializer.js',
       ].forEach(function (file) {
+        tree = stew.rm(tree, file);
+      });
+    }
+
+    if (!this.loadInitializer) {
+      ['initializers/local-storage-adapter.js'].forEach(function (file) {
         tree = stew.rm(tree, file);
       });
     }

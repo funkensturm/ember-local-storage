@@ -532,10 +532,33 @@ module('basic acceptance test', function(hooks) {
 
 ## Deprecations
 
-### mixins.adapters.import-export
+### ember-local-storage.initializers.local-storage-adapter
 until: 3.0.0
 
-id: ember-local-storage.mixins.adapters.import-export
+The initializer has been deprecated and will be removed in version 3.0.0. This is due to the fact that `ember-data >= 4.12` will no longer allow to `reopen` the `Store`. To remove the deprecation message you need to use the utility functions provided by the addon:
+
+```javascript
+import { importData, exportData } from 'ember-local-storage/helpers/import-export';
+```
+
+See the [Export & Import example](#export--import). When you are done you need to set `loadInitializer` to `false`:
+
+```javascript
+// config/environment.js
+module.exports = function() {
+  var ENV = {
+    'ember-local-storage': {
+      loadInitializer: false
+    }
+  }
+};
+```
+
+This will be the default behaviour for apps that use `ember-data >= 4.12`.
+
+
+### ember-local-storage.mixins.adapters.import-export
+until: 3.0.0
 
 Using the import-export mixin has been deprecated and will be removed in version 3.0.0. You should use the utility functions provided by the addon:
 
@@ -545,10 +568,9 @@ import { importData, exportData } from 'ember-local-storage/helpers/import-expor
 
 See the [Export & Import example](#export--import).
 
-### storageFor - legacyKey
-until: 2.0.0
 
-id: ember-local-storage.storageFor.options.legacyKey
+### ember-local-storage.storageFor.options.legacyKey
+until: 2.0.0
 
 Using `legacyKey` has been deprecated and will be removed in version 2.0.0. You should migrate your key to the new format. For `storageFor('settings')` that would be `storage:settings`.
 
