@@ -44,13 +44,12 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-lts-4',
+        name: 'ember-4',
         npm: {
           devDependencies: {
             'ember-auto-import': '^2.2.0',
             'ember-data': '~4.0.0',
             'ember-source': '~4.0.0',
-            webpack: '^5.0.0',
           },
         },
       },
@@ -61,7 +60,6 @@ module.exports = async function () {
             'ember-auto-import': '^2.2.0',
             'ember-data': '~4.4.0',
             'ember-source': '~4.4.0',
-            webpack: '^5.0.0',
           },
         },
       },
@@ -72,29 +70,6 @@ module.exports = async function () {
             'ember-auto-import': '^2.2.0',
             'ember-data': '~4.8.0',
             'ember-source': '~4.8.0',
-            webpack: '^5.0.0',
-          },
-        },
-      },
-      {
-        name: 'ember-4.9',
-        npm: {
-          devDependencies: {
-            'ember-auto-import': '^2.2.0',
-            'ember-data': '~4.9.0',
-            'ember-source': '~4.9.0',
-            webpack: '^5.0.0',
-          },
-        },
-      },
-      {
-        name: 'ember-4.10',
-        npm: {
-          devDependencies: {
-            'ember-auto-import': '^2.2.0',
-            'ember-data': '~4.10.0',
-            'ember-source': '~4.10.0',
-            webpack: '^5.0.0',
           },
         },
       },
@@ -105,7 +80,6 @@ module.exports = async function () {
             'ember-auto-import': '^2.2.0',
             'ember-data': '~4.11.0',
             'ember-source': '~4.11.0',
-            webpack: '^5.0.0',
           },
         },
       },
@@ -116,7 +90,6 @@ module.exports = async function () {
             'ember-auto-import': '^2.2.0',
             'ember-data': '~4.12.0',
             'ember-source': '~4.12.0',
-            webpack: '^5.0.0',
           },
         },
       },
@@ -127,7 +100,6 @@ module.exports = async function () {
             'ember-auto-import': '^2.2.0',
             'ember-data': 'latest',
             'ember-source': await getChannelURL('release'),
-            webpack: '^5.0.0',
           },
         },
       },
@@ -140,7 +112,6 @@ module.exports = async function () {
             'ember-source': await getChannelURL('beta'),
             'ember-resolver': '10.0.0',
             '@ember/string': '3.0.1',
-            webpack: '^5.0.0',
           },
         },
       },
@@ -153,20 +124,6 @@ module.exports = async function () {
             'ember-source': await getChannelURL('canary'),
             'ember-resolver': '10.0.0',
             '@ember/string': '3.0.1',
-            webpack: '^5.0.0',
-          },
-        },
-      },
-      {
-        name: 'ember-default-with-jquery',
-        env: {
-          EMBER_OPTIONAL_FEATURES: JSON.stringify({
-            'jquery-integration': true,
-          }),
-        },
-        npm: {
-          devDependencies: {
-            '@ember/jquery': '^1.1.0',
           },
         },
       },
