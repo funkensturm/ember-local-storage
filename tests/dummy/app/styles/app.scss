@@ -9,10 +9,10 @@ $inuit-global-text-color: $black-80;
 $inuit-global-background-color: $white;
 
 // TOOLS
-@import "inuitcss/tools/tools.font-size";
+@import "tools/font-size";
 @import "inuitcss/tools/tools.clearfix";
 @import "inuitcss/tools/tools.hidden";
-@import "sass-mq/mq";
+@import "tools/mq";
 
 // GENERIC
 @import "inuitcss/generic/generic.box-sizing";
@@ -21,7 +21,6 @@ $inuit-global-background-color: $white;
 @import "inuitcss/generic/generic.shared";
 
 // ELEMENTS
-@import "inuitcss/elements/elements.page";
 @import "elements/elements.page";
 @import "inuitcss/elements/elements.images";
 @import "inuitcss/elements/elements.headings";
@@ -30,16 +29,16 @@ $inuit-global-background-color: $white;
 // OBJECTS
 @import "inuitcss/objects/objects.block";
 @import "inuitcss/objects/objects.box";
-@import "inuitcss/objects/objects.crop";
 @import "inuitcss/objects/objects.flag";
 @import "inuitcss/objects/objects.layout";
 @import "inuitcss/objects/objects.list-bare";
 @import "inuitcss/objects/objects.list-inline";
 @import "inuitcss/objects/objects.media";
 @import "inuitcss/objects/objects.pack";
-@import "inuitcss/objects/objects.ratio";
 @import "inuitcss/objects/objects.table";
 @import "inuitcss/objects/objects.wrapper";
+@import "objects/crop";
+@import "objects/ratio";
 
 // UTILITIES
 @import "inuitcss/utilities/utilities.clearfix";
@@ -47,5 +46,4 @@ $inuit-global-background-color: $white;
 @import "inuitcss/utilities/utilities.hide";
 @import "inuitcss/utilities/utilities.print";
 @import "inuitcss/utilities/utilities.spacings";
-@import "inuitcss/utilities/utilities.widths";
-
+@import "utilities/widths";

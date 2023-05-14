@@ -68,14 +68,17 @@ module('object - settings', function (hooks) {
   test('it has correct defaults', function (assert) {
     assert.expect(6);
 
-    assert.equal(get(subject, 'settings._storageType'), 'local');
-    assert.equal(get(subject, 'settings._storageKey'), 'storage:settings');
+    assert.strictEqual(get(subject, 'settings._storageType'), 'local');
+    assert.strictEqual(
+      get(subject, 'settings._storageKey'),
+      'storage:settings'
+    );
     assert.deepEqual(get(subject, 'settings._initialContent'), {
       welcomeMessageSeen: false,
     });
 
-    assert.equal(get(subject, 'cache._storageType'), 'session');
-    assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
+    assert.strictEqual(get(subject, 'cache._storageType'), 'session');
+    assert.strictEqual(get(subject, 'cache._storageKey'), 'storage:cache');
     assert.deepEqual(get(subject, 'cache._initialContent'), {});
   });
 
@@ -116,8 +119,8 @@ module('object - settings', function (hooks) {
   test('it does not share data', function (assert) {
     assert.expect(10);
 
-    assert.equal(get(subject, 'cache._storageType'), 'session');
-    assert.equal(get(subject, 'cache._storageKey'), 'storage:cache');
+    assert.strictEqual(get(subject, 'cache._storageType'), 'session');
+    assert.strictEqual(get(subject, 'cache._storageKey'), 'storage:cache');
     assert.deepEqual(get(subject, 'cache._initialContent'), {});
 
     run(function () {
@@ -126,8 +129,11 @@ module('object - settings', function (hooks) {
 
     assert.deepEqual(get(subject, 'cache.key1'), '123456');
 
-    assert.equal(get(subject, 'localCache._storageType'), 'local');
-    assert.equal(get(subject, 'localCache._storageKey'), 'storage:local-cache');
+    assert.strictEqual(get(subject, 'localCache._storageType'), 'local');
+    assert.strictEqual(
+      get(subject, 'localCache._storageKey'),
+      'storage:local-cache'
+    );
     assert.deepEqual(get(subject, 'localCache._initialContent'), {});
 
     assert.deepEqual(get(subject, 'cache.key1'), '123456');
@@ -147,7 +153,7 @@ module('object - settings', function (hooks) {
     // setup testing
     get(subject, 'settings')._testing = true;
 
-    assert.equal(get(subject, 'settings.changeFired'), undefined);
+    assert.strictEqual(get(subject, 'settings.changeFired'), undefined);
     window.dispatchEvent(
       new window.StorageEvent('storage', {
         key: 'storage:settings',
@@ -169,7 +175,7 @@ module('object - settings', function (hooks) {
       undefined
     );
 
-    assert.equal(get(subject, 'nestedObjects.address.first'), null);
+    assert.strictEqual(get(subject, 'nestedObjects.address.first'), null);
 
     run(function () {
       get(subject, 'nestedObjects').set('address.first', {
@@ -210,7 +216,7 @@ module('object - settings', function (hooks) {
     });
 
     //we expect them to be present
-    assert.equal(get(subject, 'settings.newProp'), 'some-value');
+    assert.strictEqual(get(subject, 'settings.newProp'), 'some-value');
     assert.true(get(subject, 'settings.welcomeMessageSeen'));
 
     //reset
@@ -266,7 +272,7 @@ module('object - settings', function (hooks) {
       get(subject, 'settings').clear();
     });
 
-    assert.equal(window.localStorage['storage:settings'], undefined);
+    assert.strictEqual(window.localStorage['storage:settings'], undefined);
   });
 
   test('after .clear() the object works as expected', function (assert) {
@@ -284,7 +290,7 @@ module('object - settings', function (hooks) {
       get(subject, 'settings').clear();
     });
 
-    assert.equal(window.localStorage['storage:settings'], undefined);
+    assert.strictEqual(window.localStorage['storage:settings'], undefined);
 
     run(function () {
       subject.set('settings.welcomeMessageSeen', true);

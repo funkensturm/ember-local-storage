@@ -34,7 +34,7 @@ module('Unit | Model | post', function (hooks) {
 
     let posts = store.findAll('post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.strictEqual(get(posts, 'length'), 0);
 
     run(function () {
       store.createRecord('post', { name: 'Super Name' }).save();
@@ -43,7 +43,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 3);
+      assert.strictEqual(get(posts, 'length'), 3);
       done();
     });
   });
@@ -55,7 +55,7 @@ module('Unit | Model | post', function (hooks) {
 
     let posts = store.findAll('post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.strictEqual(get(posts, 'length'), 0);
 
     run(function () {
       store.push({
@@ -75,7 +75,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 2);
+      assert.strictEqual(get(posts, 'length'), 2);
       done();
     });
   });
@@ -97,8 +97,11 @@ module('Unit | Model | post', function (hooks) {
 
     run(function () {
       store.findRecord('post', get(newPost, 'id')).then(function (post) {
-        assert.equal(get(post, 'id'), get(newPost, 'id'));
-        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        assert.strictEqual(get(post, 'id'), get(newPost, 'id'));
+        assert.strictEqual(
+          get(post, 'name'),
+          'Ember.js: 10 most common mistakes'
+        );
         done();
       });
     });
@@ -110,7 +113,7 @@ module('Unit | Model | post', function (hooks) {
     const store = this.owner.lookup('service:store');
     let posts = store.findAll('post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.strictEqual(get(posts, 'length'), 0);
 
     run(function () {
       store
@@ -127,7 +130,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 2);
+      assert.strictEqual(get(posts, 'length'), 2);
       done();
     });
   });
@@ -138,7 +141,7 @@ module('Unit | Model | post', function (hooks) {
     const store = this.owner.lookup('service:store');
     let posts = store.findAll('post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.strictEqual(get(posts, 'length'), 0);
 
     let paul;
 
@@ -173,13 +176,13 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 3);
+      assert.strictEqual(get(posts, 'length'), 3);
     });
 
     store
       .queryRecord('post', { filter: { name: 'Super Name' } })
       .then(function (post) {
-        assert.equal(get(post, 'name'), 'Super Name');
+        assert.strictEqual(get(post, 'name'), 'Super Name');
         done();
       });
   });
@@ -190,12 +193,12 @@ module('Unit | Model | post', function (hooks) {
     const store = this.owner.lookup('service:store');
     let posts = store.findAll('post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.strictEqual(get(posts, 'length'), 0);
 
     store
       .queryRecord('post', { filter: { name: 'Super Name' } })
       .then(function (post) {
-        assert.equal(post, null);
+        assert.strictEqual(post, null);
 
         done();
       })
@@ -222,7 +225,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 1);
+      assert.strictEqual(get(posts, 'length'), 1);
       done();
     });
   });
@@ -240,7 +243,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 1);
+      assert.strictEqual(get(posts, 'length'), 1);
       done();
     });
   });
@@ -259,7 +262,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 1);
+      assert.strictEqual(get(posts, 'length'), 1);
       done();
     });
   });
@@ -274,7 +277,7 @@ module('Unit | Model | post', function (hooks) {
 
     let posts = store.findAll('post');
 
-    assert.equal(get(posts, 'length'), 0);
+    assert.strictEqual(get(posts, 'length'), 0);
 
     run(function () {
       store.push({
@@ -294,7 +297,7 @@ module('Unit | Model | post', function (hooks) {
     });
 
     store.findAll('post').then(function (posts) {
-      assert.equal(get(posts, 'length'), 2);
+      assert.strictEqual(get(posts, 'length'), 2);
       done();
     });
   });
@@ -319,8 +322,11 @@ module('Unit | Model | post', function (hooks) {
 
     run(function () {
       store.findRecord('post', get(newPost, 'id')).then(function (post) {
-        assert.equal(get(post, 'id'), get(newPost, 'id'));
-        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        assert.strictEqual(get(post, 'id'), get(newPost, 'id'));
+        assert.strictEqual(
+          get(post, 'name'),
+          'Ember.js: 10 most common mistakes'
+        );
         done();
       });
     });

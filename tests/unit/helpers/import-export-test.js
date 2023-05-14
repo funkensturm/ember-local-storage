@@ -35,8 +35,8 @@ module('Unit | Helpers | import/export', function (hooks) {
         });
       })
       .then(function (data) {
-        assert.equal(get(data.posts, 'length'), 2);
-        assert.equal(get(data.comments, 'length'), 3);
+        assert.strictEqual(get(data.posts, 'length'), 2);
+        assert.strictEqual(get(data.comments, 'length'), 3);
       });
   });
 
@@ -60,8 +60,8 @@ module('Unit | Helpers | import/export', function (hooks) {
         });
       })
       .then(function (data) {
-        assert.equal(get(data.posts, 'length'), 2);
-        assert.equal(get(data.comments, 'length'), 3);
+        assert.strictEqual(get(data.posts, 'length'), 2);
+        assert.strictEqual(get(data.comments, 'length'), 3);
       });
   });
 
@@ -84,13 +84,13 @@ module('Unit | Helpers | import/export', function (hooks) {
         });
       })
       .then(function (data) {
-        assert.equal(get(data.posts, 'length'), 2);
-        assert.equal(get(data.comments, 'length'), 3);
-        assert.equal(
+        assert.strictEqual(get(data.posts, 'length'), 2);
+        assert.strictEqual(get(data.comments, 'length'), 3);
+        assert.strictEqual(
           JSON.parse(window.localStorage['index-comments']).length,
           3
         );
-        assert.equal(
+        assert.strictEqual(
           JSON.parse(window.sessionStorage['index-posts']).length,
           2
         );
@@ -117,7 +117,7 @@ module('Unit | Helpers | import/export', function (hooks) {
         return exportData(store, ['posts', 'comments'], { json: false });
       })
       .then(function (data) {
-        assert.equal(data.data.length, 5);
+        assert.strictEqual(data.data.length, 5);
       });
   });
 
@@ -142,7 +142,7 @@ module('Unit | Helpers | import/export', function (hooks) {
         return exportData(store, ['posts', 'comments'], { json: false });
       })
       .then(function (data) {
-        assert.equal(data.data.length, 5);
+        assert.strictEqual(data.data.length, 5);
       });
   });
 });

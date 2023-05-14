@@ -58,12 +58,12 @@ module('storageFor', function (hooks) {
   test('it has the correct key (namespace not set)', function (assert) {
     assert.expect(4);
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('settings._storageKey'),
       'storage:settings:post:123'
     );
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('options._storageKey'),
       'storage:options:post:123'
     );
@@ -82,12 +82,12 @@ module('storageFor', function (hooks) {
 
     setConfigEnvironment(this, 'namespace', true);
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('settings._storageKey'),
       'my-app:storage:settings:post:123'
     );
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('options._storageKey'),
       'my-app:storage:options:post:123'
     );
@@ -114,12 +114,12 @@ module('storageFor', function (hooks) {
 
     setConfigEnvironment(this, 'namespace', 'custom');
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('settings._storageKey'),
       'custom:storage:settings:post:123'
     );
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('options._storageKey'),
       'custom:storage:options:post:123'
     );
@@ -147,12 +147,12 @@ module('storageFor', function (hooks) {
     setConfigEnvironment(this, 'namespace', true);
     setConfigEnvironment(this, 'keyDelimiter', '/');
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('settings._storageKey'),
       'my-app/storage:settings:post:123'
     );
 
-    assert.equal(
+    assert.strictEqual(
       subject.get('options._storageKey'),
       'my-app/storage:options:post:123'
     );

@@ -1,6 +1,6 @@
 function storageEqual(assert, actual, expected, message) {
   actual = actual ? JSON.parse(actual) : undefined;
-  assert.equal(actual, expected, message);
+  assert.strictEqual(actual, expected, message);
 }
 
 function storageDeepEqual(assert, actual, expected, message) {

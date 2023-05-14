@@ -7,6 +7,11 @@ on:
       - master
   pull_request: {}
 
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: "Tests"
@@ -45,7 +50,7 @@ jobs:
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
-    needs: 'test'
+    needs: "test"
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -57,19 +62,16 @@ jobs:
           - ember-lts-3.20
           - ember-lts-3.24
           - ember-lts-3.28
-          - ember-lts-4
+          - ember-4
           - ember-lts-4.4
           - ember-lts-4.8
-          - ember-4.9
-          - ember-4.10
           - ember-4.11
           - ember-lts-4.12
           - ember-release
           # - ember-beta
           # - ember-canary
-          - ember-default-with-jquery
           - embroider-safe
-          # - embroider-optimized
+          - embroider-optimized
 
     steps:
       - uses: actions/checkout@v3
