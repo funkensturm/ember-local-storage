@@ -2,6 +2,25 @@
 
 
 
+
+## v2.0.5 (2023-05-14)
+
+#### :bug: Bug Fix
+* [#372](https://github.com/funkensturm/ember-local-storage/pull/372) Deprecate initializer ([@fsmanuel](https://github.com/fsmanuel))
+
+#### :house: Internal
+* [#373](https://github.com/funkensturm/ember-local-storage/pull/373) Update ember-cli to v4.4 ([@fsmanuel](https://github.com/fsmanuel))
+* [#372](https://github.com/funkensturm/ember-local-storage/pull/372) Deprecate initializer ([@fsmanuel](https://github.com/fsmanuel))
+* [#371](https://github.com/funkensturm/ember-local-storage/pull/371) Deprecate import-export mixin ([@fsmanuel](https://github.com/fsmanuel))
+* [#369](https://github.com/funkensturm/ember-local-storage/pull/369) Don't patch Ember Data unless file export is needed ([@mwpastore](https://github.com/mwpastore))
+* [#370](https://github.com/funkensturm/ember-local-storage/pull/370) Test coverage from 3.16 to 4.8 ([@fsmanuel](https://github.com/fsmanuel))
+* [#363](https://github.com/funkensturm/ember-local-storage/pull/363) Change ember-data import to @ember-data ([@fsmanuel](https://github.com/fsmanuel))
+
+#### Committers: 2
+- Manuel Wiedenmann ([@fsmanuel](https://github.com/fsmanuel))
+- Mike Pastore ([@mwpastore](https://github.com/mwpastore))
+
+
 ## v2.0.4 (2022-09-04)
 
 #### :memo: Documentation
