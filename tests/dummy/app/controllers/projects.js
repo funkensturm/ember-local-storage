@@ -4,6 +4,10 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { all, Promise } from 'rsvp';
 import { storageFor } from 'ember-local-storage';
+import {
+  importData,
+  exportData,
+} from 'ember-local-storage/helpers/import-export';
 
 function readFile(file) {
   const reader = new FileReader();
@@ -67,7 +71,7 @@ export default class extends Controller {
   @action
   importData(event) {
     readFile(event.target.files[0]).then((file) => {
-      this.store.importData(file.data).then(function () {
+      importData(this.store, file.data).then(function () {
         // show a flash message or transitionTo somewehere
       });
     });
@@ -75,14 +79,12 @@ export default class extends Controller {
 
   @action
   exportData() {
-    this.store
-      .exportData(['projects', 'tasks', 'users'], {
-        download: true,
-        filename: 'my-data.json',
-      })
-      .then(function () {
-        // show a flash message or transitionTo somewehere
-      });
+    exportData(this.store, ['projects', 'tasks', 'users'], {
+      download: true,
+      filename: 'my-data.json',
+    }).then(function () {
+      // show a flash message or transitionTo somewehere
+    });
   }
 
   @action

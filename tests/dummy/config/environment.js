@@ -24,6 +24,7 @@ module.exports = function (environment) {
 
     'ember-local-storage': {
       fileExport: true,
+      // loadInitializer: false,
       // namespace: 'els-demo',
     },
   };

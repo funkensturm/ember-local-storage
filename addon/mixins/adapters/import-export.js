@@ -11,7 +11,9 @@ export default Mixin.create({
       'Using the import-export mixin has been deprecated and will be removed in version 3.0.0',
       false,
       {
+        for: 'ember-local-storage',
         id: 'ember-local-storage.mixins.adapters.import-export',
+        since: '2.0.5',
         until: '3.0.0',
         url: 'https://github.com/funkensturm/ember-local-storage#deprecations',
       }
@@ -24,7 +26,9 @@ export default Mixin.create({
       'Using the import-export mixin has been deprecated and will be removed in version 3.0.0',
       false,
       {
+        for: 'ember-local-storage',
         id: 'ember-local-storage.mixins.adapters.import-export',
+        since: '2.0.5',
         until: '3.0.0',
         url: 'https://github.com/funkensturm/ember-local-storage#deprecations',
       }
