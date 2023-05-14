@@ -386,7 +386,7 @@ You can use `queryRecord` to return only one record. See the [guides](https://gu
 
 #### Export & Import
 
-The addon ships with an initializer that enables export and import of you LocalStorage data.
+The addon ships with utility functions that enables export and import of you LocalStorage data.
 You have to add `fileExport` option to the `environment.js`:
 
 ```javascript
@@ -400,13 +400,34 @@ module.exports = function() {
 };
 ```
 
-The initializer provides `exportData()` and `importData()` on the store. Both return a Promise.
+Import `exportData()` and `importData()` from `ember-local-storage/helpers/import-export`.
+Both return a Promise.
 
 ```javascript
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { importData, exportData } from 'ember-local-storage/helpers/import-export';
 
 export default class IndexRoute extends Route {
+  @service store;
+
+  @action
+  exportData() {
+    exportData(
+      this.store,
+      ['posts', 'comments'],
+      { download: true, filename: 'my-data.json' }
+    );
+  }
+
+  @action
+  importData(event) {
+    this.readFile(event.target.files[0]).then((file) => {
+      importData(this.store, file.data);
+    });
+  }
+
   readFile(file) {
     const reader = new FileReader();
 
@@ -423,26 +444,11 @@ export default class IndexRoute extends Route {
       reader.readAsText(file);
     });
   }
-
-  @action
-  importData(event) {
-    this.readFile(event.target.files[0])
-      .then((file) => {
-        this.store.importData(file.data);
-      });
-  }
-
-  @action
-  exportData() {
-    this.store.exportData(
-      ['posts', 'comments'],
-      { download: true, filename: 'my-data.json' }
-    );
-  }
 }
 ```
 
-**importData(content, options)**
+**importData(store, content, options)**
+`store` the ember data store
 
 `content` can be a JSON API compliant object or a JSON string
 
@@ -450,7 +456,8 @@ export default class IndexRoute extends Route {
 - `json` Boolean (default `true`)
 - `truncate` Boolean (default `true`) if `true` the existing data gets replaced.
 
-**exportData(types, options)**
+**exportData(store, types, options)**
+`store` the ember data store
 
 `types` Array of types to export. The types must be pluralized.
 
@@ -524,6 +531,19 @@ module('basic acceptance test', function(hooks) {
 ```
 
 ## Deprecations
+
+### mixins.adapters.import-export
+until: 3.0.0
+
+id: ember-local-storage.mixins.adapters.import-export
+
+Using the import-export mixin has been deprecated and will be removed in version 3.0.0. You should use the utility functions provided by the addon:
+
+```javascript
+import { importData, exportData } from 'ember-local-storage/helpers/import-export';
+```
+
+See the [Export & Import example](#export--import).
 
 ### storageFor - legacyKey
 until: 2.0.0
