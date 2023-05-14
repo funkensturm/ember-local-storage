@@ -53,7 +53,7 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('post', { filter: { name: 'Super Name' } })
       .then(function (post) {
-        assert.equal(get(post, 'name'), 'Super Name');
+        assert.strictEqual(get(post, 'name'), 'Super Name');
       });
 
     // boolean
@@ -67,21 +67,21 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('post', { filter: { commentCount: 3 } })
       .then(function (post) {
-        assert.equal(get(post, 'commentCount'), 3);
+        assert.strictEqual(get(post, 'commentCount'), 3);
       });
 
     // regex
     store
       .queryRecord('post', { filter: { name: /^Just(.*)/ } })
       .then(function (post) {
-        assert.equal(get(post, 'name'), 'Just awesome');
+        assert.strictEqual(get(post, 'name'), 'Just awesome');
       });
 
     // camelized key
     store
       .queryRecord('post', { filter: { commentCount: 3 } })
       .then(function (post) {
-        assert.equal(get(post, 'commentCount'), 3);
+        assert.strictEqual(get(post, 'commentCount'), 3);
         done();
       });
   });
@@ -135,7 +135,7 @@ module('Unit | Model | queryRecord', function (hooks) {
     // get first post from user '123'
     // string
     store.queryRecord('post', { filter: { user: id } }).then(function (post) {
-      assert.equal(
+      assert.strictEqual(
         get(post, 'name'),
         'Ember.js: Testing with Ember PageObjects'
       );
@@ -145,7 +145,7 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('post', { filter: { user: { id: id } } })
       .then(function (post) {
-        assert.equal(
+        assert.strictEqual(
           get(post, 'name'),
           'Ember.js: Testing with Ember PageObjects'
         );
@@ -155,7 +155,7 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('post', { filter: { user: regexId } })
       .then(function (post) {
-        assert.equal(
+        assert.strictEqual(
           get(post, 'name'),
           'Ember.js: Testing with Ember PageObjects'
         );
@@ -165,7 +165,7 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('post', { filter: { user: { id: regexId } } })
       .then(function (post) {
-        assert.equal(
+        assert.strictEqual(
           get(post, 'name'),
           'Ember.js: Testing with Ember PageObjects'
         );
@@ -176,20 +176,26 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('post', { filter: { user: { type: 'editor' } } })
       .then(function (post) {
-        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        assert.strictEqual(
+          get(post, 'name'),
+          'Ember.js: 10 most common mistakes'
+        );
       });
     // regex
     store
       .queryRecord('post', { filter: { user: { type: /^ed(.*)ors$/ } } })
       .then(function (post) {
-        assert.equal(get(post, 'name'), 'Ember.js: 10 most common mistakes');
+        assert.strictEqual(
+          get(post, 'name'),
+          'Ember.js: 10 most common mistakes'
+        );
       });
 
     // get first post from editor '123'
     store
       .queryRecord('post', { filter: { user: { id: id, type: 'editor' } } })
       .then(function (post) {
-        assert.equal(
+        assert.strictEqual(
           get(post, 'name'),
           'Ember.js: Testing with Ember PageObjects',
           'nuu'
@@ -201,7 +207,7 @@ module('Unit | Model | queryRecord', function (hooks) {
         filter: { user: { id: id, type: /^ed(.*)ors$/ } },
       })
       .then(function (post) {
-        assert.equal(
+        assert.strictEqual(
           get(post, 'name'),
           'Ember.js: Testing with Ember PageObjects',
           'ups'
@@ -266,28 +272,28 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('user', { filter: { projects: id } })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Peter');
+        assert.strictEqual(get(user, 'name'), 'Peter');
       });
 
     // object
     store
       .queryRecord('user', { filter: { projects: { id: id } } })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Peter');
+        assert.strictEqual(get(user, 'name'), 'Peter');
       });
 
     // regex
     store
       .queryRecord('user', { filter: { projects: regexId } })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Peter');
+        assert.strictEqual(get(user, 'name'), 'Peter');
       });
 
     // object regex
     store
       .queryRecord('user', { filter: { projects: { id: regexId } } })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Peter');
+        assert.strictEqual(get(user, 'name'), 'Peter');
       });
 
     // polymorphic
@@ -295,7 +301,7 @@ module('Unit | Model | queryRecord', function (hooks) {
     store
       .queryRecord('user', { filter: { pets: { type: 'cat' } } })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Anna');
+        assert.strictEqual(get(user, 'name'), 'Anna');
       });
 
     // get first user with cat '123'
@@ -304,7 +310,7 @@ module('Unit | Model | queryRecord', function (hooks) {
         filter: { pets: { id: get(cat, 'id'), type: 'cat' } },
       })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Anna');
+        assert.strictEqual(get(user, 'name'), 'Anna');
       });
 
     // get first user with cats AND dogs
@@ -313,14 +319,14 @@ module('Unit | Model | queryRecord', function (hooks) {
         filter: { pets: [{ type: 'cat' }, { type: 'dog' }] },
       })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Moritz');
+        assert.strictEqual(get(user, 'name'), 'Moritz');
       });
 
     // get first user with cats OR dogs
     store
       .queryRecord('user', { filter: { pets: { type: /cats|dogs/ } } })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Anna');
+        assert.strictEqual(get(user, 'name'), 'Anna');
       });
 
     // get the first user with bookPublication '123' (camelcased key)
@@ -329,7 +335,7 @@ module('Unit | Model | queryRecord', function (hooks) {
         filter: { bookPublications: get(bookPublication, 'id') },
       })
       .then(function (user) {
-        assert.equal(get(user, 'name'), 'Peter');
+        assert.strictEqual(get(user, 'name'), 'Peter');
         done();
       });
   });

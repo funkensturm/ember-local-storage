@@ -53,6 +53,6 @@ module('storageFor - DI', function (hooks) {
   test('DI is working in a storage', function (assert) {
     assert.expect(1);
 
-    assert.equal(subject.get('settings.backend.name'), 'Backend Name');
+    assert.strictEqual(subject.get('settings.backend.name'), 'Backend Name');
   });
 });

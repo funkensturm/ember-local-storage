@@ -39,8 +39,8 @@ module('array - likes', function (hooks) {
   test('it has correct defaults', function (assert) {
     assert.expect(3);
 
-    assert.equal(get(subject, 'anonymousLikes._storageType'), 'local');
-    assert.equal(
+    assert.strictEqual(get(subject, 'anonymousLikes._storageType'), 'local');
+    assert.strictEqual(
       get(subject, 'anonymousLikes._storageKey'),
       'storage:anonymous-likes'
     );
@@ -129,7 +129,7 @@ module('array - likes', function (hooks) {
     run(function () {
       get(subject, 'postLikes').clear();
     });
-    assert.equal(window.localStorage['storage:post-likes'], undefined);
+    assert.strictEqual(window.localStorage['storage:post-likes'], undefined);
   });
 
   test('after .clear() the array works as expected', function (assert) {
@@ -145,7 +145,7 @@ module('array - likes', function (hooks) {
     run(function () {
       get(subject, 'postLikes').clear();
     });
-    assert.equal(window.localStorage['storage:post-likes'], undefined);
+    assert.strictEqual(window.localStorage['storage:post-likes'], undefined);
 
     run(function () {
       get(subject, 'postLikes').addObject('martin');

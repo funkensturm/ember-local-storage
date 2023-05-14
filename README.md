@@ -524,7 +524,7 @@ module('basic acceptance test', function(hooks) {
 
   test('can visit /', async function(assert) {
     await visit('/');
-    assert.equal(currentURL(), '/');
+    assert.strictEqual(currentURL(), '/');
   });
 });
 
