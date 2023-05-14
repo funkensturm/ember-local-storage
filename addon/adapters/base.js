@@ -4,15 +4,18 @@ import { run } from '@ember/runloop';
 import { isEmpty, typeOf } from '@ember/utils';
 import { computed, get } from '@ember/object';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
-import ImportExportMixin from '../mixins/adapters/import-export';
-import { _buildKey } from '../helpers/storage';
+import {
+  importData,
+  exportData,
+} from 'ember-local-storage/helpers/import-export';
+import { _buildKey } from 'ember-local-storage/helpers/storage';
 
 const getKeys = Object.keys || keys;
 
 // Ember data ships with ember-inflector
 import { singularize, pluralize } from 'ember-inflector';
 
-export default JSONAPIAdapter.extend(ImportExportMixin, {
+export default JSONAPIAdapter.extend({
   _debug: false,
   _indices: computed(function () {
     return {};
@@ -39,6 +42,15 @@ export default JSONAPIAdapter.extend(ImportExportMixin, {
 
   generateIdForRecord() {
     return Math.random().toString(32).slice(2).substr(0, 8);
+  },
+
+  // Import & Export
+  importData(store, content, options) {
+    return importData(store, content, options);
+  },
+
+  exportData(store, types, options) {
+    return exportData(store, types, options);
   },
 
   // Relationship sugar

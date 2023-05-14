@@ -1,3 +1,4 @@
+import { deprecate } from '@ember/debug';
 import Mixin from '@ember/object/mixin';
 import {
   importData,
@@ -6,10 +7,28 @@ import {
 
 export default Mixin.create({
   importData(store, content, options) {
+    deprecate(
+      'Using the import-export mixin has been deprecated and will be removed in version 3.0.0',
+      false,
+      {
+        id: 'ember-local-storage.mixins.adapters.import-export',
+        until: '3.0.0',
+        url: 'https://github.com/funkensturm/ember-local-storage#deprecations',
+      }
+    );
     return importData(store, content, options);
   },
 
   exportData(store, types, options) {
+    deprecate(
+      'Using the import-export mixin has been deprecated and will be removed in version 3.0.0',
+      false,
+      {
+        id: 'ember-local-storage.mixins.adapters.import-export',
+        until: '3.0.0',
+        url: 'https://github.com/funkensturm/ember-local-storage#deprecations',
+      }
+    );
     return exportData(store, types, options);
   },
 });
