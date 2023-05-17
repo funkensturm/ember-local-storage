@@ -52,7 +52,7 @@ export default Ember.Component.extend({
 * [Adapter & Serializer](#adapter--serializer)
   * [Model](#model)
   * [.query() & .queryRecord()](#query--queryrecord)
-  * [Import & Export of localStorage records](#export--import)
+  * [Import & Export of localStorage records](#import--export)
 
 ### Configuration
 
