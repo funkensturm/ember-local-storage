@@ -448,6 +448,7 @@ export default class IndexRoute extends Route {
 ```
 
 **importData(store, content, options)**
+
 `store` the ember data store
 
 `content` can be a JSON API compliant object or a JSON string
@@ -457,6 +458,7 @@ export default class IndexRoute extends Route {
 - `truncate` Boolean (default `true`) if `true` the existing data gets replaced.
 
 **exportData(store, types, options)**
+
 `store` the ember data store
 
 `types` Array of types to export. The types must be pluralized.
