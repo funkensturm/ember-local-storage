@@ -3,6 +3,16 @@
 
 
 
+
+## v2.0.6 (2023-07-30)
+
+#### :bug: Bug Fix
+* [#375](https://github.com/funkensturm/ember-local-storage/pull/375) Ember v5 drops `@ember/polyfills`. Remove non-existent keys polyfill ([@stevensona](https://github.com/stevensona))
+
+#### Committers: 1
+- Adam Stevenson ([@stevensona](https://github.com/stevensona))
+
+
 ## v2.0.5 (2023-05-14)
 
 #### :bug: Bug Fix
