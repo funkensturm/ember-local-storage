@@ -1,4 +1,3 @@
-import { keys } from '@ember/polyfills';
 import RSVP from 'rsvp';
 import { run } from '@ember/runloop';
 import { isEmpty, typeOf } from '@ember/utils';
@@ -9,8 +8,6 @@ import {
   exportData,
 } from 'ember-local-storage/helpers/import-export';
 import { _buildKey } from 'ember-local-storage/helpers/storage';
-
-const getKeys = Object.keys || keys;
 
 // Ember data ships with ember-inflector
 import { singularize, pluralize } from 'ember-inflector';
@@ -221,7 +218,7 @@ export default JSONAPIAdapter.extend({
     const dataType = typeOf(data);
 
     if (queryType === 'object' && dataType === 'object') {
-      return getKeys(query).every((key) => {
+      return Object.keys(query).every((key) => {
         let queryValue = query[key],
           recordValue;
 
@@ -261,7 +258,7 @@ export default JSONAPIAdapter.extend({
       if (dataType === 'object') {
         const queryMessage = query
           .map(function (item) {
-            return getKeys(item).map(function (key) {
+            return Object.keys(item).map(function (key) {
               return key + ': ' + item[key];
             });
           })
