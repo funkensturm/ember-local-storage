@@ -100,6 +100,8 @@ module.exports = async function () {
             'ember-auto-import': '^2.2.0',
             'ember-data': 'latest',
             'ember-source': await getChannelURL('release'),
+            'ember-resolver': '10.0.0',
+            '@ember/string': '3.0.1',
           },
         },
       },
