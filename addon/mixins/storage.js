@@ -3,6 +3,8 @@ import { set, get } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import { getStorage } from '../helpers/storage';
 import { copy } from 'ember-copy';
+import { getOwner } from '@ember/application';
+import { associateDestroyableChild } from '@ember/destroyable';
 
 export default Mixin.create({
   _storageKey: null,
@@ -41,7 +43,10 @@ export default Mixin.create({
     // Keep in sync with other windows
     this._addStorageListener();
 
-    return this._super(...arguments);
+    this._super(...arguments);
+
+    let owner = getOwner(this);
+    associateDestroyableChild(owner, this);
   },
 
   _getInitialContentCopy() {
@@ -86,6 +91,7 @@ export default Mixin.create({
   },
 
   _save() {
+    if (this.isDestroying || this.isDestroyed) return;
     const storage = this._storage();
     const content = get(this, 'content');
     const storageKey = get(this, '_storageKey');
