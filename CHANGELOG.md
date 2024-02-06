@@ -2,6 +2,13 @@
 
 
 
+## v2.0.7 (2024-02-06)
+
+#### :bug: Bug Fix
+* [#377](https://github.com/funkensturm/ember-local-storage/pull/377) Ensure storage objects are destroyed on application teardown in tests ([@Mikek2252](https://github.com/Mikek2252))
+
+#### Committers: 1
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
 
 
 ## v2.0.6 (2023-07-30)
