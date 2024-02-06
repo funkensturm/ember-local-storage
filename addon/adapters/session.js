@@ -2,6 +2,7 @@ import { get } from '@ember/object';
 import BaseAdapter from './base';
 import { getStorage, _buildKey } from '../helpers/storage';
 import StorageArray from '../session/array';
+import { getOwner } from '@ember/application';
 
 export default BaseAdapter.extend({
   _storage: getStorage('session'),
@@ -11,8 +12,10 @@ export default BaseAdapter.extend({
 
     if (!indices[type]) {
       let storageKey = _buildKey(this, 'index-' + type);
-
-      indices[type] = StorageArray.extend({ _storageKey: storageKey }).create();
+      let owner = getOwner(this);
+      indices[type] = StorageArray.extend({ _storageKey: storageKey }).create(
+        owner.ownerInjection()
+      );
     }
 
     return indices[type];
