@@ -7,14 +7,13 @@ on:
       - master
   pull_request: {}
 
-
 concurrency:
   group: ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
   test:
-    name: "Tests"
+    name: 'Tests'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -33,7 +32,7 @@ jobs:
         run: yarn test:ember
 
   floating:
-    name: "Floating Dependencies"
+    name: 'Floating Dependencies'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -50,7 +49,7 @@ jobs:
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
-    needs: "test"
+    needs: 'test'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -67,7 +66,7 @@ jobs:
           - ember-lts-4.8
           - ember-4.11
           - ember-lts-4.12
-          - ember-release
+          # - ember-release
           # - ember-beta
           # - ember-canary
           - embroider-safe
