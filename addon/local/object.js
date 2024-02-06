@@ -1,6 +1,17 @@
+import { set } from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
-import ObjectProxyMixin from '../mixins/object';
+import StorageProxyMixin from 'ember-local-storage/-private/legacy-mixins/storage';
+import { save, saveIfChanged } from 'ember-local-storage/-private/legacy-utils';
 
-export default ObjectProxy.extend(ObjectProxyMixin, {
+export default ObjectProxy.extend(StorageProxyMixin, {
+  _initialContent: {},
   _storageType: 'local',
+
+  _clear() {
+    set(this, 'content', {});
+  },
+
+  setUnknownProperty: saveIfChanged,
+  set: saveIfChanged,
+  setProperties: save,
 });

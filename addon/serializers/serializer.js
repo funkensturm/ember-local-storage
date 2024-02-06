@@ -66,7 +66,7 @@ export default class Serializer extends JSONAPISerializer {
         let data = new Array(nonNewHasMany.length);
 
         for (let i = 0; i < nonNewHasMany.length; i++) {
-          let item = hasMany[i];
+          let item = nonNewHasMany[i];
           let payloadType = this.payloadKeyFromModelName(item.modelName);
 
           data[i] = {

@@ -1,7 +1,7 @@
 import { get } from '@ember/object';
 import BaseAdapter from './base';
-import { getStorage, _buildKey } from '../helpers/storage';
-import StorageArray from '../session/array';
+import { getStorage, _buildKey } from 'ember-local-storage/helpers/storage';
+import StorageArray from 'ember-local-storage/session/array';
 import { getOwner } from '@ember/application';
 
 export default class SessionStorageAdapter extends BaseAdapter {

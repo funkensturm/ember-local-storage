@@ -1,7 +1,7 @@
 import Mixin from '@ember/object/mixin';
 import { set, get } from '@ember/object';
 import { isArray, A } from '@ember/array';
-import { getStorage } from '../helpers/storage';
+import { getStorage } from 'ember-local-storage/helpers/storage';
 import { copy } from 'ember-copy';
 import { getOwner } from '@ember/application';
 import { associateDestroyableChild } from '@ember/destroyable';
