@@ -384,7 +384,7 @@ this.store.query('user', { filter: { pets: { type: /cats|dogs/ } } }); // you ne
 
 You can use `queryRecord` to return only one record. See the [guides](https://guides.emberjs.com/v2.0.0/models/finding-records/#toc_querying-for-a-single-record) for an example.
 
-#### Import & Export 
+#### Import & Export
 
 The addon ships with utility functions that enables export and import of you LocalStorage data.
 You have to add `fileExport` option to the `environment.js`:
